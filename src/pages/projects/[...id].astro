@@ -1,0 +1,841 @@
+---
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  CalendarDays,
+  FileText,
+  GitFork,
+} from "@lucide/astro";
+import {
+  getCollection,
+  getEntry,
+  render,
+  type CollectionEntry,
+} from "astro:content";
+import SkillItem from "../../components/SkillItem.astro";
+import "../../styles/global.css";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+
+  return projects
+    .filter(({ body }) => Boolean(body?.trim()))
+    .map((project) => ({
+      params: { id: project.id },
+      props: { project },
+    }));
+}
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const { Content, headings } = await render(project);
+const profileEntry = await getEntry("profile", "profile");
+
+if (!profileEntry) throw new Error("Profile content is required.");
+
+const profile = profileEntry.data;
+const description =
+  project.data.subtitle || `${project.data.title} 프로젝트 상세 내용`;
+const kindLabels = {
+  work: "Work Experience",
+  pinned: "Pinned Project",
+  other: "Project",
+  activity: "Activity",
+};
+const kindLabel = kindLabels[project.data.kind];
+const tableOfContents = headings.filter(
+  ({ depth }) => depth === 2 || depth === 3,
+);
+---
+
+<!doctype html>
+<html lang="ko" class="bg-slate-50">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f9fc" />
+    <meta
+      property="og:title"
+      content={`${project.data.title} — ${profile.name}`}
+    />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="/og.png" />
+    <meta
+      property="og:image:alt"
+      content={`${project.data.title} — ${profile.name}`}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content={`${project.data.title} — ${profile.name}`}
+    />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/og.png" />
+    <title>{project.data.title} — {profile.name}</title>
+  </head>
+  <body
+    id="top"
+    class="m-0 bg-slate-50 font-sans text-slate-900 antialiased selection:bg-blue-600 selection:text-white"
+  >
+    <a
+      class="fixed left-3 top-2 z-[60] -translate-y-20 rounded-md bg-slate-950 px-4 py-2 text-sm font-bold text-white transition-transform focus:translate-y-0"
+      href="#main-content"
+    >
+      본문으로 건너뛰기
+    </a>
+
+    <header
+      class="fixed inset-x-0 top-0 z-50 h-16 border-b border-slate-200 bg-slate-50/90 backdrop-blur-xl"
+    >
+      <div
+        class="mx-auto flex h-full w-full max-w-7xl items-center justify-between px-4 sm:px-6"
+      >
+        <a
+          class="inline-flex min-h-10 items-center font-bold tracking-tight text-slate-900"
+          href="/"
+          aria-label={`${profile.name} 포트폴리오 홈`}
+        >
+          <span
+            class="mr-2.5 inline-grid size-8 place-items-center rounded-md border border-slate-900 font-mono text-sm font-bold"
+            aria-hidden="true">{profile.name.charAt(0)}</span
+          >
+          <span class="text-base">{profile.name}</span>
+          <span class="text-sm font-medium text-slate-500" aria-hidden="true"
+            >.dev</span
+          >
+        </a>
+
+        <nav class="flex items-center gap-1.5" aria-label="상세 페이지 메뉴">
+          <a
+            class="group inline-flex min-h-10 items-center gap-2 rounded-lg border border-blue-600 bg-blue-600 px-3.5 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition duration-150 hover:-translate-y-0.5 hover:border-blue-700 hover:bg-blue-700 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 motion-reduce:transform-none"
+            href="/#projects"
+            aria-label="프로젝트 목록으로 돌아가기"
+          >
+            <ArrowLeft
+              class="transition-transform duration-150 group-hover:-translate-x-0.5 motion-reduce:transform-none"
+              size={16}
+              stroke-width={2}
+              aria-hidden="true"
+            />
+            <span>돌아가기</span>
+          </a>
+          <a
+            class="hidden min-h-10 items-center gap-2 rounded-md px-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-white hover:text-slate-900 sm:inline-flex"
+            href="/resume"
+          >
+            <FileText size={16} stroke-width={1.8} aria-hidden="true" />
+            <span>Resume</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main
+      class="mx-auto w-full max-w-[96rem] px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-32"
+      id="main-content"
+    >
+      <div class="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_15rem]">
+        <article
+          class="grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl lg:grid-cols-[minmax(0,1fr)_17rem]"
+        >
+        <div class="min-w-0">
+          <header
+            class="relative isolate overflow-hidden border-b border-slate-200 px-5 py-7 sm:px-9 sm:py-9 lg:px-12 lg:py-10"
+          >
+            <div
+              class="pointer-events-none absolute -right-16 -top-24 -z-10 size-72 rounded-full bg-blue-100/80 blur-3xl"
+              aria-hidden="true"
+            >
+            </div>
+            <div
+              class="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs font-bold uppercase tracking-widest text-blue-600"
+            >
+              <span>{kindLabel}</span>
+              <span class="size-1 rounded-full bg-slate-300" aria-hidden="true"
+              ></span>
+              <span>{project.id}</span>
+            </div>
+            <h1
+              class="mt-4 max-w-4xl break-keep text-3xl font-bold leading-tight tracking-tighter text-slate-950 sm:text-4xl lg:text-5xl"
+            >
+              {project.data.title}
+            </h1>
+            {
+              project.data.subtitle && (
+                <p class="mt-3 max-w-3xl break-keep text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+                  {project.data.subtitle}
+                </p>
+              )
+            }
+          </header>
+
+          <div
+            class="project-prose min-w-0 px-5 py-9 sm:px-9 sm:py-12 lg:px-12"
+          >
+            <Content />
+          </div>
+        </div>
+
+          <aside
+            class="border-t border-slate-200 bg-slate-50/70 px-5 py-8 sm:px-9 lg:border-l lg:border-t-0 lg:px-7"
+            aria-label="프로젝트 정보"
+          >
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-1">
+              <section aria-labelledby="project-period-title">
+                <h2
+                  class="font-mono m-0 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-500"
+                  id="project-period-title"
+                >
+                  Period
+                </h2>
+                <p
+                  class="mt-3 flex items-start gap-2.5 text-sm font-semibold leading-6 text-slate-800"
+                >
+                  <CalendarDays
+                    class="mt-1 shrink-0 text-blue-600"
+                    size={16}
+                    stroke-width={1.8}
+                    aria-hidden="true"
+                  />
+                  <span>{project.data.period}</span>
+                </p>
+              </section>
+
+              {
+                project.data.stack && (
+                  <section aria-labelledby="project-stack-title">
+                    <h2
+                      class="font-mono m-0 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-500"
+                      id="project-stack-title"
+                    >
+                      Tech Stack
+                    </h2>
+                    <ul class="mt-3 flex list-none flex-wrap gap-2 p-0">
+                      {project.data.stack.map((item) => (
+                        <SkillItem name={item} />
+                      ))}
+                    </ul>
+                  </section>
+                )
+              }
+
+              <section aria-labelledby="project-repository-title">
+                <h2
+                  class="font-mono m-0 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-500"
+                  id="project-repository-title"
+                >
+                  Repository
+                </h2>
+                <a
+                  class="group mt-3 inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-sm font-bold text-blue-600 shadow-sm transition duration-150 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 motion-reduce:transform-none"
+                  href={project.data.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${project.data.title} GitHub 저장소 새 탭에서 열기`}
+                >
+                  <GitFork size={16} stroke-width={1.8} aria-hidden="true" />
+                  <span>GitHub</span>
+                  <ArrowUpRight
+                    class="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none"
+                    size={13}
+                    stroke-width={1.8}
+                    aria-hidden="true"
+                  />
+                </a>
+              </section>
+            </div>
+
+          </aside>
+        </article>
+
+        {
+          tableOfContents.length > 0 && (
+            <nav
+              class="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-y-auto rounded-xl border border-slate-200 bg-white p-4 shadow-xl shadow-slate-900/10 xl:block"
+              aria-labelledby="floating-project-toc-title"
+            >
+              <h2
+                class="font-mono m-0 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-blue-600"
+                id="floating-project-toc-title"
+              >
+                Contents
+              </h2>
+              <ol class="mt-3 grid list-none gap-1 border-l border-slate-200 p-0">
+                {tableOfContents.map((heading) => (
+                  <li class={heading.depth === 3 ? "pl-2.5" : ""}>
+                    <a
+                      class:list={[
+                        "block border-l-2 border-transparent py-1.5 leading-snug text-slate-600 transition-colors hover:border-blue-500 hover:text-blue-700",
+                        heading.depth === 3
+                          ? "px-2.5 text-[0.72rem]"
+                          : "px-2.5 text-xs font-semibold",
+                      ]}
+                      href={`#${heading.slug}`}
+                    >
+                      {heading.text}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )
+        }
+      </div>
+    </main>
+
+    {
+      tableOfContents.length > 0 && (
+        <details
+          class="group fixed bottom-4 right-4 z-40 xl:hidden"
+          data-mobile-toc
+        >
+          <summary class="flex min-h-11 cursor-pointer list-none items-center rounded-lg border border-blue-600 bg-blue-600 px-4 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
+            목차
+          </summary>
+          <nav
+            class="absolute bottom-full right-0 mb-2 max-h-[min(70vh,32rem)] w-[min(18rem,calc(100vw-2rem))] overflow-y-auto rounded-xl border border-slate-200 bg-white p-4 shadow-2xl shadow-slate-900/20"
+            aria-label="프로젝트 목차"
+          >
+            <ol class="m-0 grid list-none gap-1 border-l border-slate-200 p-0">
+              {tableOfContents.map((heading) => (
+                <li class={heading.depth === 3 ? "pl-3" : ""}>
+                  <a
+                    class:list={[
+                      "block border-l-2 border-transparent py-2 leading-snug text-slate-600 transition-colors hover:border-blue-500 hover:text-blue-700",
+                      heading.depth === 3
+                        ? "px-3 text-xs"
+                        : "px-3 text-sm font-semibold",
+                    ]}
+                    href={`#${heading.slug}`}
+                  >
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </details>
+      )
+    }
+
+    <footer class="border-t border-slate-200 bg-white">
+      <div
+        class="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-7 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+      >
+        <p class="m-0 font-mono text-xs">
+          © {new Date().getFullYear()}
+          {profile.name}
+        </p>
+        <nav class="flex items-center gap-4" aria-label="외부 링크">
+          <a
+            class="inline-flex items-center gap-1.5 font-semibold transition-colors hover:text-slate-900"
+            href={profile.github}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <GitFork size={15} stroke-width={1.8} aria-hidden="true" />
+            <span>GitHub</span>
+          </a>
+          <a
+            class="font-semibold transition-colors hover:text-slate-900"
+            href="/resume"
+          >
+            Resume
+          </a>
+        </nav>
+      </div>
+    </footer>
+
+    <script>
+      const renderTextFlows = () => {
+        const blocks = [
+          ...document.querySelectorAll<HTMLPreElement>(
+            '.project-prose pre[data-language="text"]',
+          ),
+        ];
+
+        for (const block of blocks) {
+          const definition = block.textContent?.trim();
+          if (!definition) continue;
+
+          const steps = definition.split(/\s*(?:→|->|=>)\s*/u).filter(Boolean);
+
+          if (steps.length < 2) {
+            block.classList.add("text-panel");
+            continue;
+          }
+
+          const flow = document.createElement("figure");
+          flow.className = "text-flow";
+          flow.style.setProperty("--flow-step-count", String(steps.length));
+
+          const caption = document.createElement("figcaption");
+          caption.className = "text-flow__caption";
+
+          const marker = document.createElement("span");
+          marker.className = "text-flow__marker";
+          marker.setAttribute("aria-hidden", "true");
+
+          const captionText = document.createElement("span");
+          captionText.textContent = "Process flow";
+          caption.append(marker, captionText);
+
+          const list = document.createElement("ol");
+          list.className = "text-flow__steps";
+
+          for (const [index, step] of steps.entries()) {
+            const item = document.createElement("li");
+
+            const number = document.createElement("span");
+            number.className = "text-flow__number";
+            number.setAttribute("aria-hidden", "true");
+            number.textContent = String(index + 1).padStart(2, "0");
+
+            const label = document.createElement("span");
+            label.className = "text-flow__label";
+            label.textContent = step;
+
+            item.append(number, label);
+            list.append(item);
+          }
+
+          flow.append(caption, list);
+          block.replaceWith(flow);
+        }
+      };
+
+      const renderMermaidDiagrams = async () => {
+        const blocks = [
+          ...document.querySelectorAll<HTMLElement>(
+            '.project-prose pre[data-language="mermaid"]',
+          ),
+        ];
+
+        if (blocks.length === 0) return;
+
+        const { default: mermaid } = await import("mermaid");
+
+        mermaid.initialize({
+          startOnLoad: false,
+          securityLevel: "strict",
+          theme: "base",
+          themeVariables: {
+            background: "#ffffff",
+            primaryColor: "#eff6ff",
+            primaryTextColor: "#0f172a",
+            primaryBorderColor: "#60a5fa",
+            lineColor: "#64748b",
+            secondaryColor: "#f8fafc",
+            tertiaryColor: "#ffffff",
+            fontFamily:
+              "Pretendard, Inter, ui-sans-serif, system-ui, sans-serif",
+          },
+          flowchart: {
+            curve: "basis",
+            htmlLabels: true,
+          },
+        });
+
+        await document.fonts.ready;
+
+        for (const [index, block] of blocks.entries()) {
+          const definition = block.textContent?.trim();
+          if (!definition) continue;
+
+          try {
+            const { svg, bindFunctions } = await mermaid.render(
+              `project-mermaid-${index}`,
+              definition,
+            );
+            const diagram = document.createElement("figure");
+            diagram.className = "mermaid-diagram";
+            diagram.setAttribute("role", "img");
+            diagram.setAttribute(
+              "aria-label",
+              `프로젝트 구조 다이어그램 ${index + 1}`,
+            );
+            diagram.innerHTML = svg;
+            block.replaceWith(diagram);
+            bindFunctions?.(diagram);
+          } catch (error) {
+            block.classList.add("mermaid-render-error");
+            console.error("Mermaid diagram rendering failed.", error);
+          }
+        }
+      };
+
+      renderTextFlows();
+      void renderMermaidDiagrams();
+
+      const mobileToc =
+        document.querySelector<HTMLDetailsElement>("[data-mobile-toc]");
+
+      mobileToc
+        ?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')
+        .forEach((link) => {
+          link.addEventListener("click", () => {
+            mobileToc.removeAttribute("open");
+          });
+        });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .project-prose {
+    color: #475569;
+    font-size: 0.975rem;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+  }
+
+  .project-prose > :first-child {
+    margin-top: 0;
+  }
+
+  .project-prose > :last-child {
+    margin-bottom: 0;
+  }
+
+  .project-prose h2 {
+    scroll-margin-top: 6rem;
+    margin: 2.7rem 0 1rem;
+    color: #0f172a;
+    font-size: 1.35rem;
+    font-weight: 750;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+  }
+
+  .project-prose h2:first-child {
+    margin-top: 0;
+  }
+
+  .project-prose h3 {
+    scroll-margin-top: 6rem;
+    margin: 2rem 0 0.75rem;
+    color: #1e293b;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .project-prose p {
+    margin: 0 0 1.25rem;
+  }
+
+  .project-prose ul,
+  .project-prose ol {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0 0 1.5rem;
+    padding-left: 1.3rem;
+  }
+
+  .project-prose li {
+    padding-left: 0.2rem;
+  }
+
+  .project-prose li::marker {
+    color: #3b82f6;
+  }
+
+  .project-prose strong {
+    color: #1e293b;
+    font-weight: 700;
+  }
+
+  .project-prose a {
+    color: #2563eb;
+    font-weight: 650;
+    text-decoration: underline;
+    text-decoration-color: #bfdbfe;
+    text-underline-offset: 0.2em;
+  }
+
+  .project-prose code {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.3rem;
+    background: #f8fafc;
+    padding: 0.15rem 0.35rem;
+    color: #334155;
+    font-size: 0.88em;
+  }
+
+  .project-prose pre code {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+
+  .project-prose pre.text-panel {
+    position: relative;
+    margin: 1.5rem 0 2rem;
+    overflow-x: auto;
+    border: 1px solid #bfdbfe;
+    border-radius: 0.85rem;
+    background: linear-gradient(135deg, #f8fbff, #eff6ff) !important;
+    padding: 2.75rem 1.125rem 1.125rem;
+    color: #1e3a8a !important;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    box-shadow: 0 14px 32px -26px rgb(37 99 235 / 0.45);
+  }
+
+  .project-prose pre.text-panel::before {
+    content: "Text";
+    position: absolute;
+    top: 0.85rem;
+    left: 1.125rem;
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.65rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #2563eb;
+  }
+
+  .project-prose .text-flow {
+    margin: 1.5rem 0 2rem;
+    border: 1px solid #bfdbfe;
+    border-radius: 0.9rem;
+    background:
+      radial-gradient(
+        circle at 100% 0%,
+        rgb(191 219 254 / 0.45),
+        transparent 38%
+      ),
+      linear-gradient(135deg, #f8fbff, #eff6ff);
+    padding: 1rem;
+    box-shadow: 0 16px 36px -28px rgb(37 99 235 / 0.5);
+  }
+
+  .project-prose .text-flow__caption {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.9rem;
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #2563eb;
+  }
+
+  .project-prose .text-flow__marker {
+    width: 0.45rem;
+    height: 0.45rem;
+    flex: none;
+    border-radius: 999px;
+    background: #2563eb;
+    box-shadow: 0 0 0 0.25rem #dbeafe;
+  }
+
+  .project-prose .text-flow__steps {
+    display: grid;
+    gap: 1.65rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .project-prose .text-flow__steps li {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    min-height: 3.75rem;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.7rem;
+    border: 1px solid #dbeafe;
+    border-radius: 0.7rem;
+    background: rgb(255 255 255 / 0.9);
+    padding: 0.75rem 0.85rem;
+    color: #1e293b;
+    box-shadow: 0 8px 20px -18px rgb(30 64 175 / 0.45);
+  }
+
+  .project-prose .text-flow__steps li:not(:last-child)::after {
+    content: "↓";
+    position: absolute;
+    bottom: -1.45rem;
+    left: 50%;
+    z-index: 1;
+    color: #3b82f6;
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 1rem;
+    font-weight: 750;
+    line-height: 1;
+    transform: translateX(-50%);
+  }
+
+  .project-prose .text-flow__number {
+    display: inline-grid;
+    width: 1.9rem;
+    height: 1.9rem;
+    place-items: center;
+    border-radius: 0.5rem;
+    background: #eff6ff;
+    color: #2563eb;
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .project-prose .text-flow__label {
+    color: #1e293b;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    word-break: keep-all;
+  }
+
+  .project-prose table {
+    width: 100%;
+    max-width: 100%;
+    margin: 1.5rem 0 2rem;
+    border: 1px solid #cbd5e1;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 0.75rem;
+    table-layout: fixed;
+    background: #ffffff;
+    color: #334155;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 12px 30px -26px rgb(15 23 42 / 0.35);
+  }
+
+  .project-prose thead {
+    background: #eff6ff;
+    color: #0f172a;
+  }
+
+  .project-prose th,
+  .project-prose td {
+    padding: 0.75rem 0.875rem;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    overflow-wrap: anywhere;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .project-prose th {
+    color: #1e3a8a;
+    font-weight: 750;
+  }
+
+  .project-prose th:first-child,
+  .project-prose td:first-child {
+    font-weight: 650;
+  }
+
+  .project-prose th:last-child,
+  .project-prose td:last-child {
+    border-right: 0;
+  }
+
+  .project-prose tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .project-prose tbody tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  .project-prose tbody tr {
+    transition: background-color 150ms ease;
+  }
+
+  .project-prose tbody tr:hover {
+    background: #eff6ff;
+  }
+
+  .project-prose td strong {
+    color: #1d4ed8;
+  }
+
+  .project-prose .mermaid-diagram {
+    margin: 1.5rem 0 2rem;
+    overflow-x: auto;
+    border: 1px solid #dbeafe;
+    border-radius: 0.85rem;
+    background: #f8fafc;
+    padding: 1.25rem;
+    text-align: center;
+    box-shadow: 0 12px 30px -24px rgb(37 99 235 / 0.35);
+  }
+
+  .project-prose .mermaid-diagram svg {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .project-prose .mermaid-render-error {
+    border-color: #fecaca;
+  }
+
+  @media (min-width: 640px) {
+    .project-prose {
+      font-size: 1rem;
+    }
+
+    .project-prose h2 {
+      font-size: 1.5rem;
+    }
+
+    .project-prose table {
+      font-size: 0.875rem;
+    }
+
+    .project-prose th,
+    .project-prose td {
+      padding: 0.875rem 1rem;
+    }
+
+    .project-prose .mermaid-diagram {
+      padding: 1.75rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .project-prose .text-flow {
+      padding: 1.125rem;
+    }
+
+    .project-prose .text-flow__steps {
+      grid-template-columns: repeat(var(--flow-step-count), minmax(0, 1fr));
+    }
+
+    .project-prose .text-flow__steps li:not(:last-child)::after {
+      top: 50%;
+      right: -1.15rem;
+      bottom: auto;
+      left: auto;
+      transform: translateY(-50%);
+      content: "→";
+    }
+  }
+</style>
