@@ -1,0 +1,103 @@
+---
+import { Code2, Database } from "@lucide/astro";
+import {
+  siArduino,
+  siC,
+  siCplusplus,
+  siDocker,
+  siGit,
+  siGithub,
+  siJavascript,
+  siJira,
+  siJsonwebtokens,
+  siK6,
+  siNestjs,
+  siNextdotjs,
+  siOpenjdk,
+  siPostgresql,
+  siPrisma,
+  siPython,
+  siReact,
+  siRedis,
+  siSocketdotio,
+  siSpringboot,
+  siTailwindcss,
+  siTypeorm,
+  siTypescript,
+  siVercel,
+} from "simple-icons";
+
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+
+const brandIcons = {
+  Arduino: siArduino,
+  C: siC,
+  "C++": siCplusplus,
+  Docker: siDocker,
+  Git: siGit,
+  Github: siGithub,
+  "GitHub Wiki": siGithub,
+  Java: siOpenjdk,
+  JavaScript: siJavascript,
+  Jira: siJira,
+  JWT: siJsonwebtokens,
+  k6: siK6,
+  NestJS: siNestjs,
+  "Next.js": siNextdotjs,
+  PostgreSQL: siPostgresql,
+  Prisma: siPrisma,
+  Python: siPython,
+  React: siReact,
+  Redis: siRedis,
+  "Socket.IO": siSocketdotio,
+  "Spring Boot": siSpringboot,
+  "Spring Boot (Java)": siSpringboot,
+  "Tailwind CSS": siTailwindcss,
+  TypeORM: siTypeorm,
+  TypeScript: siTypescript,
+  Vercel: siVercel,
+};
+
+const fallbackColors = {
+  Entry: "#00b3b8",
+  JPA: "#59666c",
+  "MS Automate": "#0066ff",
+  Oracle: "#f80000",
+  xFrame: "#2563eb",
+};
+
+const icon = brandIcons[name as keyof typeof brandIcons] ?? null;
+const color = icon?.hex
+  ? `#${icon.hex}`
+  : (fallbackColors[name as keyof typeof fallbackColors] ?? "#475569");
+const FallbackIcon = name === "JPA" || name === "Oracle" ? Database : Code2;
+---
+
+<li
+  class="font-mono flex min-h-7 w-fit flex-none items-center gap-1.5 rounded-md border border-slate-200 bg-slate-50 p-1 pr-2 text-[10px] font-bold leading-snug text-slate-600"
+>
+  <span
+    class="inline-grid size-5 shrink-0 place-items-center rounded-sm border border-slate-200 bg-white shadow-sm"
+    style={`color: ${color}`}
+    aria-hidden="true"
+  >
+    {
+      icon ? (
+        <svg
+          class="size-2.5 fill-current"
+          viewBox="0 0 24 24"
+          focusable="false"
+        >
+          <path d={icon.path} />
+        </svg>
+      ) : (
+        <FallbackIcon size={10} stroke-width={1.9} />
+      )
+    }
+  </span>
+  <span>{name}</span>
+</li>

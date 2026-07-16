@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@media (min-width: 48rem) {
+  [data-content-layout] {
+    transition:
+      grid-template-columns 280ms ease-out,
+      column-gap 280ms ease-out;
+  }
+
+  [data-desktop-sidebar] {
+    min-width: 0;
+    overflow: hidden;
+    transition:
+      opacity 180ms ease-out,
+      transform 280ms ease-out;
+  }
+
+  [data-desktop-sidebar] [aria-current="location"] {
+    box-shadow: inset 0 0 0 1px rgb(191 219 254);
+    font-weight: 700;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-content-layout],
+  [data-desktop-sidebar] {
+    transition: none;
+  }
+}

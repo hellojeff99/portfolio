@@ -1,0 +1,31 @@
+---
+import { Briefcase, Folder } from "@lucide/astro";
+
+interface Props {
+  icon: "projects" | "work";
+  eyebrow: string;
+  id: string;
+}
+
+const { icon, eyebrow, id } = Astro.props;
+const icons = {
+  projects: Folder,
+  work: Briefcase,
+};
+const Icon = icons[icon];
+---
+
+<div class="mb-8">
+  <div
+    class="font-mono flex items-center gap-3.5 text-xs font-bold uppercase tracking-widest text-blue-600"
+  >
+    <span
+      class="inline-grid size-7 place-items-center rounded-md border border-blue-200 bg-blue-50"
+    >
+      <Icon size={15} stroke-width={1.9} aria-hidden="true" />
+    </span>
+    <h2 class="m-0 text-xs font-bold tracking-widest" id={id}>
+      {eyebrow}
+    </h2>
+  </div>
+</div>
