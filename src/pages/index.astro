@@ -1,0 +1,631 @@
+---
+import { ArrowRight, LayoutGrid, Pin } from "@lucide/astro";
+import { getCollection, getEntry } from "astro:content";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Sidebar from "../components/Sidebar.astro";
+import SkillItem from "../components/SkillItem.astro";
+import { navItems } from "../data/portfolio";
+import "../styles/global.css";
+
+const projectEntries = (await getCollection("projects")).sort((a, b) =>
+  a.id.localeCompare(b.id),
+);
+const workProjects = projectEntries
+  .filter(({ data }) => data.kind === "work")
+  .map(({ id, data, body }) => ({
+    id,
+    ...data,
+    hasDetail: Boolean(body?.trim()),
+  }));
+const pinnedProjects = projectEntries
+  .filter(({ data }) => data.kind === "pinned")
+  .map(({ id, data, body }) => ({
+    id,
+    ...data,
+    hasDetail: Boolean(body?.trim()),
+  }));
+const otherProjects = projectEntries
+  .filter(({ data }) => data.kind === "other" || data.kind === "activity")
+  .map(({ id, data, body }) => ({
+    id,
+    ...data,
+    hasDetail: Boolean(body?.trim()),
+  }));
+
+const profileEntry = await getEntry("profile", "profile");
+if (!profileEntry) throw new Error("Profile content is required.");
+
+const profile = profileEntry.data;
+const bioParagraphs = profile.bio.split("\n").filter(Boolean);
+const linkedinUrl = profile.linkedin.startsWith("http")
+  ? profile.linkedin
+  : `https://${profile.linkedin}`;
+---
+
+<!doctype html>
+<html
+  lang="ko"
+  class="scroll-smooth bg-slate-50 scroll-pt-24 md:snap-y md:snap-proximity xl:snap-mandatory motion-reduce:scroll-auto motion-reduce:snap-none"
+>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={bioParagraphs[0]} />
+    <meta name="theme-color" content="#f7f9fc" />
+    <meta property="og:title" content={`${profile.name} — ${profile.role}`} />
+    <meta property="og:description" content={bioParagraphs[0]} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og.png" />
+    <meta
+      property="og:image:alt"
+      content={`${profile.name} — ${profile.role}`}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${profile.name} — ${profile.role}`} />
+    <meta name="twitter:description" content={bioParagraphs[0]} />
+    <meta name="twitter:image" content="/og.png" />
+    <title>{profile.name} — {profile.role}</title>
+  </head>
+  <body
+    id="top"
+    class="m-0 bg-slate-50 font-sans text-base leading-relaxed text-slate-900 antialiased selection:bg-blue-600 selection:text-white"
+  >
+    <Header
+      name={profile.name}
+      githubUrl={profile.github}
+      navItems={navItems}
+    />
+
+    <div
+      class="block w-full px-4 pt-16 md:grid md:grid-cols-[12rem_minmax(0,1fr)] md:gap-4 md:px-6"
+      data-content-layout
+      data-sidebar-open="true"
+    >
+      <Sidebar navItems={navItems} />
+
+      <div class="min-w-0 w-full">
+        <main id="main-content">
+          <div class="snap-start snap-always scroll-mt-24" data-scroll-stop>
+            <Hero
+              role={profile.role}
+              email={profile.email}
+              location={profile.location}
+            />
+          </div>
+
+          <section
+            id="projects"
+            class="snap-start snap-always scroll-mt-24 py-12 md:py-14 lg:py-16"
+            data-scroll-stop
+            data-nav-section
+            aria-labelledby="projects-title"
+          >
+            <SectionHeading
+              icon="projects"
+              eyebrow="Projects"
+              id="projects-title"
+            />
+            <div class="mb-5 flex items-center justify-between gap-6">
+              <div class="flex items-center gap-3.5">
+                <span
+                  class="inline-grid size-7 place-items-center rounded-md border border-blue-200 bg-blue-50 text-blue-600"
+                  aria-hidden="true"
+                >
+                  <Pin size={15} stroke-width={1.9} />
+                </span>
+                <h3 class="m-0 text-base font-bold text-slate-900">
+                  Pinned Projects
+                </h3>
+              </div>
+              <p class="font-mono m-0 text-xs text-slate-500">
+                {pinnedProjects.length} selected projects
+              </p>
+            </div>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              {
+                pinnedProjects.map((project) => (
+                  <article class="flex flex-col rounded-lg border border-slate-200 bg-white p-6 shadow-xl">
+                    <div class="font-mono flex items-center justify-end text-xs leading-normal text-slate-500">
+                      <time>{project.period}</time>
+                    </div>
+                    <h3 class="text-2xl font-bold tracking-tight text-slate-900">
+                      {project.title}
+                    </h3>
+                    {project.subtitle && (
+                      <p class="mt-2 text-sm leading-relaxed text-slate-600 break-keep">
+                        {project.subtitle}
+                      </p>
+                    )}
+                    <ul class="mt-5 grid list-disc gap-2 border-t border-slate-200 pl-5 pt-4">
+                      {project.tasks.map((task) => (
+                        <li class="break-keep text-sm leading-relaxed text-slate-800 marker:text-blue-500">
+                          {typeof task === "string" ? (
+                            <span>{task}</span>
+                          ) : (
+                            <div>
+                              <strong class="font-semibold text-slate-800">
+                                {task.title}
+                              </strong>
+                              {task.subtasks && (
+                                <ul class="mt-2 grid list-disc gap-1 pl-5">
+                                  {task.subtasks.map((subtask) => (
+                                    <li class="text-xs leading-relaxed text-slate-700 marker:text-slate-400">
+                                      {subtask}
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </div>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                    <div class="mt-auto">
+                      {project.stack && (
+                        <ul
+                          class="flex list-none flex-wrap gap-2 p-0 pt-6"
+                          aria-label={`${project.title} 기술 스택`}
+                        >
+                          {project.stack.map((item) => (
+                            <SkillItem name={item} />
+                          ))}
+                        </ul>
+                      )}
+                      {project.hasDetail && (
+                        <div class="pt-4">
+                          <a
+                            class="group inline-flex min-h-11 w-fit items-center justify-center gap-2 rounded-lg border border-blue-600 bg-blue-600 px-4 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition duration-150 hover:-translate-y-0.5 hover:border-blue-700 hover:bg-blue-700 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 motion-reduce:transform-none"
+                            href={`/projects/${project.id}`}
+                            aria-label={`${project.title} 상세 페이지 보기`}
+                          >
+                            <span>프로젝트 상세 보기</span>
+                            <ArrowRight
+                              class="transition-transform duration-150 group-hover:translate-x-1 motion-reduce:transform-none"
+                              size={16}
+                              stroke-width={1.9}
+                              aria-hidden="true"
+                            />
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </article>
+                ))
+              }
+            </div>
+
+            <div
+              class="snap-start snap-always scroll-mt-24 pt-12"
+              data-scroll-stop
+            >
+              <div class="mb-5 flex items-center justify-between gap-6">
+                <div class="flex items-center gap-3.5">
+                  <span
+                    class="inline-grid size-7 place-items-center rounded-md border border-blue-200 bg-blue-50 text-blue-600"
+                    aria-hidden="true"
+                  >
+                    <LayoutGrid size={15} stroke-width={1.9} />
+                  </span>
+                  <h3 class="m-0 text-base font-bold text-slate-900">
+                    Other Projects & Activities
+                  </h3>
+                </div>
+                <p class="font-mono m-0 text-xs text-slate-500">
+                  {otherProjects.length} projects & activities
+                </p>
+              </div>
+              <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+                {
+                  otherProjects.map((project) => (
+                    <article class="relative flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-blue-600">
+                      <div class="flex flex-1 flex-col p-4">
+                        <div class="h-12 overflow-hidden">
+                          <h3 class="m-0 text-base font-bold leading-snug tracking-tight text-slate-900 break-keep">
+                            {project.title}
+                          </h3>
+                          {project.subtitle && (
+                            <p class="mt-1 line-clamp-1 text-xs leading-snug text-slate-600 break-keep">
+                              {project.subtitle}
+                            </p>
+                          )}
+                        </div>
+                        <ul class="mt-3 grid list-disc gap-1.5 border-t border-slate-200 pl-4 pt-3">
+                          {project.tasks.map((task) => (
+                            <li class="break-keep text-xs leading-relaxed text-slate-700 marker:text-blue-500">
+                              {typeof task === "string" ? (
+                                <span>{task}</span>
+                              ) : (
+                                <div>
+                                  <strong class="font-semibold text-slate-800">
+                                    {task.title}
+                                  </strong>
+                                  {task.subtasks && (
+                                    <ul class="mt-1.5 grid list-disc gap-1 pl-4">
+                                      {task.subtasks.map((subtask) => (
+                                        <li class="text-xs leading-relaxed text-slate-700 marker:text-slate-400">
+                                          {subtask}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                </div>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                        <div class="mt-auto">
+                          {project.stack && (
+                            <ul
+                              class="flex list-none flex-wrap gap-1.5 p-0 pt-4"
+                              aria-label={`${project.title} 기술 스택`}
+                            >
+                              {project.stack.map((item) => (
+                                <SkillItem name={item} />
+                              ))}
+                            </ul>
+                          )}
+                          {project.hasDetail && (
+                            <div class="pt-4">
+                              <a
+                                class="group inline-flex min-h-9 w-fit items-center justify-center gap-2 rounded-md border border-blue-600 bg-blue-600 px-3 text-xs font-bold text-white shadow-sm shadow-blue-600/20 transition duration-150 hover:-translate-y-0.5 hover:border-blue-700 hover:bg-blue-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 motion-reduce:transform-none"
+                                href={`/projects/${project.id}`}
+                                aria-label={`${project.title} 상세 페이지 보기`}
+                              >
+                                <span>프로젝트 상세 보기</span>
+                                <ArrowRight
+                                  class="transition-transform duration-150 group-hover:translate-x-1 motion-reduce:transform-none"
+                                  size={15}
+                                  stroke-width={1.9}
+                                  aria-hidden="true"
+                                />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  ))
+                }
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="experience"
+            class="snap-start snap-always scroll-mt-24 py-12 md:py-14 lg:py-16"
+            data-scroll-stop
+            data-nav-section
+            aria-labelledby="experience-title"
+          >
+            <SectionHeading
+              icon="work"
+              eyebrow="Work Experience"
+              id="experience-title"
+            />
+            <div class="border-t border-slate-300 bg-white">
+              {
+                workProjects.map((project, index) => (
+                  <article class="grid grid-cols-12 gap-4 border-b border-slate-200 px-1 py-7">
+                    <div
+                      class="relative col-span-1 flex justify-center after:absolute after:bottom-0 after:left-1/2 after:top-7 after:w-px after:bg-slate-200"
+                      aria-hidden="true"
+                    >
+                      <span class="relative z-10 inline-grid size-7 place-items-center rounded-full border border-blue-200 bg-slate-50 font-mono text-xs font-bold text-blue-600">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                    <div class="col-span-11 flex flex-col">
+                      <div class="font-mono text-xs text-slate-500">
+                        <time>{project.period}</time>
+                      </div>
+                      <h3 class="text-lg font-bold tracking-tight text-slate-900">
+                        {project.title}
+                      </h3>
+                      {(project.subtitle || project.meta) && (
+                        <div class="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                          {project.subtitle && (
+                            <p class="m-0 text-xs font-semibold text-blue-600">
+                              {project.subtitle}
+                            </p>
+                          )}
+                          {project.meta && (
+                            <span class="font-mono text-xs text-slate-500">
+                              {project.meta}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      <ul class="mt-5 grid list-disc gap-2 border-t border-slate-200 pl-5 pt-4">
+                        {project.tasks.map((task) => (
+                          <li class="break-keep text-sm leading-relaxed text-slate-800 marker:text-blue-500">
+                            {typeof task === "string" ? (
+                              <span>{task}</span>
+                            ) : (
+                              <div>
+                                <strong class="font-semibold text-slate-800">
+                                  {task.title}
+                                </strong>
+                                {task.subtasks && (
+                                  <ul class="mt-2 grid list-disc gap-1 pl-5">
+                                    {task.subtasks.map((subtask) => (
+                                      <li class="text-xs leading-relaxed text-slate-700 marker:text-slate-400">
+                                        {subtask}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+                              </div>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                      <div class="mt-auto">
+                        {project.stack && (
+                          <ul
+                            class="flex list-none flex-wrap gap-2 p-0 pt-5"
+                            aria-label={`${project.title} 기술 스택`}
+                          >
+                            {project.stack.map((item) => (
+                              <SkillItem name={item} />
+                            ))}
+                          </ul>
+                        )}
+                        {project.hasDetail && (
+                          <div class="pt-4">
+                            <a
+                              class="group inline-flex min-h-11 w-fit items-center justify-center gap-2 rounded-lg border border-blue-600 bg-blue-600 px-4 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition duration-150 hover:-translate-y-0.5 hover:border-blue-700 hover:bg-blue-700 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 motion-reduce:transform-none"
+                              href={`/projects/${project.id}`}
+                              aria-label={`${project.title} 상세 페이지 보기`}
+                            >
+                              <span>프로젝트 상세 보기</span>
+                              <ArrowRight
+                                class="transition-transform duration-150 group-hover:translate-x-1 motion-reduce:transform-none"
+                                size={16}
+                                stroke-width={1.9}
+                                aria-hidden="true"
+                              />
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </article>
+                ))
+              }
+            </div>
+          </section>
+        </main>
+
+        <div class="snap-start snap-always scroll-mt-24" data-scroll-stop>
+          <Footer
+            name={profile.name}
+            email={profile.email}
+            githubUrl={profile.github}
+            linkedinUrl={linkedinUrl}
+          />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const header = document.querySelector<HTMLElement>("[data-site-header]");
+      const menu = document.querySelector<HTMLElement>("[data-mobile-menu]");
+      const menuToggle =
+        document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+      const backdrop = document.querySelector<HTMLElement>(
+        "[data-menu-backdrop]",
+      );
+      const menuIcon = document.querySelector<SVGElement>("[data-menu-icon]");
+      const closeIcon = document.querySelector<SVGElement>("[data-close-icon]");
+      const desktopSidebar = document.querySelector<HTMLElement>(
+        "[data-desktop-sidebar]",
+      );
+      const contentLayout = document.querySelector<HTMLElement>(
+        "[data-content-layout]",
+      );
+      const desktopMedia = matchMedia("(min-width: 768px)");
+      let desktopSidebarOpen = true;
+
+      const updateMenuToggle = (open: boolean, label: string) => {
+        if (!menuToggle) return;
+        menuToggle.setAttribute("aria-expanded", String(open));
+        menuToggle.setAttribute("aria-label", label);
+        menuIcon?.classList.toggle("hidden", open);
+        closeIcon?.classList.toggle("hidden", !open);
+      };
+
+      const setMenuOpen = (open: boolean, updateToggle = true) => {
+        if (!header || !menu || !menuToggle) return;
+        header.dataset.menuOpen = String(open);
+        menu.setAttribute("aria-hidden", String(!open));
+        menu.classList.toggle("hidden", !open);
+        backdrop?.classList.toggle("hidden", !open);
+        document.body.classList.toggle("overflow-hidden", open);
+        if (updateToggle) {
+          updateMenuToggle(open, open ? "메뉴 닫기" : "메뉴 열기");
+        }
+      };
+
+      const setDesktopSidebarOpen = (open: boolean) => {
+        desktopSidebarOpen = open;
+        if (desktopSidebar) {
+          desktopSidebar.setAttribute("aria-hidden", String(!open));
+          desktopSidebar.toggleAttribute("inert", !open);
+          desktopSidebar.style.opacity = open ? "" : "0";
+          desktopSidebar.style.pointerEvents = open ? "" : "none";
+          desktopSidebar.style.transform = open
+            ? ""
+            : "translateX(-0.75rem)";
+        }
+        if (contentLayout) {
+          contentLayout.dataset.sidebarOpen = String(open);
+          contentLayout.style.gridTemplateColumns = open
+            ? ""
+            : "0rem minmax(0, 1fr)";
+          contentLayout.style.columnGap = open ? "" : "0rem";
+        }
+        updateMenuToggle(
+          open,
+          open ? "사이드바 닫기" : "사이드바 열기",
+        );
+      };
+
+      menuToggle?.addEventListener("click", () => {
+        if (desktopMedia.matches) {
+          setDesktopSidebarOpen(!desktopSidebarOpen);
+        } else {
+          setMenuOpen(header?.dataset.menuOpen !== "true");
+        }
+      });
+      backdrop?.addEventListener("click", () => setMenuOpen(false));
+      menu
+        ?.querySelectorAll("a")
+        .forEach((link) =>
+          link.addEventListener("click", () => setMenuOpen(false)),
+        );
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !desktopMedia.matches) {
+          setMenuOpen(false);
+        }
+      });
+      desktopMedia.addEventListener("change", (event) => {
+        setMenuOpen(false, !event.matches);
+        if (event.matches) setDesktopSidebarOpen(desktopSidebarOpen);
+      });
+
+      if (desktopMedia.matches) setDesktopSidebarOpen(desktopSidebarOpen);
+      else setMenuOpen(false);
+
+      const sections = [
+        ...document.querySelectorAll<HTMLElement>("[data-nav-section]"),
+      ];
+      const navLinks = [
+        ...document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"),
+      ];
+      let ticking = false;
+
+      const updateActiveSection = () => {
+        const marker = window.scrollY + window.innerHeight * 0.34;
+        let activeId = "";
+        for (const section of sections) {
+          if (section.offsetTop <= marker) activeId = section.id;
+        }
+        navLinks.forEach((link) => {
+          const isActive = link.hash === `#${activeId}`;
+          const inactiveColor = link.closest("[data-mobile-menu]")
+            ? "text-slate-600"
+            : "text-slate-700";
+          link.classList.toggle("bg-blue-50", isActive);
+          link.classList.toggle("text-blue-600", isActive);
+          link.classList.toggle(inactiveColor, !isActive);
+          const indicator = link.querySelector<HTMLElement>(
+            "[data-nav-indicator]",
+          );
+          const inactiveIndexColor = link.closest("[data-mobile-menu]")
+            ? "text-slate-500"
+            : "text-slate-400";
+          indicator?.classList.toggle("bg-transparent", !isActive);
+          indicator?.classList.toggle("bg-blue-600", isActive);
+          const index = link.querySelector<HTMLElement>("[data-nav-index]");
+          index?.classList.toggle(inactiveIndexColor, !isActive);
+          index?.classList.toggle("text-blue-600", isActive);
+          if (isActive) link.setAttribute("aria-current", "location");
+          else link.removeAttribute("aria-current");
+        });
+        ticking = false;
+      };
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (!ticking) {
+            requestAnimationFrame(updateActiveSection);
+            ticking = true;
+          }
+        },
+        { passive: true },
+      );
+      window.addEventListener("resize", updateActiveSection);
+      updateActiveSection();
+
+      const scrollStops = [
+        ...document.querySelectorAll<HTMLElement>("[data-scroll-stop]"),
+      ];
+      const sectionWheelMedia = matchMedia("(min-width: 1280px)");
+      const reducedMotionMedia = matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      );
+      let wheelLockedUntil = 0;
+      let wheelUnlockTimer: number | undefined;
+
+      const scheduleWheelUnlock = () => {
+        window.clearTimeout(wheelUnlockTimer);
+        const delay = Math.max(0, wheelLockedUntil - performance.now());
+        wheelUnlockTimer = window.setTimeout(() => {
+          wheelLockedUntil = 0;
+        }, delay);
+      };
+
+      window.addEventListener(
+        "wheel",
+        (event) => {
+          if (
+            !sectionWheelMedia.matches ||
+            reducedMotionMedia.matches ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            Math.abs(event.deltaY) < 2 ||
+            scrollStops.length < 2
+          ) {
+            return;
+          }
+
+          const now = performance.now();
+          if (now < wheelLockedUntil) {
+            event.preventDefault();
+            wheelLockedUntil = Math.max(wheelLockedUntil, now + 180);
+            scheduleWheelUnlock();
+            return;
+          }
+
+          const scrollOffset = 96;
+          const positions = scrollStops.map(
+            (section) =>
+              section.getBoundingClientRect().top +
+              window.scrollY -
+              scrollOffset,
+          );
+          const currentIndex = positions.reduce(
+            (nearestIndex, position, index) =>
+              Math.abs(position - window.scrollY) <
+              Math.abs(positions[nearestIndex] - window.scrollY)
+                ? index
+                : nearestIndex,
+            0,
+          );
+          const direction = event.deltaY > 0 ? 1 : -1;
+          const nextIndex = Math.min(
+            positions.length - 1,
+            Math.max(0, currentIndex + direction),
+          );
+
+          if (nextIndex === currentIndex) return;
+
+          event.preventDefault();
+          wheelLockedUntil = now + 550;
+          scheduleWheelUnlock();
+          window.scrollTo({
+            top: Math.max(0, positions[nextIndex]),
+            behavior: "smooth",
+          });
+        },
+        { passive: false },
+      );
+    </script>
+  </body>
+</html>
