@@ -18,9 +18,7 @@ stack:
   - Socket.IO
 ---
 
-# DevBrew
-
-### 예약부터 대화까지, 한 번에 이어지는 개발자 멘토링
+## 예약부터 대화까지, 한 번에 이어지는 개발자 멘토링
 
 멘토를 찾고 시간을 예약하면,
 멘토의 승인과 동시에 1:1 채팅이 시작됩니다.
@@ -29,8 +27,8 @@ stack:
 
 `개인 프로젝트` · `풀스택 개발` · `2026.05.14 — 05.24`
 
-| **9개** | **14개** | **5개** | **1:1** |
-| :---: | :---: | :---: | :---: |
+|   **9개**   | **14개** |   **5개**   |   **1:1**   |
+| :---------: | :------: | :---------: | :---------: |
 | 사용자 화면 | REST API | 데이터 모델 | 실시간 채팅 |
 
 ---
@@ -182,9 +180,9 @@ PostgreSQL · Prisma · Vercel · Railway · Neon
 <details>
 <summary><strong>상세 설계 문서 보기</strong></summary>
 
-- [API 명세](./docs/API.md)
-- [데이터베이스 구조](./docs/DB_SCHEMA.md)
-- [Socket.IO 설계](./docs/SOCKET.md)
-- [서비스 비즈니스 흐름](./docs/FLOW.md)
+- [API 명세](https://github.com/hellojeff99/devbrew/blob/main/docs/API.md)
+- [ERD](https://github.com/hellojeff99/devbrew/blob/main/docs/ERD.md)
+- [Socket.IO 설계](https://github.com/hellojeff99/devbrew/blob/main/docs/SOCKET.md)
+- [서비스 비즈니스 흐름](https://github.com/hellojeff99/devbrew/blob/main/docs/FLOW.md)
 
 </details>

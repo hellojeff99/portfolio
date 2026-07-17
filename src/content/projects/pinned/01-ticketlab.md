@@ -1,7 +1,8 @@
 ---
 kind: pinned
 title: TicketLab
-subtitle: 동시성 제어와 조회 최적화 실험 프로젝트 (좌석 예약 시스템)
+subtitle: 티켓 예매의 중복 예약을 제거하고, 좌석 조회 p95를 51% 단축한 성능 개선 프로젝트
+
 period: 2026.06.19 ~ 2026.06.26
 github: https://github.com/hellojeff99/ticketlab
 tasks:
@@ -17,8 +18,6 @@ stack:
   - Docker
   - k6
 ---
-
-> 티켓 예매의 **중복 예약을 제거**하고, **좌석 조회 p95를 51% 단축**한 성능 개선 프로젝트
 
 ## 한눈에 보기
 
@@ -153,7 +152,7 @@ flowchart LR
 | **Read** | Cache로 반복 조회 흡수 | 고동시성 p95 51% 단축 |
 
 <details>
-<summary><strong>실험 조건 및 근거 자료</strong></summary>
+<summary><strong>실험 조건 및 관련 문서</strong></summary>
 
 ### 실험 조건
 
@@ -162,10 +161,10 @@ flowchart LR
 - 조회 성능: 좌석 100개, VU당 10회 조회
 - 쿼리 분석: PostgreSQL `EXPLAIN ANALYZE`
 
-### 근거 자료
+### 관련 문서
 
-- [예약 Lock 전략 비교](./docs/lock-strategy/README.md)
-- [좌석 조회 최적화 비교](./docs/read-optimization/README.md)
-- [원본 테스트 결과](./reports)
+- [예약 Lock 전략 비교](https://github.com/hellojeff99/ticketlab/tree/main/docs/lock-strategy)
+- [좌석 조회 최적화 비교](https://github.com/hellojeff99/ticketlab/tree/main/docs/read-optimization)
+- [원본 테스트 결과](https://github.com/hellojeff99/ticketlab/tree/main/reports)
 
 </detail>
