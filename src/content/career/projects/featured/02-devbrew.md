@@ -140,23 +140,97 @@ flowchart TB
 
 ---
 
-## 기술 구조
+## 시스템 아키텍처
 
 ```mermaid
-flowchart LR
-    FE["Next.js · React"] <-->|"REST API"| BE["NestJS"]
-    FE <-->|"Socket.IO"| BE
-    BE <-->|"Prisma"| DB[("PostgreSQL")]
+flowchart TB
+    USER["멘토 · 멘티<br/>Browser"]
+
+    subgraph Vercel["Vercel · Frontend"]
+        FE["Next.js · React<br/>TypeScript · Tailwind CSS"]
+    end
+
+    subgraph Railway["Railway · Backend"]
+        REST["REST Controllers<br/>JWT Guard"]
+        SOCKET["Socket.IO Gateway<br/>JWT Handshake · Room"]
+        SERVICE["Domain Services<br/>Auth · Slot · CoffeeChat · Chat"]
+        ORM["Prisma ORM"]
+
+        REST --> SERVICE
+        SOCKET --> SERVICE
+        SERVICE --> ORM
+    end
+
+    subgraph Neon["Neon · Database"]
+        DB[("PostgreSQL")]
+    end
+
+    USER -->|HTTPS| FE
+    FE -->|"REST API · JWT"| REST
+    FE <-->|"Socket.IO<br/>polling → WebSocket"| SOCKET
+    ORM -->|SQL| DB
 ```
 
-**Frontend**
-Next.js · React · TypeScript · Tailwind CSS · Axios
+**핵심**
+REST API와 Socket.IO가 같은 도메인 서비스를 사용하고,
+모든 영속 데이터는 Prisma를 통해 PostgreSQL에 저장됩니다.
 
-**Backend**
-NestJS · Passport JWT · bcrypt · Socket.IO
 
-**Database / Deployment**
-PostgreSQL · Prisma · Vercel · Railway · Neon
+---
+
+## ERD
+
+```mermaid
+erDiagram
+    USER ||--o{ MENTOR_TIME_SLOT : "시간 등록"
+    USER ||--o{ COFFEE_CHAT : "멘토 참여"
+    USER ||--o{ COFFEE_CHAT : "멘티 신청"
+    MENTOR_TIME_SLOT ||--o| COFFEE_CHAT : "예약 연결"
+    COFFEE_CHAT ||--o| CHAT_ROOM : "채팅방 생성"
+    CHAT_ROOM ||--o{ MESSAGE : "메시지 포함"
+    USER ||--o{ MESSAGE : "메시지 전송"
+
+    USER {
+        int id PK
+        string email UK
+        string password
+        string name
+        UserRole role
+    }
+
+    MENTOR_TIME_SLOT {
+        int id PK
+        int mentorId FK
+        datetime startTime
+        boolean isReserved
+    }
+
+    COFFEE_CHAT {
+        int id PK
+        int mentorId FK
+        int menteeId FK
+        int timeSlotId FK, UK
+        CoffeeChatStatus status
+    }
+
+    CHAT_ROOM {
+        int id PK
+        int coffeeChatId FK, UK
+        datetime updatedAt
+    }
+
+    MESSAGE {
+        int id PK
+        int chatRoomId FK
+        int senderId FK
+        string content
+        datetime createdAt
+    }
+```
+
+**핵심 제약**
+`timeSlotId`와 `coffeeChatId`에 고유 제약을 적용해
+슬롯–커피챗과 커피챗–채팅방의 1:1 관계를 보장합니다.
 
 ---
 

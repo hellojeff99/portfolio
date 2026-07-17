@@ -1,26 +1,31 @@
 ---
 skills:
-  - category: Backend
+  - category: Languages
     items:
-      - Spring Boot (Java)
+      - Java
+      - TypeScript
+  - category: Frameworks & Libraries
+    items:
+      - Spring Boot
       - JPA
       - NestJS
-      - TypeORM
       - Prisma
-      - JWT
-  - category: Frontend
-    items:
-      - React
       - Next.js
+      - React
       - Tailwind CSS
-  - category: Database
+  - category: DB & Cache
     items:
-      - Oracle
       - PostgreSQL
-  - category: Tools/Infra
+      - Oracle
+      - Redis
+  - category: Test & Performance
     items:
+      - JUnit
+      - k6
+  - category: Infra & Tools
+    items:
+      - Docker
       - Git
       - Github
       - Jira
-      - Docker
 ---

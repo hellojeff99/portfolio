@@ -1,5 +1,4 @@
 ---
-kind: pinned
 title: TicketLab
 subtitle: 티켓 예매의 중복 예약을 제거하고, 좌석 조회 p95를 51% 단축한 성능 개선 프로젝트
 

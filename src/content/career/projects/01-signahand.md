@@ -1,5 +1,4 @@
 ---
-kind: activity
 title: SignaHand
 subtitle: 웹캠 제스처 인식을 활용한 PDF 전자서명 및 문서 편집 서비스
 period: 2023.07 ~ 2023.08(약 4주)

@@ -1,5 +1,4 @@
 ---
-kind: activity
 title: 카카오 인턴십 (현장실습)
 subtitle: 제주대학교 학생 대상 위치 기반 점심 메뉴 추천 서비스 개발
 period: "2023.01"

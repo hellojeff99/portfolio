@@ -1,5 +1,4 @@
 ---
-kind: activity
 title: Personal Tea (SW 공동 해커톤)
 subtitle: 사용자 취향 및 날씨 API 기반 맞춤형 허브티 추천 서비스
 period: 2023.06(2박3일)
