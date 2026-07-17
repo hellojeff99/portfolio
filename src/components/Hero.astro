@@ -1,5 +1,7 @@
 ---
-import { FileText, Mail } from "@lucide/astro";
+import { getEntry } from "astro:content";
+import { Code2, FileText, Mail } from "@lucide/astro";
+import SkillItem from "./SkillItem.astro";
 
 interface Props {
   role: string;
@@ -8,151 +10,293 @@ interface Props {
 }
 
 const { role, email, location } = Astro.props;
+const skillEntry = await getEntry("skills", "skills");
+const skills = skillEntry?.data.skills ?? [];
+const skillGroupDotColors = ["#2563eb", "#059669", "#f59e0b", "#7c3aed"];
 ---
 
 <section
   id="hero"
-  class="relative flex scroll-mt-24 items-center py-8 md:py-12"
+  class="hero-section-background relative isolate flex scroll-mt-24 items-center"
   data-nav-section
   aria-labelledby="hero-title"
 >
   <div
-    class="flex min-h-[calc(100svh-8rem)] w-full flex-col overflow-hidden rounded-2xl border border-slate-300 bg-white md:min-h-[calc(100svh-10rem)]"
+    class="ml-2 flex min-h-[70svh] min-w-0 flex-1 flex-col md:ml-4 lg:h-[70svh] lg:min-h-0"
   >
-    <div
-      class="flex h-12 shrink-0 items-center justify-between gap-4 border-b border-slate-300 bg-slate-500 px-4 sm:px-5"
-    >
-      <span class="flex items-center gap-1.5" aria-hidden="true">
-        <span class="size-2.5 rounded-full bg-red-500"></span>
-        <span class="size-2.5 rounded-full bg-amber-400"></span>
-        <span class="size-2.5 rounded-full bg-emerald-500"></span>
-      </span>
-      <span
-        class="font-mono truncate text-[0.65rem] font-bold uppercase tracking-[0.16em] text-slate-100"
+    <div class="min-h-0 min-w-0 flex-1">
+      <div
+        class="relative isolate grid h-full min-h-0 min-w-0 gap-6 overflow-hidden px-4 sm:px-6 lg:grid-cols-3 lg:grid-rows-2 lg:gap-x-6 lg:gap-y-4 lg:overflow-y-auto lg:px-6 xl:px-8"
       >
-        {role}
-      </span>
-    </div>
-
-    <div class="grid min-w-0 flex-1 grid-rows-[minmax(0,1fr)_auto]">
-      <div class="flex min-w-0 items-center p-6 sm:p-10 lg:p-14 xl:p-20">
-        <div class="max-w-5xl">
-          <p
-            class="hero-label-enter font-mono mb-7 text-xs font-bold uppercase tracking-[0.16em] text-blue-600"
-          >
-            {role}
-          </p>
-
-          <h1
-            class="hero-text-enter m-0 break-normal text-3xl font-bold leading-[1.2] tracking-tighter text-slate-950 sm:break-keep sm:text-4xl md:text-5xl xl:text-6xl"
-            id="hero-title"
-          >
-            데이터 흐름을 추적해 문제의 원인을 분석하고,
-            <span class="text-blue-600">정합성·성능·유지보수성</span>을 고려한
-            개발을 지향합니다.
-          </h1>
-
-          <div class="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              class="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-5 text-sm font-bold text-slate-800 shadow-md shadow-slate-900/10 transition duration-200 hover:-translate-y-0.5 hover:border-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 motion-reduce:transform-none"
-              href="/resume"
+        <div
+          class="relative z-10 flex min-w-0 items-end lg:col-span-2 lg:row-start-1"
+        >
+          <div class="w-full max-w-4xl border-l-2 border-white/40 pl-4 sm:pl-6">
+            <p
+              class="hero-label-enter font-mono mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-white/30 bg-black/20 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-sm"
             >
-              <span
-                class="inline-grid size-7 place-items-center rounded-full bg-blue-600 text-white"
-                aria-hidden="true"
-              >
-                <FileText size={14} stroke-width={1.8} />
-              </span>
-              <span>이력서 보기</span>
-            </a>
-            <a
-              class="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-5 text-sm font-bold text-slate-800 shadow-md shadow-slate-900/10 transition duration-200 hover:-translate-y-0.5 hover:border-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 motion-reduce:transform-none"
-              href={`mailto:${email}`}
+              <span class="size-1.5 rounded-full bg-cyan-200" aria-hidden="true"
+              ></span>
+              <span>{role}</span>
+            </p>
+
+            <h1
+              class="hero-title-readable relative m-0 break-normal text-3xl font-bold leading-[1.28] tracking-tighter text-white sm:break-keep sm:text-4xl md:text-5xl xl:text-[3.5rem]"
+              id="hero-title"
+              data-hero-typing
+              aria-label="데이터 흐름을 추적해 문제의 원인을 분석하고, 정합성·성능·유지보수성을 고려한 개발을 지향합니다."
             >
-              <span
-                class="inline-grid size-7 place-items-center rounded-full bg-blue-600 text-white"
-                aria-hidden="true"
-              >
-                <Mail size={14} stroke-width={1.8} />
+              <span class="invisible block" aria-hidden="true">
+                데이터 흐름을 추적해 문제의 원인을 분석하고,
+                정합성·성능·유지보수성을 고려한 개발을 지향합니다.
               </span>
-              <span>이메일 보내기</span>
-            </a>
+              <span class="absolute inset-0 block" aria-hidden="true">
+                <span
+                  data-type-segment
+                  data-text="데이터 흐름을 추적해 문제의 원인을 분석하고,"
+                  >데이터 흐름을 추적해 문제의 원인을 분석하고,</span
+                ><span
+                  class="text-yellow-300"
+                  data-type-segment
+                  data-text=" 정합성·성능·유지보수성"
+                >
+                  정합성·성능·유지보수성</span
+                ><span
+                  data-type-segment
+                  data-text="을 고려한 개발을 지향합니다."
+                  >을 고려한 개발을 지향합니다.</span
+                ><span
+                  class="hero-type-caret ml-1 h-[0.9em] w-[0.08em] bg-yellow-300 align-[-0.05em]"
+                  data-type-caret
+                  aria-hidden="true"></span>
+              </span>
+            </h1>
           </div>
         </div>
-      </div>
 
-      <aside
-        class="flex items-center border-t border-slate-300 px-6 py-5 sm:px-8 sm:py-6"
-        aria-label="프로필 명령어"
-      >
-        <dl class="grid w-full gap-3 sm:grid-cols-3">
-          <div
-            class="min-w-0 rounded-lg border border-slate-300 border-t-2 border-t-blue-600 p-4 shadow-sm"
-          >
-            <dt class="font-mono flex items-center gap-2 text-xs font-semibold">
-              <span class="text-blue-600">$</span>
-              <span class="text-emerald-600">echo</span>
-              <span class="text-amber-600">$ROLE</span>
-            </dt>
-            <dd
-              class="mt-3 grid grid-cols-[auto_1fr] gap-2 break-words font-mono text-sm font-bold text-slate-900"
+        <div
+          class="relative z-10 flex min-w-0 flex-col pl-4 sm:pl-6 lg:col-span-2 lg:row-start-2 lg:h-full"
+        >
+          <div class="flex flex-wrap items-center gap-3">
+            <a
+              class="group inline-flex min-h-12 items-center justify-center gap-2.5 rounded-xl border border-blue-100 bg-white px-5 font-mono text-sm font-bold text-slate-900 shadow-xl shadow-blue-950/15 transition-[background-color,border-color,box-shadow] duration-200 hover:border-blue-200 hover:bg-blue-50 hover:shadow-2xl hover:shadow-blue-950/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              href="/resume"
+              aria-label="View Resume"
             >
-              <span class="text-blue-600" aria-hidden="true">&gt;</span>
-              <span>{role}</span>
-            </dd>
+              <FileText
+                class="text-blue-600"
+                size={16}
+                stroke-width={1.8}
+                aria-hidden="true"
+              />
+              <span>View Resume</span>
+            </a>
+            <a
+              class="group inline-flex min-h-12 items-center justify-center gap-2.5 rounded-xl border border-blue-100 bg-white px-5 font-mono text-sm font-bold text-slate-900 shadow-xl shadow-blue-950/15 transition-[background-color,border-color,box-shadow] duration-200 hover:border-blue-200 hover:bg-blue-50 hover:shadow-2xl hover:shadow-blue-950/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              href={`mailto:${email}`}
+              aria-label="Send Email"
+            >
+              <Mail
+                class="text-blue-600"
+                size={16}
+                stroke-width={1.8}
+                aria-hidden="true"
+              />
+              <span>Send Email</span>
+            </a>
           </div>
 
-          <div
-            class="min-w-0 rounded-lg border border-slate-300 border-t-2 border-t-blue-600 p-4 shadow-sm"
+          <dl
+            class="mt-3 grid w-full shrink-0 gap-2 sm:grid-cols-3 lg:mt-auto"
+            aria-label="프로필 정보"
           >
-            <dt class="font-mono flex items-center gap-2 text-xs font-semibold">
-              <span class="text-blue-600">$</span>
-              <span class="text-emerald-600">echo</span>
-              <span class="text-amber-600">$LOCATION</span>
-            </dt>
-            <dd
-              class="mt-3 grid grid-cols-[auto_1fr] gap-2 break-words font-mono text-sm font-bold text-slate-900"
+            <div
+              class="min-w-0 overflow-hidden rounded-lg border border-slate-100 bg-white shadow-lg shadow-blue-950/10"
             >
-              <span class="text-blue-600" aria-hidden="true">&gt;</span>
-              <span>{location}</span>
-            </dd>
-          </div>
-
-          <div
-            class="min-w-0 rounded-lg border border-slate-300 border-t-2 border-t-blue-600 p-4 shadow-sm"
-          >
-            <dt class="font-mono flex items-center gap-2 text-xs font-semibold">
-              <span class="text-blue-600">$</span>
-              <span class="text-emerald-600">echo</span>
-              <span class="text-amber-600">$EMAIL</span>
-            </dt>
-            <dd
-              class="mt-3 grid min-w-0 grid-cols-[auto_1fr] gap-2 font-mono text-sm font-bold"
-            >
-              <span class="text-blue-600" aria-hidden="true">&gt;</span>
-              <a
-                class="min-w-0 break-all text-slate-900 transition-colors hover:text-blue-600"
-                href={`mailto:${email}`}
+              <dt
+                class="font-mono flex items-center gap-2 border-b border-slate-200 bg-slate-100 px-3 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-slate-700"
               >
-                {email}
-              </a>
-            </dd>
+                <span
+                  class="size-1.5 shrink-0 rounded-full bg-blue-600"
+                  aria-hidden="true"></span>
+                <span>Role</span>
+              </dt>
+              <dd
+                class="break-words px-3.5 py-3 font-mono text-[0.9rem] font-bold leading-relaxed text-slate-900"
+              >
+                <span>{role}</span>
+              </dd>
+            </div>
+
+            <div
+              class="min-w-0 overflow-hidden rounded-lg border border-slate-100 bg-white shadow-lg shadow-blue-950/10"
+            >
+              <dt
+                class="font-mono flex items-center gap-2 border-b border-slate-200 bg-slate-100 px-3 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-slate-700"
+              >
+                <span
+                  class="size-1.5 shrink-0 rounded-full bg-emerald-600"
+                  aria-hidden="true"></span>
+                <span>Location</span>
+              </dt>
+              <dd
+                class="break-words px-3.5 py-3 font-mono text-[0.9rem] font-bold leading-relaxed text-slate-900"
+              >
+                <span>{location}</span>
+              </dd>
+            </div>
+
+            <div
+              class="min-w-0 overflow-hidden rounded-lg border border-slate-100 bg-white shadow-lg shadow-blue-950/10"
+            >
+              <dt
+                class="font-mono flex items-center gap-2 border-b border-slate-200 bg-slate-100 px-3 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-slate-700"
+              >
+                <span
+                  class="size-1.5 shrink-0 rounded-full bg-amber-500"
+                  aria-hidden="true"></span>
+                <span>Email</span>
+              </dt>
+              <dd
+                class="min-w-0 px-3.5 py-3 font-mono text-[0.9rem] font-bold leading-relaxed"
+              >
+                <a
+                  class="min-w-0 break-all text-slate-900 transition-colors hover:text-blue-600"
+                  href={`mailto:${email}`}
+                >
+                  {email}
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div
+          class="relative z-10 hidden items-center justify-center lg:col-start-3 lg:row-start-1 lg:flex"
+          aria-hidden="true"
+        >
+          <div
+            class="relative grid size-44 place-items-center rounded-full border border-white/30 shadow-[0_0_3rem_rgba(15,23,42,0.2)]"
+          >
+            <span
+              class="absolute inset-3 rounded-full border border-dashed border-white/25"
+            ></span>
+            <span
+              class="absolute inset-7 rounded-full border border-white/20 bg-black/10"
+            ></span>
+            <div class="hero-orbit absolute inset-0">
+              <span
+                class="absolute left-1/2 top-[-0.3rem] size-2 -translate-x-1/2 rounded-full bg-blue-400 shadow-[0_0_0.75rem_rgba(96,165,250,0.8)]"
+              ></span>
+              <span
+                class="absolute right-[-0.2rem] top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-emerald-400"
+              ></span>
+              <span
+                class="absolute bottom-[-0.2rem] left-1/2 size-1.5 -translate-x-1/2 rounded-full bg-amber-400"
+              ></span>
+            </div>
+            <Code2
+              class="relative text-white/90"
+              size={36}
+              stroke-width={1.5}
+            />
           </div>
-        </dl>
-      </aside>
+        </div>
+
+        <section
+          class="relative z-10 w-full self-end overflow-hidden rounded-xl border border-slate-100 bg-white/95 p-3 shadow-xl shadow-blue-950/15 lg:col-start-3 lg:row-start-2"
+          aria-label="기술 스택"
+        >
+          <div class="grid gap-2 sm:grid-cols-2">
+            {
+              skills.map((group, groupIndex) => (
+                <article class="min-w-0 overflow-hidden rounded-lg border border-slate-100 bg-white">
+                  <h3 class="font-mono flex items-center gap-2 border-b border-slate-200 bg-slate-100 px-2.5 py-2 text-[0.7rem] font-semibold tracking-wider text-slate-700">
+                    <span
+                      class="size-1.5 shrink-0 rounded-full"
+                      style={`background-color: ${skillGroupDotColors[groupIndex % skillGroupDotColors.length]}`}
+                      aria-hidden="true"
+                    />
+                    <span class="truncate">{group.category}</span>
+                  </h3>
+                  <ul
+                    class="m-0 flex list-none flex-wrap gap-1.5 p-2.5"
+                    aria-label={`${group.category} 기술`}
+                  >
+                    {group.items.map((item) => (
+                      <SkillItem name={item} />
+                    ))}
+                  </ul>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
+  .hero-section-background::before,
+  .hero-section-background::after {
+    position: absolute;
+    z-index: -1;
+    left: -1rem;
+    right: -1rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .hero-section-background::before {
+    z-index: -2;
+    inset-block: 0;
+    background: #1d4ed8;
+  }
+
+  .hero-section-background::after {
+    z-index: -1;
+    bottom: 0;
+    height: 27rem;
+    background: linear-gradient(to bottom, #1d4ed8, #f8fafc);
+  }
+
+  @media (min-width: 48rem) {
+    .hero-section-background::before,
+    .hero-section-background::after {
+      right: -1.5rem;
+      left: 0;
+    }
+
+    :global([data-content-layout][data-sidebar-open="false"])
+      .hero-section-background::before,
+    :global([data-content-layout][data-sidebar-open="false"])
+      .hero-section-background::after {
+      left: -1.5rem;
+    }
+  }
+
+  .hero-title-readable {
+    text-shadow: 0 0.125rem 1rem rgb(15 23 42 / 0.28);
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     .hero-label-enter {
       animation: hero-label-reveal 1100ms ease-out both;
     }
 
-    .hero-text-enter {
-      animation: hero-text-focus 1600ms cubic-bezier(0.16, 1, 0.3, 1) 160ms both;
+    [data-hero-typing][data-typing-active="true"] .hero-type-caret {
+      display: inline-block;
+      animation: hero-caret-blink 850ms steps(1, end) infinite;
     }
+
+    .hero-orbit {
+      animation: hero-orbit 18s linear infinite;
+    }
+  }
+
+  .hero-type-caret {
+    display: none;
   }
 
   @keyframes hero-label-reveal {
@@ -167,17 +311,93 @@ const { role, email, location } = Astro.props;
     }
   }
 
-  @keyframes hero-text-focus {
-    from {
-      opacity: 0;
-      filter: blur(0.6rem);
-      transform: scale(0.985);
+  @keyframes hero-caret-blink {
+    0%,
+    45% {
+      opacity: 1;
     }
 
+    46%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes hero-orbit {
     to {
-      opacity: 1;
-      filter: blur(0);
-      transform: scale(1);
+      transform: rotate(1turn);
     }
   }
 </style>
+
+<script>
+  const initializeHeroTyping = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-hero-typing]")
+      .forEach((headline) => {
+        if (
+          headline.dataset.typingInitialized === "true" ||
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ) {
+          return;
+        }
+
+        const segments = Array.from(
+          headline.querySelectorAll<HTMLElement>("[data-type-segment]"),
+        );
+
+        if (segments.length === 0) return;
+
+        headline.dataset.typingInitialized = "true";
+        headline.dataset.typingActive = "true";
+
+        const texts = segments.map(
+          (segment) => segment.dataset.text ?? segment.textContent ?? "",
+        );
+
+        segments.forEach((segment) => {
+          segment.textContent = "";
+        });
+
+        let segmentIndex = 0;
+        let characterIndex = 0;
+
+        const typeNextCharacter = () => {
+          const segment = segments[segmentIndex];
+          const text = texts[segmentIndex];
+
+          if (!segment || text === undefined) return;
+
+          const characters = Array.from(text);
+          const character = characters[characterIndex] ?? "";
+          segment.textContent += character;
+          characterIndex += 1;
+
+          if (characterIndex >= characters.length) {
+            segmentIndex += 1;
+            characterIndex = 0;
+
+            if (segmentIndex >= segments.length) return;
+
+            window.setTimeout(typeNextCharacter, 90);
+            return;
+          }
+
+          const delay = /[,.·]/.test(character) ? 120 : 36;
+          window.setTimeout(typeNextCharacter, delay);
+        };
+
+        window.setTimeout(typeNextCharacter, 140);
+      });
+  };
+
+  document.addEventListener("astro:page-load", initializeHeroTyping);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeHeroTyping, {
+      once: true,
+    });
+  } else {
+    initializeHeroTyping();
+  }
+</script>
