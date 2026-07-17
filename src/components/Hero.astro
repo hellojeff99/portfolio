@@ -1,7 +1,5 @@
 ---
-import { getEntry } from "astro:content";
 import { Code2, FileText, Mail } from "@lucide/astro";
-import SkillItem from "./SkillItem.astro";
 
 interface Props {
   role: string;
@@ -10,9 +8,6 @@ interface Props {
 }
 
 const { role, email, location } = Astro.props;
-const skillEntry = await getEntry("skills", "skills");
-const skills = skillEntry?.data.skills ?? [];
-const skillGroupDotColors = ["#2563eb", "#059669", "#f59e0b", "#7c3aed"];
 ---
 
 <section
@@ -107,7 +102,7 @@ const skillGroupDotColors = ["#2563eb", "#059669", "#f59e0b", "#7c3aed"];
           </div>
 
           <dl
-            class="mt-3 grid w-full shrink-0 gap-2 sm:grid-cols-3 lg:mt-auto"
+            class="mt-3 grid w-full shrink-0 gap-2 sm:grid-cols-3 lg:absolute lg:left-6 lg:right-0 lg:top-1/2 lg:mt-0 lg:w-auto lg:-translate-y-1/2"
             aria-label="프로필 정보"
           >
             <div
@@ -172,11 +167,11 @@ const skillGroupDotColors = ["#2563eb", "#059669", "#f59e0b", "#7c3aed"];
         </div>
 
         <div
-          class="relative z-10 hidden items-center justify-center lg:col-start-3 lg:row-start-1 lg:flex"
+          class="relative z-10 hidden items-center justify-center lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:flex"
           aria-hidden="true"
         >
           <div
-            class="relative grid size-44 place-items-center rounded-full border border-white/30 shadow-[0_0_3rem_rgba(15,23,42,0.2)]"
+            class="relative grid size-56 place-items-center rounded-full border border-white/30 shadow-[0_0_3rem_rgba(15,23,42,0.2)]"
           >
             <span
               class="absolute inset-3 rounded-full border border-dashed border-white/25"
@@ -197,41 +192,11 @@ const skillGroupDotColors = ["#2563eb", "#059669", "#f59e0b", "#7c3aed"];
             </div>
             <Code2
               class="relative text-white/90"
-              size={36}
+              size={44}
               stroke-width={1.5}
             />
           </div>
         </div>
-
-        <section
-          class="relative z-10 w-full self-end overflow-hidden rounded-xl border border-slate-100 bg-white/95 p-3 shadow-xl shadow-blue-950/15 lg:col-start-3 lg:row-start-2"
-          aria-label="기술 스택"
-        >
-          <div class="grid gap-2 sm:grid-cols-2">
-            {
-              skills.map((group, groupIndex) => (
-                <article class="min-w-0 overflow-hidden rounded-lg border border-slate-100 bg-white">
-                  <h3 class="font-mono flex items-center gap-2 border-b border-slate-200 bg-slate-100 px-2.5 py-2 text-[0.7rem] font-semibold tracking-wider text-slate-700">
-                    <span
-                      class="size-1.5 shrink-0 rounded-full"
-                      style={`background-color: ${skillGroupDotColors[groupIndex % skillGroupDotColors.length]}`}
-                      aria-hidden="true"
-                    />
-                    <span class="truncate">{group.category}</span>
-                  </h3>
-                  <ul
-                    class="m-0 flex list-none flex-wrap gap-1.5 p-2.5"
-                    aria-label={`${group.category} 기술`}
-                  >
-                    {group.items.map((item) => (
-                      <SkillItem name={item} />
-                    ))}
-                  </ul>
-                </article>
-              ))
-            }
-          </div>
-        </section>
       </div>
     </div>
   </div>
