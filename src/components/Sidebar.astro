@@ -10,12 +10,13 @@ const sidebarItems = navItems.filter((item) => item.href !== "#contact");
 ---
 
 <aside
-  class="sticky top-16 hidden h-[calc(100vh-4rem)] self-start border-r border-slate-300 bg-white/60 md:block"
+  class="sticky top-16 hidden h-[calc(100vh-4rem)] self-start border-r border-slate-300 bg-white/60 md:block print:hidden"
   id="desktop-sidebar"
   data-desktop-sidebar
   aria-label="페이지 목차"
 >
   <div class="flex h-full flex-col overflow-y-auto pb-6 pr-2 pt-6">
+    <slot name="header" />
     <nav class="grid gap-1.5" aria-label="페이지 섹션">
       {
         sidebarItems.map((item) => (
@@ -34,13 +35,15 @@ const sidebarItems = navItems.filter((item) => item.href !== "#contact");
         ))
       }
     </nav>
-    <div
-      class="mt-auto flex items-center gap-2 border-t border-slate-200 px-1 pt-4 font-mono text-xs font-medium tracking-wide text-slate-600"
-    >
-      <span
-        class="relative inline-block size-2 shrink-0 rounded-full bg-emerald-600 ring-4 ring-emerald-100"
-        aria-hidden="true"></span>
-      <span>Available for work</span>
-    </div>
+    <slot name="footer">
+      <div
+        class="mt-auto flex items-center gap-2 border-t border-slate-200 px-1 pt-4 font-mono text-xs font-medium tracking-wide text-slate-600"
+      >
+        <span
+          class="relative inline-block size-2 shrink-0 rounded-full bg-emerald-600 ring-4 ring-emerald-100"
+          aria-hidden="true"></span>
+        <span>Available for work</span>
+      </div>
+    </slot>
   </div>
 </aside>
