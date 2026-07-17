@@ -8,6 +8,11 @@ import {
 } from "astro:content";
 import Header from "../../components/Header.astro";
 import SkillItem from "../../components/SkillItem.astro";
+import {
+  getProjectCategory,
+  getProjectSlug,
+  type ProjectCategory,
+} from "../../content/collections/projects";
 import "../../styles/global.css";
 
 export async function getStaticPaths() {
@@ -16,7 +21,7 @@ export async function getStaticPaths() {
   return projects
     .filter(({ body }) => Boolean(body?.trim()))
     .map((project) => ({
-      params: { id: project.id },
+      params: { id: getProjectSlug(project.id) },
       props: { project },
     }));
 }
@@ -34,13 +39,20 @@ if (!profileEntry) throw new Error("Profile content is required.");
 const profile = profileEntry.data;
 const description =
   project.data.subtitle || `${project.data.title} 프로젝트 상세 내용`;
-const kindLabels = {
+const repositoryUrl = project.data.github?.trim();
+const categoryLabels: Record<ProjectCategory, string> = {
   work: "Work Experience",
-  pinned: "Pinned Project",
-  other: "Project",
-  activity: "Activity",
+  featured: "Featured Project",
+  project: "Project",
+  experience: "Experience",
 };
-const kindLabel = kindLabels[project.data.kind];
+const category = getProjectCategory(project.id);
+const categoryLabel = categoryLabels[category];
+const projectSlug = getProjectSlug(project.id);
+const backLink =
+  category === "work"
+    ? { href: "/#experience", label: "경력 목록으로 돌아가기" }
+    : { href: "/#projects", label: "프로젝트 목록으로 돌아가기" };
 const tableOfContents = headings.filter(
   ({ depth }) => depth === 2 || depth === 3,
 );
@@ -95,8 +107,8 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
       githubUrl={profile.github}
       navItems={projectNavItems}
       showMenu={false}
-      backHref="/#projects"
-      backLabel="프로젝트 목록으로 돌아가기"
+      backHref={backLink.href}
+      backLabel={backLink.label}
     />
 
     <main
@@ -123,11 +135,11 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
               <div
                 class="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs font-bold uppercase tracking-widest text-blue-600"
               >
-                <span>{kindLabel}</span>
+                <span>{categoryLabel}</span>
                 <span
                   class="size-1 rounded-full bg-slate-300"
                   aria-hidden="true"></span>
-                <span>{project.id}</span>
+                <span>{projectSlug}</span>
               </div>
               <h1
                 class="mt-4 max-w-4xl break-keep text-3xl font-bold leading-tight tracking-tighter text-slate-950 sm:text-4xl lg:text-5xl"
@@ -188,30 +200,38 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
                   )
                 }
 
-                <section aria-labelledby="project-repository-title">
-                  <h2
-                    class="font-mono m-0 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-500"
-                    id="project-repository-title"
-                  >
-                    Repository
-                  </h2>
-                  <a
-                    class="group mt-3 inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-sm font-bold text-blue-600 shadow-sm transition duration-150 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 motion-reduce:transform-none"
-                    href={project.data.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${project.data.title} GitHub 저장소 새 탭에서 열기`}
-                  >
-                    <GitFork size={16} stroke-width={1.8} aria-hidden="true" />
-                    <span>GitHub</span>
-                    <ArrowUpRight
-                      class="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none"
-                      size={13}
-                      stroke-width={1.8}
-                      aria-hidden="true"
-                    />
-                  </a>
-                </section>
+                {
+                  repositoryUrl && (
+                    <section aria-labelledby="project-repository-title">
+                      <h2
+                        class="font-mono m-0 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-500"
+                        id="project-repository-title"
+                      >
+                        Repository
+                      </h2>
+                      <a
+                        class="group mt-3 inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-sm font-bold text-blue-600 shadow-sm transition duration-150 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 motion-reduce:transform-none"
+                        href={repositoryUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${project.data.title} GitHub 저장소 새 탭에서 열기`}
+                      >
+                        <GitFork
+                          size={16}
+                          stroke-width={1.8}
+                          aria-hidden="true"
+                        />
+                        <span>GitHub</span>
+                        <ArrowUpRight
+                          class="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none"
+                          size={13}
+                          stroke-width={1.8}
+                          aria-hidden="true"
+                        />
+                      </a>
+                    </section>
+                  )
+                }
               </div>
             </aside>
 
@@ -883,18 +903,20 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
   }
 
   .project-prose .mermaid-diagram {
-    margin: 1.5rem 0 2rem;
+    width: min(100%, 42rem);
+    margin: 1.25rem auto 1.75rem;
     overflow-x: auto;
     border: 1px solid #dbeafe;
     border-radius: 0.85rem;
     background: #f8fafc;
-    padding: 1.25rem;
+    padding: 1rem;
     text-align: center;
     box-shadow: 0 12px 30px -24px rgb(37 99 235 / 0.35);
   }
 
   .project-prose .mermaid-diagram svg {
     display: block;
+    width: auto;
     height: auto;
     max-width: 100%;
     margin: 0 auto;
@@ -923,7 +945,7 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
     }
 
     .project-prose .mermaid-diagram {
-      padding: 1.75rem;
+      padding: 1.25rem;
     }
   }
 
