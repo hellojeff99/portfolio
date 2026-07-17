@@ -1,8 +1,8 @@
 ---
-import { Briefcase, Folder } from "@lucide/astro";
+import { Briefcase, Folder, Mail } from "@lucide/astro";
 
 interface Props {
-  icon: "projects" | "work";
+  icon: "projects" | "work" | "contact";
   eyebrow: string;
   id: string;
 }
@@ -11,6 +11,7 @@ const { icon, eyebrow, id } = Astro.props;
 const icons = {
   projects: Folder,
   work: Briefcase,
+  contact: Mail,
 };
 const Icon = icons[icon];
 ---
