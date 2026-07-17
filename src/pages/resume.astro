@@ -11,6 +11,10 @@ import { getCollection, getEntry } from "astro:content";
 import Header from "../components/Header.astro";
 import Sidebar from "../components/Sidebar.astro";
 import SkillItem from "../components/SkillItem.astro";
+import {
+  compareProjectIds,
+  getProjectCategory,
+} from "../content/collections/projects";
 import type { NavItem } from "../data/portfolio";
 import "../styles/global.css";
 
@@ -19,7 +23,7 @@ const skillEntry = await getEntry("skills", "skills");
 const educationEntry = await getEntry("educations", "educations");
 const certificationEntry = await getEntry("certifications", "certifications");
 const projectEntries = (await getCollection("projects")).sort((a, b) =>
-  a.id.localeCompare(b.id),
+  compareProjectIds(a.id, b.id),
 );
 
 if (!profileEntry) throw new Error("Profile content is required.");
@@ -29,22 +33,35 @@ const bioParagraphs = profile.bio.split("\n").filter(Boolean);
 const skills = skillEntry?.data.skills ?? [];
 const educations = educationEntry?.data.educations ?? [];
 const certifications = certificationEntry?.data.certifications ?? [];
-const workProjects = projectEntries.filter(({ data }) => data.kind === "work");
-const selectedProjects = projectEntries.filter(
-  ({ data }) => data.kind === "pinned",
+const workProjects = projectEntries.filter(
+  ({ id }) => getProjectCategory(id) === "work",
 );
+const selectedProjects = projectEntries
+  .filter(({ id }) => {
+    const category = getProjectCategory(id);
+    return category === "featured" || category === "project";
+  })
+  .sort((first, second) => {
+    const firstCategory = getProjectCategory(first.id);
+    const secondCategory = getProjectCategory(second.id);
+    const categoryOrder =
+      Number(firstCategory === "project") -
+      Number(secondCategory === "project");
+
+    return categoryOrder || compareProjectIds(first.id, second.id);
+  });
 const activities = projectEntries.filter(
-  ({ data }) => data.kind === "other" || data.kind === "activity",
+  ({ id }) => getProjectCategory(id) === "experience",
 );
 const githubLabel = profile.github.replace(/^https?:\/\//, "");
 const resumeNavItems: NavItem[] = [
   { label: "Profile", href: "#profile" },
   { label: "Education", href: "#education" },
   { label: "Certifications", href: "#certifications" },
-  { label: "Technical Skills", href: "#skills" },
-  { label: "Work Experience", href: "#experience" },
+  { label: "Skills", href: "#skills" },
+  { label: "Work", href: "#work" },
   { label: "Projects", href: "#projects" },
-  { label: "Activities", href: "#activities" },
+  { label: "Experience", href: "#experience" },
 ];
 ---
 
@@ -300,7 +317,7 @@ const resumeNavItems: NavItem[] = [
               class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
               id="skills-title"
             >
-              Technical Skills
+              Skills
             </h2>
             <div class="grid gap-2">
               {
@@ -325,15 +342,15 @@ const resumeNavItems: NavItem[] = [
 
           <section
             class="resume-flow-section scroll-mt-24 border-t border-slate-200 py-6"
-            id="experience"
+            id="work"
             data-nav-section
-            aria-labelledby="experience-title"
+            aria-labelledby="work-title"
           >
             <h2
               class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
-              id="experience-title"
+              id="work-title"
             >
-              Work Experience
+              Work
             </h2>
             <div class="grid gap-4">
               {
@@ -445,15 +462,15 @@ const resumeNavItems: NavItem[] = [
 
           <section
             class="resume-flow-section scroll-mt-24 border-t border-slate-200 py-6"
-            id="activities"
+            id="experience"
             data-nav-section
-            aria-labelledby="activities-title"
+            aria-labelledby="experience-title"
           >
             <h2
               class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
-              id="activities-title"
+              id="experience-title"
             >
-              Activities
+              Experience
             </h2>
             <div class="grid gap-6">
               {
