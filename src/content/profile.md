@@ -7,7 +7,7 @@ bio: |-
   기능 구현뿐 아니라 서비스의 안정성과 유지보수성을 함께 고려하는 개발 방식을 지향합니다.
 email: ysw991106@gmail.com
 phone: 010-xxxx-4980
-location: Korea, Seoul
+location: 서울특별시 관악구
 photo: /images/profile.jpg
 heroPhoto: /images/hero.jpg
 github: https://github.com/hellojeff99
