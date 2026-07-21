@@ -60,6 +60,10 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
   label: text,
   href: `#${slug}` as `#${string}`,
 }));
+const textFlowDefinitions = Array.from(
+  (project.body ?? "").matchAll(/```text-flow[^\n]*\n([\s\S]*?)```/g),
+  ([, definition]) => definition.trim(),
+);
 ---
 
 <!doctype html>
@@ -116,12 +120,12 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
       id="main-content"
     >
       <div
-        class="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_15rem]"
+        class="grid items-start gap-5 xl:grid-cols-[minmax(0,56rem)_15rem] xl:justify-center"
         data-content-layout
         data-sidebar-open="true"
       >
         <article
-          class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl xl:col-start-1"
+          class="mx-auto w-full max-w-4xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl xl:col-start-1"
         >
           <div class="min-w-0">
             <header
@@ -237,6 +241,7 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
 
             <div
               class="project-prose min-w-0 px-5 py-9 sm:px-9 sm:py-12 lg:px-12"
+              data-text-flow-definitions={JSON.stringify(textFlowDefinitions)}
             >
               <Content />
             </div>
@@ -449,11 +454,18 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
       }
 
       const renderTextFlows = () => {
+        const projectProse =
+          document.querySelector<HTMLElement>(".project-prose");
+        const textFlowDefinitions = JSON.parse(
+          projectProse?.dataset.textFlowDefinitions ?? "[]",
+        ) as string[];
         const blocks = [
           ...document.querySelectorAll<HTMLPreElement>(
-            '.project-prose pre[data-language="text"]',
+            '.project-prose pre[data-language="plaintext"]',
           ),
-        ];
+        ].filter((block) =>
+          textFlowDefinitions.includes(block.textContent?.trim() ?? ""),
+        );
 
         for (const block of blocks) {
           const definition = block.textContent?.trim();
@@ -470,37 +482,21 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
           flow.className = "text-flow";
           flow.style.setProperty("--flow-step-count", String(steps.length));
 
-          const caption = document.createElement("figcaption");
-          caption.className = "text-flow__caption";
-
-          const marker = document.createElement("span");
-          marker.className = "text-flow__marker";
-          marker.setAttribute("aria-hidden", "true");
-
-          const captionText = document.createElement("span");
-          captionText.textContent = "Process flow";
-          caption.append(marker, captionText);
-
           const list = document.createElement("ol");
           list.className = "text-flow__steps";
 
-          for (const [index, step] of steps.entries()) {
+          for (const step of steps) {
             const item = document.createElement("li");
-
-            const number = document.createElement("span");
-            number.className = "text-flow__number";
-            number.setAttribute("aria-hidden", "true");
-            number.textContent = String(index + 1).padStart(2, "0");
 
             const label = document.createElement("span");
             label.className = "text-flow__label";
             label.textContent = step;
 
-            item.append(number, label);
+            item.append(label);
             list.append(item);
           }
 
-          flow.append(caption, list);
+          flow.append(list);
           block.replaceWith(flow);
         }
       };
@@ -735,7 +731,7 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
   }
 
   .project-prose .text-flow {
-    margin: 1.5rem 0 2rem;
+    margin: 0.75rem 0 1rem;
     border: 1px solid #bfdbfe;
     border-radius: 0.9rem;
     background:
@@ -745,36 +741,13 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
         transparent 38%
       ),
       linear-gradient(135deg, #f8fbff, #eff6ff);
-    padding: 1rem;
+    padding: 0.5rem;
     box-shadow: 0 16px 36px -28px rgb(37 99 235 / 0.5);
-  }
-
-  .project-prose .text-flow__caption {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    margin-bottom: 0.9rem;
-    font-family:
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.68rem;
-    font-weight: 750;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #2563eb;
-  }
-
-  .project-prose .text-flow__marker {
-    width: 0.45rem;
-    height: 0.45rem;
-    flex: none;
-    border-radius: 999px;
-    background: #2563eb;
-    box-shadow: 0 0 0 0.25rem #dbeafe;
   }
 
   .project-prose .text-flow__steps {
     display: grid;
-    gap: 1.65rem;
+    gap: 1.1rem;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -784,14 +757,13 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
     position: relative;
     display: grid;
     min-width: 0;
-    min-height: 3.75rem;
-    grid-template-columns: auto minmax(0, 1fr);
+    min-height: 2.75rem;
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
-    gap: 0.7rem;
     border: 1px solid #dbeafe;
     border-radius: 0.7rem;
     background: rgb(255 255 255 / 0.9);
-    padding: 0.75rem 0.85rem;
+    padding: 0.55rem 0.7rem;
     color: #1e293b;
     box-shadow: 0 8px 20px -18px rgb(30 64 175 / 0.45);
   }
@@ -799,7 +771,7 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
   .project-prose .text-flow__steps li:not(:last-child)::after {
     content: "↓";
     position: absolute;
-    bottom: -1.45rem;
+    bottom: -1rem;
     left: 50%;
     z-index: 1;
     color: #3b82f6;
@@ -809,21 +781,6 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
     font-weight: 750;
     line-height: 1;
     transform: translateX(-50%);
-  }
-
-  .project-prose .text-flow__number {
-    display: inline-grid;
-    width: 1.9rem;
-    height: 1.9rem;
-    place-items: center;
-    border-radius: 0.5rem;
-    background: #eff6ff;
-    color: #2563eb;
-    font-family:
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.68rem;
-    font-weight: 800;
-    line-height: 1;
   }
 
   .project-prose .text-flow__label {
@@ -902,6 +859,19 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
     color: #1d4ed8;
   }
 
+  .project-prose p:has(> img:only-child) {
+    margin: 1.25rem 0 1.75rem;
+  }
+
+  .project-prose p > img:only-child {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border: 0;
+  }
+
   .project-prose .mermaid-diagram {
     width: min(100%, 42rem);
     margin: 1.25rem auto 1.75rem;
@@ -951,7 +921,7 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
 
   @media (min-width: 768px) {
     .project-prose .text-flow {
-      padding: 1.125rem;
+      padding: 0.625rem;
     }
 
     .project-prose .text-flow__steps {
@@ -960,7 +930,7 @@ const projectNavItems = tableOfContents.map(({ slug, text }) => ({
 
     .project-prose .text-flow__steps li:not(:last-child)::after {
       top: 50%;
-      right: -1.15rem;
+      right: -0.9rem;
       bottom: auto;
       left: auto;
       transform: translateY(-50%);
