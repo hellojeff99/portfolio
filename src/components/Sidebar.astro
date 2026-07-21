@@ -14,6 +14,9 @@ const sidebarItems = navItems;
   id="desktop-sidebar"
   data-desktop-sidebar
   aria-label="페이지 목차"
+  aria-hidden="true"
+  inert
+  style="opacity: 0; pointer-events: none; transform: translateX(-0.75rem);"
 >
   <div class="flex h-full flex-col overflow-y-auto pb-6 pr-2 pt-6">
     <slot name="header" />
