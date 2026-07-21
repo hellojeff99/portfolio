@@ -21,10 +21,12 @@ const optionalUrl = z.preprocess(
 const projectFields = {
   title: z.string(),
   subtitle: z.string().optional(),
+  info: z.string(),
   meta: z.string().optional(),
   period: z.string(),
   github: optionalUrl,
-  tasks: z.array(task).min(1),
+  contributions: z.array(task).min(1),
+  highlights: z.array(task).min(1),
   stack: z.array(z.string()).optional(),
 };
 

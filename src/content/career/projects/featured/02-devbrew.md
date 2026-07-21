@@ -1,14 +1,29 @@
 ---
 kind: pinned
 title: DevBrew
-subtitle: 멘토-멘티 기반 커피챗 + 실시간 1:1 채팅 플랫폼 (End-to-End 예약 및 대화 시스템)
+subtitle: 멘토 탐색과 커피챗 예약부터 승인 후 1:1 실시간 채팅까지 연결한 개발자 멘토링 플랫폼
+info: ""
 period: 2026.05.14 ~ 2026.05.24
 github: https://github.com/hellojeff99/devbrew
-tasks:
-  - Prisma ORM을 활용해 User, CoffeeChat, ChatRoom, Message 관계를 설계하고 예약-채팅 전환 흐름 구현
-  - JWT 기반 인증/인가와 NestJS Guard를 적용하여 역할별 접근 제어 구현
-  - Socket.IO 기반 실시간 채팅을 구현하고 DB 저장 이후 브로드캐스트 구조를 적용하여 메시지 유실 방지
-  - 멘토 탐색 → 슬롯 예약 → 승인 → 채팅 생성까지 상태 기반 비즈니스 플로우 설계
+contributions:
+- Next.js·NestJS 기반 멘토 탐색–예약–승인–1:1 채팅 풀스택 서비스 설계 및 구현
+- Prisma 트랜잭션과 고유 제약을 통한 슬롯 점유·예약 데이터 일관성 확보 및 중복 예약 방지
+- 커피챗 승인 연계 채팅방 자동 생성 및 JWT 기반 Socket.IO 실시간 채팅 구현
+- 메시지 선저장 후 룸 단위 브로드캐스트를 통한 실시간 데이터와 대화 기록의 일관성 확보
+- Vercel·Railway·Neon 분리 배포 및 CORS·Socket.IO transport 설정을 통한 프록시 환경 연결 안정화
+highlights:
+- title: 중복 예약 방지 및 예약 일관성 확보
+  subtasks:
+    - Prisma 트랜잭션·고유 제약 기반 1슬롯–1커피챗 관계 보장 및 거절 슬롯 자동 복구
+- title: 예약부터 채팅까지 연결된 사용자 흐름 구축
+  subtasks:
+    - 커피챗 상태 관리와 승인 연계 채팅방 생성을 통한 예약–채팅 통합 흐름 구현
+- title: 실시간성과 영속성을 결합한 채팅 구조 구현
+  subtasks:
+    - JWT·룸 권한 검증과 메시지 선저장 후 브로드캐스트를 통한 안전한 실시간 채팅 구현
+- title: 분리 배포 환경의 소켓 연결 안정화
+  subtasks:
+    - 환경별 CORS와 polling–WebSocket 전환 적용을 통한 Railway 프록시 환경 연결 문제 해결
 stack:
   - Next.js
   - NestJS

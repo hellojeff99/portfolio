@@ -1,13 +1,24 @@
 ---
 title: TicketLab
-subtitle: 티켓 예매의 중복 예약을 제거하고, 좌석 조회 p95를 51% 단축한 성능 개선 프로젝트
-
+subtitle: 동시성 제어와 캐시 최적화를 통해 중복 예약을 제거하고 고동시성 조회 성능을 개선한 티켓 예매 시스템
+info: ""
 period: 2026.06.19 ~ 2026.06.26
 github: https://github.com/hellojeff99/ticketlab
-tasks:
-  - Optimistic Lock, Pessimistic Lock을 비교 적용하여 동시 예약 시 데이터 정합성 검증
-  - Indexing과 Redis Cache를 적용해 좌석 조회 성능 최적화 및 캐시 무효화 구현
-  - k6 부하 테스트를 통해 동시성 환경에서 예약 정합성과 조회 성능을 측정·분석
+contributions:
+  - 동시성 테스트를 통한 동일 좌석 중복 예약 9건 재현 및 Pessimistic Locking 적용을 통한 중복 예약 0건 달성
+  - 1,000 VU 환경에서 Optimistic Locking 대비 평균 응답 시간 32.3%, p95 22.9% 단축
+  - Redis Cache-Aside, 트랜잭션 커밋 후 캐시 무효화 및 DB Fallback 구현을 통한 평균 응답 시간 37.4%, p95 51.0% 단축
+  - k6·EXPLAIN ANALYZE 기반 Baseline/Indexing/Redis 성능 비교 및 End-to-End 측정 결과에 따른 최적화 전략 선정
+highlights:
+- title: 동일 좌석 중복 예약 9건 → 0건
+  subtasks:
+    - 100개 동시 요청 재현 · Lock 전략 비교 · PESSIMISTIC_WRITE 기반 예약 직렬화
+- title: 좌석 조회 p95 51.0% 단축
+  subtasks:
+    - Redis Cache-Aside · 커밋 후 캐시 무효화 · Redis 장애 시 DB Fallback
+- title: 측정 기반 최적화 전략 선정
+  subtasks:
+    - k6 100/500/1,000 VU 비교 · EXPLAIN ANALYZE 분석 · End-to-End 성능 기반 Redis 선정
 stack:
   - Java
   - Spring Boot
