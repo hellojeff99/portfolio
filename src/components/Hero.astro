@@ -216,14 +216,14 @@ const { role, email, location } = Astro.props;
   .hero-section-background::before {
     z-index: -2;
     inset-block: 0;
-    background: #1d4ed8;
+    background: var(--color-blue-600);
   }
 
   .hero-section-background::after {
     z-index: -1;
     bottom: 0;
     height: 27rem;
-    background: linear-gradient(to bottom, #1d4ed8, #f8fafc);
+    background: linear-gradient(to bottom, var(--color-blue-600), #f8fafc);
   }
 
   @media (min-width: 48rem) {

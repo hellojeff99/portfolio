@@ -42,7 +42,7 @@ const brandLabel =
     : `${brandName}.dev — ${name} 포트폴리오 홈으로 이동`;
 
 const primaryLinkClass =
-  "inline-flex min-h-9 items-center gap-1.5 rounded-lg px-3 font-mono text-sm font-bold transition duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-700";
+  "inline-flex min-h-9 items-center gap-1.5 rounded-lg px-3 font-mono text-sm font-bold transition duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600";
 const activePrimaryLinkClass =
   "bg-white text-blue-700 shadow-lg shadow-blue-950/15 hover:bg-blue-50";
 const inactivePrimaryLinkClass =
@@ -53,7 +53,7 @@ const mobilePrimaryLinkClass =
 
 <header
   class:list={[
-    "fixed inset-x-0 top-0 z-50 isolate h-16 bg-blue-700",
+    "fixed inset-x-0 top-0 z-50 isolate h-16 bg-blue-600",
     { "print:hidden": printHidden },
   ]}
   data-site-header
@@ -66,7 +66,7 @@ const mobilePrimaryLinkClass =
       {
         backHref && (
           <a
-            class="inline-grid size-9 shrink-0 place-items-center rounded-lg border border-white/50 bg-white text-blue-700 shadow-sm transition duration-150 hover:-translate-x-0.5 hover:border-white/30 hover:bg-black/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-700 motion-reduce:transform-none"
+            class="inline-grid size-9 shrink-0 place-items-center rounded-lg border border-white/50 bg-white text-blue-700 shadow-sm transition duration-150 hover:-translate-x-0.5 hover:border-white/30 hover:bg-black/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600 motion-reduce:transform-none"
             href={backHref}
             aria-label={backLabel}
             title={backLabel}
@@ -78,7 +78,7 @@ const mobilePrimaryLinkClass =
       {
         showMenu && (
           <button
-            class="inline-grid size-10 shrink-0 cursor-pointer place-items-center rounded-lg border border-transparent bg-transparent text-white/85 transition duration-150 hover:border-white/30 hover:bg-white/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-700"
+            class="inline-grid size-10 shrink-0 cursor-pointer place-items-center rounded-lg border border-transparent bg-transparent text-white/85 transition duration-150 hover:border-white/30 hover:bg-white/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600"
             type="button"
             data-menu-toggle
             aria-label="메뉴 열기"
@@ -91,7 +91,7 @@ const mobilePrimaryLinkClass =
         )
       }
       <a
-        class="group ml-0.5 inline-flex min-h-10 min-w-0 items-center rounded-lg font-mono font-bold tracking-tight text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-700"
+        class="group ml-0.5 inline-flex min-h-10 min-w-0 items-center rounded-lg font-mono font-bold tracking-tight text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600"
         href={brandHref}
         aria-label={brandLabel}
       >
