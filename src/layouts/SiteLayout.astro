@@ -1,0 +1,162 @@
+---
+import Header from "../components/site/Header.astro";
+import Sidebar from "../components/site/Sidebar.astro";
+import type { NavItem } from "../data/navigation";
+import "../styles/global.css";
+
+interface Props {
+  variant?: "navigation" | "detail";
+  title: string;
+  description: string;
+  socialDescription?: string;
+  themeColor?: string;
+  ogType?: "website" | "profile" | "article";
+  ogImage?: string;
+  ogImageAlt?: string;
+  htmlClass?: string;
+  htmlDataTheme?: string;
+  bodyClass?: string;
+  bodyId?: string;
+  name: string;
+  githubUrl: string;
+  navItems?: NavItem[];
+  sidebarTitle?: string;
+  initialSidebarOpen?: boolean;
+  activeSectionRatio?: number;
+  activeSectionFallback?: "first" | "none";
+  headerPrintHidden?: boolean;
+  layoutClass?: string;
+  backHref?: string;
+  backLabel?: string;
+}
+
+const {
+  variant = "navigation",
+  title,
+  description,
+  socialDescription = description,
+  themeColor = "#f7f9fc",
+  ogType = "website",
+  ogImage = "/og.png",
+  ogImageAlt = title,
+  htmlClass,
+  htmlDataTheme,
+  bodyClass,
+  bodyId = "top",
+  name,
+  githubUrl,
+  navItems = [],
+  sidebarTitle = "",
+  initialSidebarOpen = false,
+  activeSectionRatio = 0.34,
+  activeSectionFallback = "none",
+  headerPrintHidden = false,
+  layoutClass,
+  backHref,
+  backLabel,
+} = Astro.props;
+
+const hasNavigation = variant === "navigation";
+const hasMobileFooter = Astro.slots.has("mobile-footer");
+const hasSidebarFooter = Astro.slots.has("sidebar-footer");
+---
+
+<!doctype html>
+<html lang="ko" class={htmlClass} data-theme={htmlDataTheme}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={themeColor} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={socialDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={socialDescription} />
+    <meta name="twitter:image" content={ogImage} />
+    <slot name="head" />
+    <title>{title}</title>
+  </head>
+  <body id={bodyId} class={bodyClass}>
+    {
+      hasNavigation ? (
+        <div
+          data-page-navigation
+          data-initial-sidebar-open={String(initialSidebarOpen)}
+          data-active-section-ratio={String(activeSectionRatio)}
+          data-active-section-fallback={activeSectionFallback}
+        >
+          <Header
+            name={name}
+            githubUrl={githubUrl}
+            navItems={navItems}
+            printHidden={headerPrintHidden}
+          >
+            {hasMobileFooter && (
+              <Fragment slot="mobile-footer">
+                <slot name="mobile-footer" />
+              </Fragment>
+            )}
+          </Header>
+
+          <div
+            class:list={[
+              "block w-full px-4 md:grid md:grid-cols-[12rem_minmax(0,1fr)] md:px-6",
+              layoutClass,
+            ]}
+            data-content-layout
+            data-sidebar-open={String(initialSidebarOpen)}
+            style={
+              initialSidebarOpen
+                ? undefined
+                : "grid-template-columns: 0rem minmax(0, 1fr); column-gap: 0rem;"
+            }
+          >
+            <Sidebar navItems={navItems}>
+              <div
+                slot="header"
+                class="mb-5 border-b border-slate-200 px-1 pb-4"
+              >
+                <p class="m-0 text-xs font-bold text-slate-900">
+                  {sidebarTitle}
+                </p>
+              </div>
+              {hasSidebarFooter && (
+                <Fragment slot="footer">
+                  <slot name="sidebar-footer" />
+                </Fragment>
+              )}
+            </Sidebar>
+
+            <slot />
+          </div>
+        </div>
+      ) : (
+        <>
+          <Header
+            name={name}
+            githubUrl={githubUrl}
+            navItems={[]}
+            showMenu={false}
+            backHref={backHref}
+            backLabel={backLabel}
+          />
+          <slot />
+        </>
+      )
+    }
+
+    <script>
+      import { initializePageNavigation } from "../scripts/page-navigation";
+
+      document
+        .querySelectorAll<HTMLElement>("[data-page-navigation]")
+        .forEach(initializePageNavigation);
+    </script>
+  </body>
+</html>
