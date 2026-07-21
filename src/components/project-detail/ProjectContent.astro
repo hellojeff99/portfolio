@@ -1,0 +1,27 @@
+---
+interface Props {
+  textFlowDefinitions: string[];
+}
+
+const { textFlowDefinitions } = Astro.props;
+---
+
+<div
+  class="project-prose min-w-0 px-5 py-9 sm:px-9 sm:py-12 lg:px-12"
+  data-project-content
+  data-text-flow-definitions={JSON.stringify(textFlowDefinitions)}
+>
+  <slot />
+</div>
+
+<script>
+  import { initializeProjectMermaid } from "../../scripts/project-detail/mermaid";
+  import { initializeProjectTextFlows } from "../../scripts/project-detail/text-flow";
+
+  document
+    .querySelectorAll<HTMLElement>("[data-project-content]")
+    .forEach((projectContent) => {
+      initializeProjectTextFlows(projectContent);
+      initializeProjectMermaid(projectContent);
+    });
+</script>
