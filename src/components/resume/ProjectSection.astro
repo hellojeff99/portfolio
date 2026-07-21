@@ -1,0 +1,87 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  id: "work" | "projects" | "experience";
+  title: string;
+  projects: CollectionEntry<"projects">[];
+  compact?: boolean;
+  subtitleBeforeTitle?: boolean;
+}
+
+const {
+  id,
+  title,
+  projects,
+  compact = false,
+  subtitleBeforeTitle = false,
+} = Astro.props;
+const titleId = `${id}-title`;
+---
+
+<section
+  class="resume-flow-section scroll-mt-24 border-t border-slate-200 py-6"
+  {id}
+  data-nav-section
+  aria-labelledby={titleId}
+>
+  <h2
+    class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
+    id={titleId}
+  >
+    {title}
+  </h2>
+  <div class:list={["grid", compact ? "gap-4" : "gap-6"]}>
+    {
+      projects.map(({ data }) => (
+        <article class="print:break-inside-avoid">
+          {subtitleBeforeTitle && data.subtitle && (
+            <p class="mb-1 text-xs text-slate-600">{data.subtitle}</p>
+          )}
+          <div class="grid gap-1 sm:flex sm:items-baseline sm:justify-between sm:gap-7">
+            <h3 class="m-0 text-sm font-bold tracking-tight text-slate-900">
+              {data.title}
+            </h3>
+            <time class="shrink-0 whitespace-nowrap text-xs text-slate-400">
+              {data.period}
+            </time>
+          </div>
+          {!subtitleBeforeTitle && data.subtitle && (
+            <p class="mt-1 text-xs leading-relaxed text-slate-400">
+              {data.subtitle}
+            </p>
+          )}
+          {data.meta && (
+            <p class="mt-1 text-xs leading-relaxed text-slate-400">
+              {data.meta}
+            </p>
+          )}
+          <ul class="mt-2 grid list-disc gap-1 pl-4">
+            {data.contributions.map((task) => (
+              <li class="text-xs leading-relaxed text-slate-600 marker:text-slate-400">
+                {typeof task === "string" ? (
+                  task
+                ) : (
+                  <div>
+                    <strong class="font-semibold text-slate-800">
+                      {task.title}
+                    </strong>
+                    {task.subtasks && (
+                      <ul class="mt-1 grid list-disc gap-1 pl-4">
+                        {task.subtasks.map((subtask) => (
+                          <li class="text-xs leading-relaxed text-slate-500 marker:text-slate-300">
+                            {subtask}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>

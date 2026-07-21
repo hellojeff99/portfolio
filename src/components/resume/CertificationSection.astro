@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  certifications: CollectionEntry<"certifications">["data"]["certifications"];
+}
+
+const { certifications } = Astro.props;
+---
+
+<section
+  class="scroll-mt-24 border-t border-slate-200 py-6 print:break-inside-avoid"
+  id="certifications"
+  data-nav-section
+  aria-labelledby="certifications-title"
+>
+  <h2
+    class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
+    id="certifications-title"
+  >
+    Certifications
+  </h2>
+  <div class="grid gap-2.5">
+    {
+      certifications.map((certification) => (
+        <article class="grid gap-1 sm:flex sm:items-baseline sm:justify-between sm:gap-7">
+          <h3 class="m-0 text-xs font-bold tracking-tight text-slate-900">
+            {certification.name}
+          </h3>
+          <p class="m-0 flex gap-1 text-xs text-slate-400">
+            <time datetime={certification.date.replace(".", "-")}>
+              {certification.date}
+            </time>
+            <span aria-hidden="true">·</span>
+            <span>{certification.issuer}</span>
+          </p>
+        </article>
+      ))
+    }
+  </div>
+</section>

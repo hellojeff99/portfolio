@@ -1,22 +1,17 @@
 ---
-import {
-  ArrowLeft,
-  GitFork,
-  Mail,
-  MapPin,
-  Phone,
-  Printer,
-} from "@lucide/astro";
+import { ArrowLeft, Printer } from "@lucide/astro";
 import { getCollection, getEntry } from "astro:content";
-import Header from "../components/Header.astro";
-import Sidebar from "../components/Sidebar.astro";
-import SkillItem from "../components/SkillItem.astro";
+import CertificationSection from "../components/resume/CertificationSection.astro";
+import EducationSection from "../components/resume/EducationSection.astro";
+import ProjectSection from "../components/resume/ProjectSection.astro";
+import ResumeProfile from "../components/resume/ResumeProfile.astro";
+import SkillsSection from "../components/resume/SkillsSection.astro";
 import {
   compareProjectIds,
   getProjectCategory,
 } from "../content/collections/projects";
-import type { NavItem } from "../data/portfolio";
-import "../styles/global.css";
+import { resumeNavItems } from "../data/navigation";
+import SiteLayout from "../layouts/SiteLayout.astro";
 
 const profileEntry = await getEntry("profile", "profile");
 const skillEntry = await getEntry("skills", "skills");
@@ -53,704 +48,145 @@ const selectedProjects = projectEntries
 const activities = projectEntries.filter(
   ({ id }) => getProjectCategory(id) === "experience",
 );
-const githubLabel = profile.github.replace(/^https?:\/\//, "");
-const resumeNavItems: NavItem[] = [
-  { label: "Profile", href: "#profile" },
-  { label: "Education", href: "#education" },
-  { label: "Certifications", href: "#certifications" },
-  { label: "Skills", href: "#skills" },
-  { label: "Work", href: "#work" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
-];
 ---
 
-<!doctype html>
-<html
-  lang="ko"
-  data-theme="light"
-  class="scroll-smooth bg-white motion-reduce:scroll-auto"
+<SiteLayout
+  title={`${profile.name} — Resume`}
+  description={`${profile.name} ${profile.role} 이력서. ${bioParagraphs[0]}`}
+  socialDescription={bioParagraphs[0]}
+  themeColor="#ffffff"
+  ogType="profile"
+  ogImageAlt={`${profile.name} — ${profile.role}`}
+  htmlClass="scroll-smooth bg-white motion-reduce:scroll-auto"
+  htmlDataTheme="light"
+  bodyClass="m-0 bg-white pt-16 font-sans text-slate-900 antialiased selection:bg-blue-600 selection:text-white print:bg-white print:pt-0"
+  name={profile.name}
+  githubUrl={profile.github}
+  navItems={resumeNavItems}
+  sidebarTitle="Resume"
+  initialSidebarOpen
+  activeSectionRatio={0.3}
+  activeSectionFallback="first"
+  headerPrintHidden
+  layoutClass="md:gap-4 print:block print:p-0"
 >
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <meta
-      name="description"
-      content={`${profile.name} ${profile.role} 이력서. ${bioParagraphs[0]}`}
-    />
-    <meta name="theme-color" content="#ffffff" />
-    <meta property="og:title" content={`${profile.name} — Resume`} />
-    <meta property="og:description" content={bioParagraphs[0]} />
-    <meta property="og:type" content="profile" />
-    <meta property="og:image" content="/og.png" />
-    <meta
-      property="og:image:alt"
-      content={`${profile.name} — ${profile.role}`}
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${profile.name} — Resume`} />
-    <meta name="twitter:description" content={bioParagraphs[0]} />
-    <meta name="twitter:image" content="/og.png" />
-    <title>{profile.name} — Resume</title>
-  </head>
-  <body
-    id="top"
-    class="m-0 bg-white pt-16 font-sans text-slate-900 antialiased selection:bg-blue-600 selection:text-white print:bg-white print:pt-0"
+  <div slot="mobile-footer" class="mt-6 border-t border-slate-200 pt-5">
+    <button
+      class="inline-flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-blue-600 bg-blue-600 px-4 text-sm font-bold text-white shadow-sm transition-colors hover:border-blue-700 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+      type="button"
+      aria-label="PDF로 저장"
+      data-print-resume
+    >
+      <Printer size={16} stroke-width={1.8} aria-hidden="true" />
+      <span>PDF 저장</span>
+    </button>
+  </div>
+  <div
+    slot="sidebar-footer"
+    class="mt-auto grid gap-2 border-t border-slate-200 px-1 pt-4"
   >
-    <Header
-      name={profile.name}
-      githubUrl={profile.github}
-      navItems={resumeNavItems}
-      printHidden
+    <a
+      class="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+      href="/"
     >
-      <div slot="mobile-footer" class="mt-6 border-t border-slate-200 pt-5">
-        <button
-          class="inline-flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-blue-600 bg-blue-600 px-4 text-sm font-bold text-white shadow-sm transition-colors hover:border-blue-700 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
-          type="button"
-          aria-label="PDF로 저장"
-          data-print-resume
-        >
-          <Printer size={16} stroke-width={1.8} aria-hidden="true" />
-          <span>PDF 저장</span>
-        </button>
-      </div>
-    </Header>
-
-    <div
-      class="block w-full px-4 md:grid md:grid-cols-[12rem_minmax(0,1fr)] md:gap-4 md:px-6 print:block print:p-0"
-      data-content-layout
-      data-sidebar-open="true"
+      <ArrowLeft size={15} stroke-width={1.8} aria-hidden="true" />
+      <span>포트폴리오</span>
+    </a>
+    <button
+      class="inline-flex min-h-10 cursor-pointer items-center justify-center gap-2 rounded-md border border-blue-600 bg-blue-600 px-3 text-xs font-bold text-white shadow-sm transition-colors hover:border-blue-700 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+      type="button"
+      aria-label="PDF로 저장"
+      data-print-resume
     >
-      <Sidebar navItems={resumeNavItems}>
-        <div slot="header" class="mb-5 border-b border-slate-200 px-1 pb-4">
-          <p class="m-0 text-xs font-bold text-slate-900">Resume</p>
-        </div>
-        <div
-          slot="footer"
-          class="mt-auto grid gap-2 border-t border-slate-200 px-1 pt-4"
-        >
-          <a
-            class="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
-            href="/"
-          >
-            <ArrowLeft size={15} stroke-width={1.8} aria-hidden="true" />
-            <span>포트폴리오</span>
-          </a>
-          <button
-            class="inline-flex min-h-10 cursor-pointer items-center justify-center gap-2 rounded-md border border-blue-600 bg-blue-600 px-3 text-xs font-bold text-white shadow-sm transition-colors hover:border-blue-700 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
-            type="button"
-            aria-label="PDF로 저장"
-            data-print-resume
-          >
-            <Printer size={15} stroke-width={1.8} aria-hidden="true" />
-            <span>PDF 저장</span>
-          </button>
-        </div>
-      </Sidebar>
+      <Printer size={15} stroke-width={1.8} aria-hidden="true" />
+      <span>PDF 저장</span>
+    </button>
+  </div>
 
-      <main
-        class="mx-auto min-w-0 w-full max-w-4xl pt-2 pb-8 sm:pt-3 sm:pb-14 print:m-0 print:w-auto print:p-0"
-        id="resume-content"
-      >
-        <article
-          class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8 print:rounded-none print:border-0 print:bg-transparent print:p-0 print:shadow-none"
-        >
-          <header
-            class="resume-profile-header grid scroll-mt-24 grid-cols-[minmax(5.5rem,0.8fr)_minmax(0,2fr)] items-start gap-4 pb-8 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-8 print:break-inside-avoid"
-            id="profile"
-            data-nav-section
-          >
-            <figure
-              class="resume-profile-photo m-0 h-40 w-full max-w-40 overflow-hidden rounded border border-slate-200 sm:h-48 sm:w-40"
-            >
-              <img
-                src={profile.photo}
-                alt={`${profile.name} 프로필 사진`}
-                width="166"
-                height="202"
-                class="block size-full object-cover object-top"
-              />
-            </figure>
+  <main
+    class="mx-auto min-w-0 w-full max-w-4xl pt-2 pb-8 sm:pt-3 sm:pb-14 print:m-0 print:w-auto print:p-0"
+    id="resume-content"
+  >
+    <article
+      class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8 print:rounded-none print:border-0 print:bg-transparent print:p-0 print:shadow-none"
+    >
+      <ResumeProfile profile={profile} />
+      <EducationSection educations={educations} />
+      <CertificationSection certifications={certifications} />
+      <SkillsSection skills={skills} />
+      <ProjectSection
+        id="work"
+        title="Work"
+        projects={workProjects}
+        compact
+        subtitleBeforeTitle
+      />
+      <ProjectSection
+        id="projects"
+        title="Projects"
+        projects={selectedProjects}
+      />
+      <ProjectSection
+        id="experience"
+        title="Experience"
+        projects={activities}
+      />
+    </article>
+  </main>
 
-            <div class="resume-profile-details min-w-0 pt-2 print:pl-0">
-              <div class="flex flex-wrap items-baseline gap-3.5">
-                <h1
-                  class="m-0 text-4xl font-bold leading-tight tracking-tighter text-slate-900"
-                >
-                  {profile.name}
-                </h1>
-                <p class="m-0 text-lg font-semibold text-slate-400">
-                  {profile.role}
-                </p>
-              </div>
-              <div
-                class="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-600"
-              >
-                <a
-                  class="inline-flex items-center gap-1"
-                  href={`mailto:${profile.email}`}
-                >
-                  <Mail class="hidden" size={14} stroke-width={1.8} />
-                  <span>{profile.email}</span>
-                </a>
-                <span aria-hidden="true">·</span>
-                <span class="inline-flex items-center gap-1">
-                  <Phone class="hidden" size={14} stroke-width={1.8} />
-                  <span>{profile.phone}</span>
-                </span>
-                <span aria-hidden="true">·</span>
-                <span class="inline-flex items-center gap-1">
-                  <MapPin class="hidden" size={14} stroke-width={1.8} />
-                  <span>{profile.location}</span>
-                </span>
-              </div>
-              <div class="mt-2 grid gap-1">
-                <a
-                  class="flex min-w-0 items-baseline gap-1 text-xs leading-normal text-slate-600"
-                  href={profile.github}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <GitFork class="hidden" size={14} stroke-width={1.8} />
-                  <strong>GitHub:</strong>
-                  <span>{githubLabel}</span>
-                </a>
-              </div>
-              <div class="mt-5 grid gap-1.5">
-                {
-                  bioParagraphs.map((paragraph) => (
-                    <p class="m-0 text-xs leading-relaxed text-slate-600">
-                      {paragraph}
-                    </p>
-                  ))
-                }
-              </div>
-            </div>
-          </header>
-
-          <section
-            class="scroll-mt-24 border-t border-slate-200 py-6 print:break-inside-avoid"
-            id="education"
-            data-nav-section
-            aria-labelledby="education-title"
-          >
-            <h2
-              class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
-              id="education-title"
-            >
-              Education
-            </h2>
-            <div class="grid gap-4">
-              {
-                educations.map((education) => (
-                  <article class="grid gap-2 sm:flex sm:items-baseline sm:justify-between sm:gap-7 print:break-inside-avoid">
-                    <div>
-                      <h3 class="m-0 text-sm font-bold tracking-tight text-slate-900">
-                        {education.school}
-                      </h3>
-                      {education.major && (
-                        <p class="mt-1 text-xs leading-normal text-slate-600">
-                          {education.major}
-                        </p>
-                      )}
-                      {education.sub && (
-                        <p class="mt-1 text-xs leading-normal text-slate-600">
-                          {education.sub}
-                        </p>
-                      )}
-                      {education.gpa && (
-                        <p class="mt-1 text-xs leading-normal text-slate-600">
-                          GPA {education.gpa}
-                        </p>
-                      )}
-                    </div>
-                    <time class="shrink-0 whitespace-nowrap text-xs text-slate-400">
-                      {education.period}
-                    </time>
-                  </article>
-                ))
-              }
-            </div>
-          </section>
-
-          <section
-            class="scroll-mt-24 border-t border-slate-200 py-6 print:break-inside-avoid"
-            id="certifications"
-            data-nav-section
-            aria-labelledby="certifications-title"
-          >
-            <h2
-              class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
-              id="certifications-title"
-            >
-              Certifications
-            </h2>
-            <div class="grid gap-2.5">
-              {
-                certifications.map((certification) => (
-                  <article class="grid gap-1 sm:flex sm:items-baseline sm:justify-between sm:gap-7">
-                    <h3 class="m-0 text-xs font-bold tracking-tight text-slate-900">
-                      {certification.name}
-                    </h3>
-                    <p class="m-0 flex gap-1 text-xs text-slate-400">
-                      <time datetime={certification.date.replace(".", "-")}>
-                        {certification.date}
-                      </time>
-                      <span aria-hidden="true">·</span>
-                      <span>{certification.issuer}</span>
-                    </p>
-                  </article>
-                ))
-              }
-            </div>
-          </section>
-
-          <section
-            class="scroll-mt-24 border-t border-slate-200 py-6 print:break-inside-avoid"
-            id="skills"
-            data-nav-section
-            aria-labelledby="skills-title"
-          >
-            <h2
-              class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
-              id="skills-title"
-            >
-              Skills
-            </h2>
-            <div class="grid gap-2">
-              {
-                skills.map((group) => (
-                  <article class="grid grid-cols-[7rem_minmax(0,1fr)] items-start gap-3">
-                    <h3 class="m-0 flex min-h-8 items-center text-left text-xs font-bold uppercase text-slate-900">
-                      {group.category}
-                    </h3>
-                    <ul
-                      class="m-0 flex list-none flex-wrap gap-1.5 p-0"
-                      aria-label={`${group.category} 기술`}
-                    >
-                      {group.items.map((item) => (
-                        <SkillItem name={item} />
-                      ))}
-                    </ul>
-                  </article>
-                ))
-              }
-            </div>
-          </section>
-
-          <section
-            class="resume-flow-section scroll-mt-24 border-t border-slate-200 py-6"
-            id="work"
-            data-nav-section
-            aria-labelledby="work-title"
-          >
-            <h2
-              class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
-              id="work-title"
-            >
-              Work
-            </h2>
-            <div class="grid gap-4">
-              {
-                workProjects.map(({ data }) => (
-                  <article class="print:break-inside-avoid">
-                    {data.subtitle && (
-                      <p class="mb-1 text-xs text-slate-600">{data.subtitle}</p>
-                    )}
-                    <div class="grid gap-1 sm:flex sm:items-baseline sm:justify-between sm:gap-7">
-                      <h3 class="m-0 text-sm font-bold tracking-tight text-slate-900">
-                        {data.title}
-                      </h3>
-                      <time class="shrink-0 whitespace-nowrap text-xs text-slate-400">
-                        {data.period}
-                      </time>
-                    </div>
-                    {data.meta && (
-                      <p class="mt-1 text-xs leading-relaxed text-slate-400">
-                        {data.meta}
-                      </p>
-                    )}
-                    <ul class="mt-2 grid list-disc gap-1 pl-4">
-                      {data.contributions.map((task) => (
-                        <li class="text-xs leading-relaxed text-slate-600 marker:text-slate-400">
-                          {typeof task === "string" ? (
-                            task
-                          ) : (
-                            <div>
-                              <strong class="font-semibold text-slate-800">
-                                {task.title}
-                              </strong>
-                              {task.subtasks && (
-                                <ul class="mt-1 grid list-disc gap-1 pl-4">
-                                  {task.subtasks.map((subtask) => (
-                                    <li class="text-xs leading-relaxed text-slate-500 marker:text-slate-300">
-                                      {subtask}
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-                            </div>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </article>
-                ))
-              }
-            </div>
-          </section>
-          <section
-            class="resume-flow-section scroll-mt-24 border-t border-slate-200 py-6"
-            id="projects"
-            data-nav-section
-            aria-labelledby="projects-title"
-          >
-            <h2
-              class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
-              id="projects-title"
-            >
-              Projects
-            </h2>
-            <div class="grid gap-6">
-              {
-                selectedProjects.map(({ data }) => (
-                  <article class="print:break-inside-avoid">
-                    <div class="grid gap-1 sm:flex sm:items-baseline sm:justify-between sm:gap-7">
-                      <h3 class="m-0 text-sm font-bold tracking-tight text-slate-900">
-                        {data.title}
-                      </h3>
-                      <time class="shrink-0 whitespace-nowrap text-xs text-slate-400">
-                        {data.period}
-                      </time>
-                    </div>
-                    {data.subtitle && (
-                      <p class="mt-1 text-xs leading-relaxed text-slate-400">
-                        {data.subtitle}
-                      </p>
-                    )}
-                    <ul class="mt-2 grid list-disc gap-1 pl-4">
-                      {data.contributions.map((task) => (
-                        <li class="text-xs leading-relaxed text-slate-600 marker:text-slate-400">
-                          {typeof task === "string" ? (
-                            task
-                          ) : (
-                            <div>
-                              <strong class="font-semibold text-slate-800">
-                                {task.title}
-                              </strong>
-                              {task.subtasks && (
-                                <ul class="mt-1 grid list-disc gap-1 pl-4">
-                                  {task.subtasks.map((subtask) => (
-                                    <li class="text-xs leading-relaxed text-slate-500 marker:text-slate-300">
-                                      {subtask}
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-                            </div>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </article>
-                ))
-              }
-            </div>
-          </section>
-
-          <section
-            class="resume-flow-section scroll-mt-24 border-t border-slate-200 py-6"
-            id="experience"
-            data-nav-section
-            aria-labelledby="experience-title"
-          >
-            <h2
-              class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
-              id="experience-title"
-            >
-              Experience
-            </h2>
-            <div class="grid gap-6">
-              {
-                activities.map(({ data }) => (
-                  <article class="print:break-inside-avoid">
-                    <div class="grid gap-1 sm:flex sm:items-baseline sm:justify-between sm:gap-7">
-                      <h3 class="m-0 text-sm font-bold tracking-tight text-slate-900">
-                        {data.title}
-                      </h3>
-                      <time class="shrink-0 whitespace-nowrap text-xs text-slate-400">
-                        {data.period}
-                      </time>
-                    </div>
-                    {data.subtitle && (
-                      <p class="mt-1 text-xs leading-relaxed text-slate-400">
-                        {data.subtitle}
-                      </p>
-                    )}
-                    <ul class="mt-2 grid list-disc gap-1 pl-4">
-                      {data.contributions.map((task) => (
-                        <li class="text-xs leading-relaxed text-slate-600 marker:text-slate-400">
-                          {typeof task === "string" ? (
-                            task
-                          ) : (
-                            <div>
-                              <strong class="font-semibold text-slate-800">
-                                {task.title}
-                              </strong>
-                              {task.subtasks && (
-                                <ul class="mt-1 grid list-disc gap-1 pl-4">
-                                  {task.subtasks.map((subtask) => (
-                                    <li class="text-xs leading-relaxed text-slate-500 marker:text-slate-300">
-                                      {subtask}
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-                            </div>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </article>
-                ))
-              }
-            </div>
-          </section>
-        </article>
-      </main>
-    </div>
-
-    <script>
-      document
-        .querySelectorAll<HTMLButtonElement>("[data-print-resume]")
-        .forEach((button) =>
-          button.addEventListener("click", () => window.print()),
-        );
-
-      const header = document.querySelector<HTMLElement>("[data-site-header]");
-      const menu = document.querySelector<HTMLElement>("[data-mobile-menu]");
-      const menuToggle =
-        document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
-      const backdrop = document.querySelector<HTMLElement>(
-        "[data-menu-backdrop]",
+  <script>
+    document
+      .querySelectorAll<HTMLButtonElement>("[data-print-resume]")
+      .forEach((button) =>
+        button.addEventListener("click", () => window.print()),
       );
-      const menuIcon = document.querySelector<SVGElement>("[data-menu-icon]");
-      const closeIcon = document.querySelector<SVGElement>("[data-close-icon]");
-      const desktopSidebar = document.querySelector<HTMLElement>(
-        "[data-desktop-sidebar]",
-      );
-      const contentLayout = document.querySelector<HTMLElement>(
-        "[data-content-layout]",
-      );
-      const desktopMedia = matchMedia("(min-width: 768px)");
-      let desktopSidebarOpen = true;
+  </script>
 
-      const updateMenuToggle = (open: boolean, label: string) => {
-        if (!menuToggle) return;
-        menuToggle.setAttribute("aria-expanded", String(open));
-        menuToggle.setAttribute("aria-label", label);
-        menuIcon?.classList.toggle("hidden", open);
-        closeIcon?.classList.toggle("hidden", !open);
-      };
+  <style is:global>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm;
+    }
 
-      const setMenuOpen = (open: boolean, updateToggle = true) => {
-        if (!header || !menu || !menuToggle) return;
-        header.dataset.menuOpen = String(open);
-        menu.setAttribute("aria-hidden", String(!open));
-        menu.classList.toggle("hidden", !open);
-        backdrop?.setAttribute("aria-hidden", String(!open));
-        backdrop?.classList.toggle("hidden", !open);
-        contentLayout?.toggleAttribute("inert", open);
-        if (open) contentLayout?.setAttribute("aria-hidden", "true");
-        else contentLayout?.removeAttribute("aria-hidden");
-        document.body.classList.toggle("overflow-hidden", open);
-        if (updateToggle) {
-          updateMenuToggle(open, open ? "메뉴 닫기" : "메뉴 열기");
-        }
-        if (open) {
-          requestAnimationFrame(() =>
-            menu
-              .querySelector<HTMLElement>("a[href], button:not([disabled])")
-              ?.focus(),
-          );
-        }
-      };
-
-      const getMenuFocusables = () => {
-        if (!menu || !menuToggle) return [];
-        return [
-          menuToggle,
-          ...menu.querySelectorAll<HTMLElement>(
-            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
-          ),
-        ].filter((element) => element.getClientRects().length > 0);
-      };
-
-      const setDesktopSidebarOpen = (open: boolean) => {
-        desktopSidebarOpen = open;
-        if (desktopSidebar) {
-          desktopSidebar.setAttribute("aria-hidden", String(!open));
-          desktopSidebar.toggleAttribute("inert", !open);
-          desktopSidebar.style.opacity = open ? "" : "0";
-          desktopSidebar.style.pointerEvents = open ? "" : "none";
-          desktopSidebar.style.transform = open ? "" : "translateX(-0.75rem)";
-        }
-        if (contentLayout) {
-          contentLayout.dataset.sidebarOpen = String(open);
-          contentLayout.style.gridTemplateColumns = open
-            ? ""
-            : "0rem minmax(0, 1fr)";
-          contentLayout.style.columnGap = open ? "" : "0rem";
-        }
-        updateMenuToggle(open, open ? "사이드바 닫기" : "사이드바 열기");
-      };
-
-      menuToggle?.addEventListener("click", () => {
-        if (desktopMedia.matches) {
-          setDesktopSidebarOpen(!desktopSidebarOpen);
-        } else {
-          const open = header?.dataset.menuOpen !== "true";
-          setMenuOpen(open);
-          if (!open) menuToggle.focus();
-        }
-      });
-      backdrop?.addEventListener("click", () => {
-        setMenuOpen(false);
-        menuToggle?.focus();
-      });
-      menu
-        ?.querySelectorAll("a")
-        .forEach((link) =>
-          link.addEventListener("click", () => setMenuOpen(false)),
-        );
-      document.addEventListener("keydown", (event) => {
-        if (desktopMedia.matches || header?.dataset.menuOpen !== "true") {
-          return;
-        }
-        if (event.key === "Escape") {
-          setMenuOpen(false);
-          menuToggle?.focus();
-          return;
-        }
-        if (event.key === "Tab") {
-          const focusables = getMenuFocusables();
-          if (focusables.length === 0) return;
-          const activeIndex = focusables.indexOf(
-            document.activeElement as HTMLElement,
-          );
-          const nextIndex = event.shiftKey
-            ? (activeIndex <= 0 ? focusables.length : activeIndex) - 1
-            : (activeIndex + 1) % focusables.length;
-          event.preventDefault();
-          focusables[nextIndex]?.focus();
-        }
-      });
-      desktopMedia.addEventListener("change", (event) => {
-        setMenuOpen(false, !event.matches);
-        if (event.matches) setDesktopSidebarOpen(desktopSidebarOpen);
-      });
-
-      if (desktopMedia.matches) setDesktopSidebarOpen(desktopSidebarOpen);
-      else setMenuOpen(false);
-
-      const sections = [
-        ...document.querySelectorAll<HTMLElement>("[data-nav-section]"),
-      ];
-      const navLinks = [
-        ...document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"),
-      ];
-      let ticking = false;
-
-      const updateActiveSection = () => {
-        const marker = window.scrollY + window.innerHeight * 0.3;
-        let activeId = sections[0]?.id ?? "";
-        for (const section of sections) {
-          if (section.offsetTop <= marker) activeId = section.id;
-        }
-        navLinks.forEach((link) => {
-          const isActive = link.hash === `#${activeId}`;
-          const inactiveColor = link.closest("[data-mobile-menu]")
-            ? "text-slate-600"
-            : "text-slate-700";
-          link.classList.toggle("bg-blue-50", isActive);
-          link.classList.toggle("text-blue-600", isActive);
-          link.classList.toggle(inactiveColor, !isActive);
-          const indicator = link.querySelector<HTMLElement>(
-            "[data-nav-indicator]",
-          );
-          indicator?.classList.toggle("bg-transparent", !isActive);
-          indicator?.classList.toggle("bg-blue-600", isActive);
-          const index = link.querySelector<HTMLElement>("[data-nav-index]");
-          index?.classList.toggle("text-slate-500", !isActive);
-          index?.classList.toggle("text-blue-600", isActive);
-          if (isActive) link.setAttribute("aria-current", "location");
-          else link.removeAttribute("aria-current");
-        });
-        ticking = false;
-      };
-
-      window.addEventListener(
-        "scroll",
-        () => {
-          if (!ticking) {
-            requestAnimationFrame(updateActiveSection);
-            ticking = true;
-          }
-        },
-        { passive: true },
-      );
-      window.addEventListener("resize", updateActiveSection);
-      updateActiveSection();
-    </script>
-
-    <style is:global>
-      @page {
-        size: A4 portrait;
-        margin: 12mm 14mm;
+    @media print {
+      html {
+        font-size: 14px;
       }
 
-      @media print {
-        html {
-          font-size: 14px;
-        }
-
-        html,
-        body {
-          min-width: 0;
-          width: 100%;
-        }
-
-        .resume-profile-header {
-          grid-template-columns: 36mm minmax(0, 1fr) !important;
-          column-gap: 14mm !important;
-        }
-
-        .resume-profile-photo {
-          grid-column: auto !important;
-          width: 36mm !important;
-          max-width: none !important;
-          height: 44mm !important;
-        }
-
-        .resume-profile-details {
-          grid-column: auto !important;
-          min-width: 0;
-        }
-
-        .resume-profile-details a span {
-          overflow-wrap: anywhere;
-        }
-
-        .resume-flow-section {
-          break-inside: auto;
-        }
-
-        .resume-flow-section > h2 {
-          break-after: avoid-page;
-        }
+      html,
+      body {
+        min-width: 0;
+        width: 100%;
       }
-    </style>
-  </body>
-</html>
+
+      .resume-profile-header {
+        grid-template-columns: 36mm minmax(0, 1fr) !important;
+        column-gap: 14mm !important;
+      }
+
+      .resume-profile-photo {
+        grid-column: auto !important;
+        width: 36mm !important;
+        max-width: none !important;
+        height: 44mm !important;
+      }
+
+      .resume-profile-details {
+        grid-column: auto !important;
+        min-width: 0;
+      }
+
+      .resume-profile-details a span {
+        overflow-wrap: anywhere;
+      }
+
+      .resume-flow-section {
+        break-inside: auto;
+      }
+
+      .resume-flow-section > h2 {
+        break-after: avoid-page;
+      }
+    }
+  </style>
+</SiteLayout>

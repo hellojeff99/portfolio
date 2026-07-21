@@ -1,0 +1,79 @@
+---
+import { GitFork, Mail, MapPin, Phone } from "@lucide/astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  profile: CollectionEntry<"profile">["data"];
+}
+
+const { profile } = Astro.props;
+const bioParagraphs = profile.bio.split("\n").filter(Boolean);
+const githubLabel = profile.github.replace(/^https?:\/\//, "");
+---
+
+<header
+  class="resume-profile-header grid scroll-mt-24 grid-cols-[minmax(5.5rem,0.8fr)_minmax(0,2fr)] items-start gap-4 pb-8 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-8 print:break-inside-avoid"
+  id="profile"
+  data-nav-section
+>
+  <figure
+    class="resume-profile-photo m-0 h-40 w-full max-w-40 overflow-hidden rounded border border-slate-200 sm:h-48 sm:w-40"
+  >
+    <img
+      src={profile.photo}
+      alt={`${profile.name} 프로필 사진`}
+      width="166"
+      height="202"
+      class="block size-full object-cover object-top"
+    />
+  </figure>
+
+  <div class="resume-profile-details min-w-0 pt-2 print:pl-0">
+    <div class="flex flex-wrap items-baseline gap-3.5">
+      <h1
+        class="m-0 text-4xl font-bold leading-tight tracking-tighter text-slate-900"
+      >
+        {profile.name}
+      </h1>
+      <p class="m-0 text-lg font-semibold text-slate-400">{profile.role}</p>
+    </div>
+    <div class="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-600">
+      <a
+        class="inline-flex items-center gap-1"
+        href={`mailto:${profile.email}`}
+      >
+        <Mail class="hidden" size={14} stroke-width={1.8} />
+        <span>{profile.email}</span>
+      </a>
+      <span aria-hidden="true">·</span>
+      <span class="inline-flex items-center gap-1">
+        <Phone class="hidden" size={14} stroke-width={1.8} />
+        <span>{profile.phone}</span>
+      </span>
+      <span aria-hidden="true">·</span>
+      <span class="inline-flex items-center gap-1">
+        <MapPin class="hidden" size={14} stroke-width={1.8} />
+        <span>{profile.location}</span>
+      </span>
+    </div>
+    <div class="mt-2 grid gap-1">
+      <a
+        class="flex min-w-0 items-baseline gap-1 text-xs leading-normal text-slate-600"
+        href={profile.github}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <GitFork class="hidden" size={14} stroke-width={1.8} />
+        <strong>GitHub:</strong>
+        <span>{githubLabel}</span>
+      </a>
+    </div>
+    <div class="mt-5 grid gap-1.5">
+      {
+        bioParagraphs.map((paragraph) => (
+          <p class="m-0 text-xs leading-relaxed text-slate-600">{paragraph}</p>
+        ))
+      }
+    </div>
+  </div>
+</header>

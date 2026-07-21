@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from "astro:content";
+import SkillItem from "../SkillItem.astro";
+
+interface Props {
+  skills: CollectionEntry<"skills">["data"]["skills"];
+}
+
+const { skills } = Astro.props;
+---
+
+<section
+  class="scroll-mt-24 border-t border-slate-200 py-6 print:break-inside-avoid"
+  id="skills"
+  data-nav-section
+  aria-labelledby="skills-title"
+>
+  <h2
+    class="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900"
+    id="skills-title"
+  >
+    Skills
+  </h2>
+  <div class="grid gap-2">
+    {
+      skills.map((group) => (
+        <article class="grid grid-cols-[7rem_minmax(0,1fr)] items-start gap-3">
+          <h3 class="m-0 flex min-h-8 items-center text-left text-xs font-bold uppercase text-slate-900">
+            {group.category}
+          </h3>
+          <ul
+            class="m-0 flex list-none flex-wrap gap-1.5 p-0"
+            aria-label={`${group.category} 기술`}
+          >
+            {group.items.map((item) => (
+              <SkillItem name={item} />
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>
