@@ -1,0 +1,29 @@
+---
+import SkillItem from "../SkillItem.astro";
+
+interface Props {
+  items?: string[];
+  projectTitle: string;
+  compact?: boolean;
+  class?: string;
+}
+
+const { items, projectTitle, compact = false, class: className } = Astro.props;
+---
+
+{
+  items && items.length > 0 && (
+    <ul
+      class:list={[
+        "flex list-none flex-wrap p-0",
+        compact ? "gap-1.5" : "gap-2",
+        className,
+      ]}
+      aria-label={`${projectTitle} 기술 스택`}
+    >
+      {items.map((item) => (
+        <SkillItem name={item} />
+      ))}
+    </ul>
+  )
+}

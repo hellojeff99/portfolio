@@ -1,0 +1,36 @@
+---
+import { ArrowRight } from "@lucide/astro";
+
+interface Props {
+  href?: string;
+  projectTitle: string;
+  compact?: boolean;
+}
+
+const { href, projectTitle, compact = false } = Astro.props;
+---
+
+{
+  href && (
+    <div class="pt-4">
+      <a
+        class:list={[
+          "group inline-flex w-fit items-center justify-center gap-2 border border-blue-600 bg-blue-600 font-bold text-white shadow-blue-600/20 transition duration-150 hover:-translate-y-0.5 hover:border-blue-700 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 motion-reduce:transform-none",
+          compact
+            ? "min-h-9 rounded-md px-3 text-xs shadow-sm hover:shadow-md"
+            : "min-h-11 rounded-lg px-4 text-sm shadow-md hover:shadow-lg",
+        ]}
+        href={href}
+        aria-label={`${projectTitle} 상세 페이지 보기`}
+      >
+        <span>상세보기</span>
+        <ArrowRight
+          class="transition-transform duration-150 group-hover:translate-x-1 motion-reduce:transform-none"
+          size={compact ? 15 : 16}
+          stroke-width={1.9}
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+  )
+}

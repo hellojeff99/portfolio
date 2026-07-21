@@ -1,0 +1,55 @@
+---
+type ProjectTask =
+  | string
+  | {
+      title: string;
+      subtasks?: string[];
+    };
+
+interface Props {
+  tasks: ProjectTask[];
+  compact?: boolean;
+}
+
+const { tasks, compact = false } = Astro.props;
+---
+
+<ul
+  class:list={[
+    "grid list-disc border-t border-slate-200",
+    compact ? "mt-1 gap-1.5 pl-4 pt-3" : "mt-5 gap-2 pl-5 pt-4",
+  ]}
+>
+  {
+    tasks.map((task) => (
+      <li
+        class:list={[
+          "break-keep leading-relaxed marker:text-blue-500",
+          compact ? "text-xs text-slate-700" : "text-sm text-slate-800",
+        ]}
+      >
+        {typeof task === "string" ? (
+          <span>{task}</span>
+        ) : (
+          <div>
+            <strong class="font-semibold text-slate-800">{task.title}</strong>
+            {task.subtasks && (
+              <ul
+                class:list={[
+                  "grid list-disc gap-1",
+                  compact ? "mt-1.5 pl-4" : "mt-2 pl-5",
+                ]}
+              >
+                {task.subtasks.map((subtask) => (
+                  <li class="text-xs leading-relaxed text-slate-700 marker:text-slate-400">
+                    {subtask}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </li>
+    ))
+  }
+</ul>
