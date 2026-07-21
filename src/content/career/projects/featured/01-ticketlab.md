@@ -32,14 +32,7 @@ stack:
 
 모든 읽기와 쓰기가 PostgreSQL에 집중된 구조였습니다.
 
-```mermaid
-flowchart LR
-    Client --> API["REST API"]
-    API --> Reserve["예약<br/>Read → Check → Write"]
-    API --> Read["좌석 조회<br/>존재 확인 → 목록 조회"]
-    Reserve --> DB[(PostgreSQL)]
-    Read --> DB
-```
+![image-20260721145349185](./01-ticketlab.assets/image-20260721145349185.png)
 
 | 문제 | 측정 결과 |
 | --- | ---: |
@@ -63,12 +56,8 @@ flowchart LR
 | Optimistic Locking      | 중복 방지, 충돌 시 지연 증가       | 충돌이 적은 환경에 적합 |
 | **Pessimistic Locking** | 중복 방지, 고경쟁에서 더 낮은 지연 | **티켓 예약에 채택**    |
 
-```mermaid
-flowchart LR
-    Request["예약 요청"] --> Lock["Seat Row Lock"]
-    Lock --> Check["상태 검증"]
-    Check --> Save["예약 저장"]
-    Save --> Commit["Commit 후 Lock 해제"]
+```text-flow
+예약 요청 → Seat Row Lock → 상태 검증 → 예약 저장 → Commit 후 Lock 해제
 ```
 
 동일 좌석 요청을 DB Row Lock으로 직렬화해 **한 요청만 예약에 성공**하도록 설계했습니다.
@@ -77,8 +66,13 @@ flowchart LR
 
 반복되는 좌석 조회를 Redis가 우선 처리하도록 읽기 경로를 단축했습니다.
 
-`Cache Hit → 즉시 응답`
-`Cache Miss / 장애 → DB 조회 → TTL 1분 저장`
+```text-flow
+Cache Hit → 즉시 응답
+```
+
+```text-flow
+Cache Miss / 장애 → DB 조회 → TTL 1분 저장
+```
 
 > **변경 반영:** 예약 Commit 후 캐시를 제거하고, Redis 장애 시 DB로 Fallback합니다.
 
@@ -88,14 +82,7 @@ flowchart LR
 | **Redis**        | 고동시성 평균·p95 모두 최저 | **조회 전략으로 채택** |
 | Indexing + Redis | Baseline보다 개선           | Redis 단독보다 느림    |
 
-```mermaid
-flowchart LR
-    Request["좌석 조회"] --> Cache{"Redis 조회"}
-    Cache -->|"Hit"| Response["즉시 응답"]
-    Cache -->|"Miss / 장애"| DB[(PostgreSQL)]
-    DB --> Set["Redis 저장<br/>TTL 1분"]
-    Set --> Response
-```
+![image-20260721145412702](./01-ticketlab.assets/image-20260721145412702.png)
 
 ---
 
@@ -132,18 +119,7 @@ flowchart LR
 
 ## 4. 최종 설계
 
-```mermaid
-flowchart LR
-    Client --> API["Spring Boot API"]
-
-    API --> Reserve["예약"]
-    Reserve -->|"Pessimistic Lock"| DB[(PostgreSQL)]
-    Reserve -->|"Commit 후 Evict"| Redis[(Redis)]
-
-    API --> Read["좌석 조회"]
-    Read -->|"Cache 우선"| Redis
-    Read -->|"Miss / 장애"| DB
-```
+![image-20260721145423556](./01-ticketlab.assets/image-20260721145423556.png)
 
 | 경로 | 설계 목표 | 결과 |
 | --- | --- | --- |
