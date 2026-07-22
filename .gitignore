@@ -5,6 +5,7 @@ dist/
 
 # local artifacts
 tmp/
+/PORTFOLIO.md
 
 # dependencies
 node_modules/

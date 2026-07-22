@@ -15,13 +15,11 @@ const { textFlowDefinitions } = Astro.props;
 </div>
 
 <script>
-  import { initializeProjectMermaid } from "../../scripts/project-detail/mermaid";
   import { initializeProjectTextFlows } from "../../scripts/project-detail/text-flow";
 
   document
     .querySelectorAll<HTMLElement>("[data-project-content]")
     .forEach((projectContent) => {
       initializeProjectTextFlows(projectContent);
-      initializeProjectMermaid(projectContent);
     });
 </script>

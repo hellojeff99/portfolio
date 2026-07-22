@@ -256,30 +256,6 @@
   border: 0;
 }
 
-.project-prose .mermaid-diagram {
-  width: min(100%, 42rem);
-  margin: 1.25rem auto 1.75rem;
-  overflow-x: auto;
-  border: 1px solid #dbeafe;
-  border-radius: 0.85rem;
-  background: #f8fafc;
-  padding: 1rem;
-  text-align: center;
-  box-shadow: 0 12px 30px -24px rgb(37 99 235 / 0.35);
-}
-
-.project-prose .mermaid-diagram svg {
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-.project-prose .mermaid-render-error {
-  border-color: #fecaca;
-}
-
 @media (min-width: 640px) {
   .project-prose {
     font-size: 1rem;
@@ -296,10 +272,6 @@
   .project-prose th,
   .project-prose td {
     padding: 0.875rem 1rem;
-  }
-
-  .project-prose .mermaid-diagram {
-    padding: 1.25rem;
   }
 }
 
