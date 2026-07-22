@@ -21,7 +21,8 @@ const optionalUrl = z.preprocess(
 const projectFields = {
   title: z.string(),
   subtitle: z.string().optional(),
-  info: z.string(),
+  role: z.string(),
+  "team-size": z.string(),
   meta: z.string().optional(),
   period: z.string(),
   github: optionalUrl,
@@ -59,7 +60,7 @@ export function compareProjectIds(firstId: string, secondId: string): number {
   const firstFilename = firstId.split("/").at(-1) ?? firstId;
   const secondFilename = secondId.split("/").at(-1) ?? secondId;
 
-  return firstFilename.localeCompare(secondFilename, undefined, {
+  return secondFilename.localeCompare(firstFilename, undefined, {
     numeric: true,
   });
 }

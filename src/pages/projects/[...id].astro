@@ -1,5 +1,11 @@
 ---
-import { ArrowUpRight, CalendarDays, GitFork } from "@lucide/astro";
+import {
+  ArrowUpRight,
+  BriefcaseBusiness,
+  CalendarDays,
+  GitFork,
+  UsersRound,
+} from "@lucide/astro";
 import {
   getCollection,
   getEntry,
@@ -42,6 +48,8 @@ const profile = profileEntry.data;
 const description =
   project.data.subtitle || `${project.data.title} 프로젝트 상세 내용`;
 const repositoryUrl = project.data.github?.trim();
+const projectRole = project.data.role.trim();
+const teamSize = project.data["team-size"].trim();
 const categoryLabels: Record<ProjectCategory, string> = {
   work: "Work Experience",
   featured: "Featured Project",
@@ -126,24 +134,24 @@ const textFlowDefinitions = Array.from(
           </header>
 
           <aside
-            class="border-b border-slate-200 bg-slate-50/70 px-5 py-7 sm:px-9 lg:px-12"
+            class="border-b border-slate-200 bg-slate-50/70 px-5 py-5 sm:px-9 lg:px-12"
             aria-label="프로젝트 정보"
           >
             <div
-              class="grid gap-7 sm:grid-cols-2 lg:grid-cols-[0.85fr_1.5fr_0.65fr]"
+              class="grid grid-cols-2 items-start gap-x-5 gap-y-3 lg:grid-cols-4"
             >
               <section aria-labelledby="project-period-title">
                 <h2
-                  class="font-mono m-0 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-500"
+                  class="font-mono m-0 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500"
                   id="project-period-title"
                 >
                   Period
                 </h2>
                 <p
-                  class="mt-3 flex items-start gap-2.5 text-sm font-semibold leading-6 text-slate-800"
+                  class="mt-1.5 flex items-start gap-2 text-[0.82rem] font-semibold leading-5 text-slate-800"
                 >
                   <CalendarDays
-                    class="mt-1 shrink-0 text-blue-600"
+                    class="mt-0.5 shrink-0 text-blue-600"
                     size={16}
                     stroke-width={1.8}
                     aria-hidden="true"
@@ -153,15 +161,65 @@ const textFlowDefinitions = Array.from(
               </section>
 
               {
-                project.data.stack && (
-                  <section aria-labelledby="project-stack-title">
+                teamSize && (
+                  <section aria-labelledby="project-team-size-title">
                     <h2
-                      class="font-mono m-0 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-500"
+                      class="font-mono m-0 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500"
+                      id="project-team-size-title"
+                    >
+                      Team Size
+                    </h2>
+                    <p class="mt-1.5 flex items-start gap-2 text-[0.82rem] font-semibold leading-5 text-slate-800">
+                      <UsersRound
+                        class="mt-0.5 shrink-0 text-blue-600"
+                        size={16}
+                        stroke-width={1.8}
+                        aria-hidden="true"
+                      />
+                      <span>{teamSize}</span>
+                    </p>
+                  </section>
+                )
+              }
+
+              {
+                projectRole && (
+                  <section
+                    class="col-span-2"
+                    aria-labelledby="project-role-title"
+                  >
+                    <h2
+                      class="font-mono m-0 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500"
+                      id="project-role-title"
+                    >
+                      Role
+                    </h2>
+                    <p class="mt-1.5 flex items-start gap-2 text-[0.78rem] font-semibold leading-5 text-slate-800">
+                      <BriefcaseBusiness
+                        class="mt-0.5 shrink-0 text-blue-600"
+                        size={16}
+                        stroke-width={1.8}
+                        aria-hidden="true"
+                      />
+                      <span>{projectRole}</span>
+                    </p>
+                  </section>
+                )
+              }
+
+              {
+                project.data.stack && (
+                  <section
+                    class="col-span-2 lg:col-span-3"
+                    aria-labelledby="project-stack-title"
+                  >
+                    <h2
+                      class="font-mono m-0 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500"
                       id="project-stack-title"
                     >
                       Tech Stack
                     </h2>
-                    <ul class="mt-3 flex list-none flex-wrap gap-2 p-0">
+                    <ul class="mt-1.5 flex list-none flex-wrap gap-1.5 p-0">
                       {project.data.stack.map((item) => (
                         <SkillItem name={item} />
                       ))}
@@ -174,13 +232,13 @@ const textFlowDefinitions = Array.from(
                 repositoryUrl && (
                   <section aria-labelledby="project-repository-title">
                     <h2
-                      class="font-mono m-0 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-500"
+                      class="font-mono m-0 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500"
                       id="project-repository-title"
                     >
                       Repository
                     </h2>
                     <a
-                      class="group mt-3 inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-sm font-bold text-blue-600 shadow-sm transition duration-150 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 motion-reduce:transform-none"
+                      class="group mt-1.5 inline-flex min-h-8 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 text-xs font-bold text-blue-600 shadow-sm transition duration-150 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 motion-reduce:transform-none"
                       href={repositoryUrl}
                       target="_blank"
                       rel="noopener noreferrer"
