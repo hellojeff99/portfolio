@@ -1,7 +1,8 @@
 ---
 title: 월드프렌즈 ICT 봉사단 (베트남)
 subtitle: 아두이노 기반 덴드로비움 재배 스마트팜 시스템 구축 및 교육
-info: ""
+role: ""
+team-size: ""
 period: 2019.07 ~ 2019.08 (4주)
 github: https://github.com/hellojeff99/vietnam-smart-farm
 contributions:

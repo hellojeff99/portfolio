@@ -1,7 +1,8 @@
 ---
 title: 교육부 디지털 새싹 캠프 - 보조 멘토
 subtitle: ""
-info: ""
+role: ""
+team-size: ""
 period: 2024.07.29 ~ 2024.11.19
 github: https://github.com/hellojeff99/digital-sprout-mentoring
 contributions:
