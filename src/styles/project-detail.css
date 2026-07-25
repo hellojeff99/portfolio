@@ -243,6 +243,88 @@
   color: #1d4ed8;
 }
 
+.project-prose details {
+  margin: 1.5rem 0 2rem;
+}
+
+.project-prose details > summary {
+  display: flex;
+  min-height: 3.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, #f8fbff, #eff6ff);
+  padding: 0.75rem 0.875rem 0.75rem 1rem;
+  color: #1e3a8a;
+  font-weight: 700;
+  line-height: 1.45;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 10px 24px -20px rgb(37 99 235 / 0.6);
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.project-prose details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.project-prose details > summary::after {
+  content: "내용 보기  ↓";
+  flex: none;
+  border: 1px solid #93c5fd;
+  border-radius: 9999px;
+  background: #ffffff;
+  padding: 0.35rem 0.65rem;
+  color: #1d4ed8;
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  white-space: pre;
+  box-shadow: 0 4px 10px -8px rgb(37 99 235 / 0.7);
+}
+
+.project-prose details > summary:hover {
+  border-color: #93c5fd;
+  background: #dbeafe;
+  box-shadow: 0 12px 26px -20px rgb(37 99 235 / 0.75);
+}
+
+.project-prose details > summary:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+}
+
+.project-prose details[open] > summary {
+  margin-bottom: 1.25rem;
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.project-prose details[open] > summary::after {
+  content: "접기  ↑";
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.project-prose details > summary strong {
+  color: inherit;
+}
+
+.project-prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
 .project-prose p:has(> img:only-child) {
   margin: 1.25rem 0 1.75rem;
 }
@@ -254,6 +336,30 @@
   height: auto;
   margin: 0 auto;
   border: 0;
+}
+
+.project-prose .mermaid-diagram {
+  width: min(100%, 42rem);
+  margin: 1.25rem auto 1.75rem;
+  overflow-x: auto;
+  border: 1px solid #dbeafe;
+  border-radius: 0.85rem;
+  background: #f8fafc;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 12px 30px -24px rgb(37 99 235 / 0.35);
+}
+
+.project-prose .mermaid-diagram svg {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.project-prose .mermaid-render-error {
+  border-color: #fecaca;
 }
 
 @media (min-width: 640px) {
@@ -272,6 +378,10 @@
   .project-prose th,
   .project-prose td {
     padding: 0.875rem 1rem;
+  }
+
+  .project-prose .mermaid-diagram {
+    padding: 1.25rem;
   }
 }
 
