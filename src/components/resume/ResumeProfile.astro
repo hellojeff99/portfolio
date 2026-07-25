@@ -35,9 +35,9 @@ const githubLabel = profile.github.replace(/^https?:\/\//, "");
       >
         {profile.name}
       </h1>
-      <p class="m-0 text-lg font-semibold text-slate-400">{profile.role}</p>
+      <p class="m-0 text-lg font-semibold text-slate-700">{profile.role}</p>
     </div>
-    <div class="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-600">
+    <div class="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-700">
       <a
         class="inline-flex items-center gap-1"
         href={`mailto:${profile.email}`}
@@ -58,7 +58,7 @@ const githubLabel = profile.github.replace(/^https?:\/\//, "");
     </div>
     <div class="mt-2 grid gap-1">
       <a
-        class="flex min-w-0 items-baseline gap-1 text-xs leading-normal text-slate-600"
+        class="flex min-w-0 items-baseline gap-1 text-xs leading-normal text-slate-700"
         href={profile.github}
         target="_blank"
         rel="noreferrer"
@@ -71,7 +71,7 @@ const githubLabel = profile.github.replace(/^https?:\/\//, "");
     <div class="mt-5 grid gap-1.5">
       {
         bioParagraphs.map((paragraph) => (
-          <p class="m-0 text-xs leading-relaxed text-slate-600">{paragraph}</p>
+          <p class="m-0 text-xs leading-relaxed text-slate-700">{paragraph}</p>
         ))
       }
     </div>

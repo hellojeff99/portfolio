@@ -29,22 +29,22 @@ const { educations } = Astro.props;
               {education.school}
             </h3>
             {education.major && (
-              <p class="mt-1 text-xs leading-normal text-slate-600">
+              <p class="mt-1 text-xs leading-normal text-slate-700">
                 {education.major}
               </p>
             )}
             {education.sub && (
-              <p class="mt-1 text-xs leading-normal text-slate-600">
+              <p class="mt-1 text-xs leading-normal text-slate-700">
                 {education.sub}
               </p>
             )}
             {education.gpa && (
-              <p class="mt-1 text-xs leading-normal text-slate-600">
+              <p class="mt-1 text-xs leading-normal text-slate-700">
                 GPA {education.gpa}
               </p>
             )}
           </div>
-          <time class="shrink-0 whitespace-nowrap text-xs text-slate-400">
+          <time class="shrink-0 whitespace-nowrap text-xs text-slate-600">
             {education.period}
           </time>
         </article>

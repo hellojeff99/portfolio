@@ -29,7 +29,7 @@ const { skills } = Astro.props;
             {group.category}
           </h3>
           <ul
-            class="m-0 flex list-none flex-wrap gap-1.5 p-0"
+            class="m-0 flex list-none flex-wrap gap-1.5 p-0 [&_li]:text-slate-700"
             aria-label={`${group.category} 기술`}
           >
             {group.items.map((item) => (
