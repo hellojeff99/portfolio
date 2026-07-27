@@ -40,6 +40,10 @@
   margin: 0 0 1.25rem;
 }
 
+.project-prose hr {
+  border-color: #e2e8f0;
+}
+
 .project-prose ul,
 .project-prose ol {
   display: grid;

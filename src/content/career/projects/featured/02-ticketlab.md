@@ -39,7 +39,7 @@ stack:
 
 모든 읽기와 쓰기가 PostgreSQL에 집중된 구조
 
-<img src="/images/career/projects/featured/ticketlab/image-20260721145349185.png" alt="image-20260721145349185">
+<img src="/images/career/projects/featured/ticketlab/image-20260721145349185.png" alt="image-20260721145349185" style="zoom:20%;">
 
 | 문제 | 측정 결과 |
 | --- | ---: |

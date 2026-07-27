@@ -42,7 +42,7 @@ stack:
 - **대화 보존** — 메시지는 저장된 뒤 전달되어 다시 접속해도 유지
 - **서비스 배포** — 프론트엔드, API, 데이터베이스를 분리
 
-<img src="/images/career/projects/featured/devbrew/live-chat.gif" alt="live-chat">
+<img src="/images/career/projects/featured/devbrew/live-chat.gif" alt="live-chat" style="zoom:20%;">
 
 ## 구현 화면
 
