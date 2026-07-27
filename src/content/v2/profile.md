@@ -1,7 +1,9 @@
 ---
 name: 양성원
+engName: Jeffrey
 role: Software Engineer
-summary: hero section
+birthDate: "99.11.06"
+summary: 정합성과 성능을 높이는 개발을 지향합니다
 bio: |-
   데이터 흐름을 끝까지 추적해 정합성과 성능 문제를 해결하는 소프트웨어 엔지니어입니다.
   금융 차세대 프로젝트에서 약 1,000개 여신 UI 이관과 화면·MCI·C·Oracle 전 구간 검증을 수행했으며,

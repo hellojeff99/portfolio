@@ -5,6 +5,7 @@ import {
   projects,
   skills,
 } from "./content/collections";
+import { v2Collections } from "./content/v2/content.config";
 
 export const collections = {
   projects,
@@ -12,4 +13,5 @@ export const collections = {
   certifications,
   educations,
   profile,
+  ...v2Collections,
 };
