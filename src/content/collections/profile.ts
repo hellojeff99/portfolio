@@ -14,6 +14,5 @@ export const profile = defineCollection({
     photo: z.string(),
     heroPhoto: z.string(),
     github: z.url(),
-    linkedin: z.string(),
   }),
 });

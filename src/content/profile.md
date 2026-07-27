@@ -12,5 +12,4 @@ location: 서울특별시 관악구
 photo: /images/profile.jpg
 heroPhoto: /images/hero.jpg
 github: https://github.com/hellojeff99
-linkedin: www.linkedin.com/in/seongwon-yang-01928a228
 ---
