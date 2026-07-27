@@ -6,10 +6,7 @@ import EducationSection from "../components/resume/EducationSection.astro";
 import ProjectSection from "../components/resume/ProjectSection.astro";
 import ResumeProfile from "../components/resume/ResumeProfile.astro";
 import SkillsSection from "../components/resume/SkillsSection.astro";
-import {
-  compareProjectIds,
-  getProjectCategory,
-} from "../content/collections/projects";
+import { groupProjectEntries } from "../content/collections/projects";
 import { resumeNavItems } from "../data/navigation";
 import SiteLayout from "../layouts/SiteLayout.astro";
 
@@ -17,9 +14,7 @@ const profileEntry = await getEntry("profile", "profile");
 const skillEntry = await getEntry("skills", "skills");
 const educationEntry = await getEntry("educations", "educations");
 const certificationEntry = await getEntry("certifications", "certifications");
-const projectEntries = (await getCollection("projects")).sort((a, b) =>
-  compareProjectIds(a.id, b.id),
-);
+const projectGroups = groupProjectEntries(await getCollection("projects"));
 
 if (!profileEntry) throw new Error("Profile content is required.");
 
@@ -28,26 +23,9 @@ const bioParagraphs = profile.bio.split("\n").filter(Boolean);
 const skills = skillEntry?.data.skills ?? [];
 const educations = educationEntry?.data.educations ?? [];
 const certifications = certificationEntry?.data.certifications ?? [];
-const workProjects = projectEntries.filter(
-  ({ id }) => getProjectCategory(id) === "work",
-);
-const selectedProjects = projectEntries
-  .filter(({ id }) => {
-    const category = getProjectCategory(id);
-    return category === "featured" || category === "project";
-  })
-  .sort((first, second) => {
-    const firstCategory = getProjectCategory(first.id);
-    const secondCategory = getProjectCategory(second.id);
-    const categoryOrder =
-      Number(firstCategory === "project") -
-      Number(secondCategory === "project");
-
-    return categoryOrder || compareProjectIds(first.id, second.id);
-  });
-const activities = projectEntries.filter(
-  ({ id }) => getProjectCategory(id) === "experience",
-);
+const workProjects = projectGroups.work;
+const selectedProjects = [...projectGroups.featured, ...projectGroups.project];
+const activities = projectGroups.experience;
 ---
 
 <SiteLayout

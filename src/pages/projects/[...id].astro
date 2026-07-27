@@ -16,9 +16,8 @@ import ProjectContent from "../../components/project-detail/ProjectContent.astro
 import ProjectTableOfContents from "../../components/project-detail/ProjectTableOfContents.astro";
 import SkillItem from "../../components/SkillItem.astro";
 import {
-  getProjectCategory,
+  getProjectCategoryMeta,
   getProjectSlug,
-  type ProjectCategory,
 } from "../../content/collections/projects";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import "../../styles/project-detail.css";
@@ -50,19 +49,12 @@ const description =
 const repositoryUrl = project.data.github?.trim();
 const projectRole = project.data.role.trim();
 const teamSize = project.data["team-size"].trim();
-const categoryLabels: Record<ProjectCategory, string> = {
-  work: "Work Experience",
-  featured: "Featured Project",
-  project: "Project",
-  experience: "Experience",
-};
-const category = getProjectCategory(project.id);
-const categoryLabel = categoryLabels[category];
+const {
+  label: categoryLabel,
+  backHref,
+  backLabel,
+} = getProjectCategoryMeta(project.id);
 const projectSlug = getProjectSlug(project.id);
-const backLink =
-  category === "work"
-    ? { href: "/#experience", label: "경력 목록으로 돌아가기" }
-    : { href: "/#projects", label: "프로젝트 목록으로 돌아가기" };
 const tableOfContents = headings.filter(
   ({ depth }) => depth === 2 || depth === 3,
 );
@@ -83,8 +75,8 @@ const textFlowDefinitions = Array.from(
   name={profile.name}
   email={profile.email}
   githubUrl={profile.github}
-  backHref={backLink.href}
-  backLabel={backLink.label}
+  backHref={backHref}
+  backLabel={backLabel}
 >
   <a
     class="fixed left-3 top-2 z-[60] -translate-y-20 rounded-md bg-slate-950 px-4 py-2 text-sm font-bold text-white transition-transform focus:translate-y-0"

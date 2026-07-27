@@ -8,37 +8,16 @@ import ProjectTaskList from "../components/home/ProjectTaskList.astro";
 import SectionHeading from "../components/home/SectionHeading.astro";
 import Footer from "../components/site/Footer.astro";
 import {
-  compareProjectIds,
-  getProjectCategory,
-  getProjectSlug,
+  groupProjectEntries,
+  toProjectSummary,
 } from "../content/collections/projects";
 import { portfolioNavItems } from "../data/navigation";
 import SiteLayout from "../layouts/SiteLayout.astro";
 
-const projectEntries = (await getCollection("projects")).sort((a, b) =>
-  compareProjectIds(a.id, b.id),
-);
-const workProjects = projectEntries
-  .filter(({ id }) => getProjectCategory(id) === "work")
-  .map(({ id, data, body }) => ({
-    id,
-    ...data,
-    hasDetail: Boolean(body?.trim()),
-  }));
-const pinnedProjects = projectEntries
-  .filter(({ id }) => getProjectCategory(id) === "featured")
-  .map(({ id, data, body }) => ({
-    id,
-    ...data,
-    hasDetail: Boolean(body?.trim()),
-  }));
-const otherProjects = projectEntries
-  .filter(({ id }) => getProjectCategory(id) === "project")
-  .map(({ id, data, body }) => ({
-    id,
-    ...data,
-    hasDetail: Boolean(body?.trim()),
-  }));
+const projectGroups = groupProjectEntries(await getCollection("projects"));
+const workProjects = projectGroups.work.map(toProjectSummary);
+const pinnedProjects = projectGroups.featured.map(toProjectSummary);
+const otherProjects = projectGroups.project.map(toProjectSummary);
 const profileEntry = await getEntry("profile", "profile");
 if (!profileEntry) throw new Error("Profile content is required.");
 
@@ -119,11 +98,7 @@ const bioParagraphs = profile.bio.split("\n").filter(Boolean);
                     class="pt-4"
                   />
                   <ProjectCardLink
-                    href={
-                      project.hasDetail
-                        ? `/projects/${getProjectSlug(project.id)}`
-                        : undefined
-                    }
+                    href={project.detailHref}
                     projectTitle={project.title}
                     compact
                   />
@@ -166,11 +141,7 @@ const bioParagraphs = profile.bio.split("\n").filter(Boolean);
                         class="pt-3"
                       />
                       <ProjectCardLink
-                        href={
-                          project.hasDetail
-                            ? `/projects/${getProjectSlug(project.id)}`
-                            : undefined
-                        }
+                        href={project.detailHref}
                         projectTitle={project.title}
                         compact
                       />
@@ -231,11 +202,7 @@ const bioParagraphs = profile.bio.split("\n").filter(Boolean);
                       class="pt-5"
                     />
                     <ProjectCardLink
-                      href={
-                        project.hasDetail
-                          ? `/projects/${getProjectSlug(project.id)}`
-                          : undefined
-                      }
+                      href={project.detailHref}
                       projectTitle={project.title}
                     />
                   </div>

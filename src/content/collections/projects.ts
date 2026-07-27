@@ -1,4 +1,4 @@
-import { defineCollection } from "astro:content";
+import { defineCollection, type CollectionEntry } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
@@ -40,6 +40,41 @@ export const projects = defineCollection({
 });
 
 export type ProjectCategory = "work" | "featured" | "project" | "experience";
+export type ProjectEntry = CollectionEntry<"projects">;
+export type ProjectGroups = Record<ProjectCategory, ProjectEntry[]>;
+export type ProjectSummary = ProjectEntry["data"] & {
+  id: string;
+  detailHref: string | undefined;
+};
+
+type ProjectCategoryMeta = {
+  label: string;
+  backHref: string;
+  backLabel: string;
+};
+
+export const PROJECT_CATEGORY_META = {
+  work: {
+    label: "Work Experience",
+    backHref: "/#work",
+    backLabel: "경력 목록으로 돌아가기",
+  },
+  featured: {
+    label: "Featured Project",
+    backHref: "/#projects",
+    backLabel: "프로젝트 목록으로 돌아가기",
+  },
+  project: {
+    label: "Project",
+    backHref: "/#projects",
+    backLabel: "프로젝트 목록으로 돌아가기",
+  },
+  experience: {
+    label: "Experience",
+    backHref: "/resume#experience",
+    backLabel: "경험 목록으로 돌아가기",
+  },
+} satisfies Record<ProjectCategory, ProjectCategoryMeta>;
 
 export function getProjectCategory(id: string): ProjectCategory {
   const [section, subsection] = id.split("/");
@@ -56,6 +91,10 @@ export function getProjectSlug(id: string): string {
   return id.startsWith("projects/") ? id.slice("projects/".length) : id;
 }
 
+export function getProjectCategoryMeta(id: string): ProjectCategoryMeta {
+  return PROJECT_CATEGORY_META[getProjectCategory(id)];
+}
+
 export function compareProjectIds(firstId: string, secondId: string): number {
   const firstFilename = firstId.split("/").at(-1) ?? firstId;
   const secondFilename = secondId.split("/").at(-1) ?? secondId;
@@ -63,4 +102,33 @@ export function compareProjectIds(firstId: string, secondId: string): number {
   return secondFilename.localeCompare(firstFilename, undefined, {
     numeric: true,
   });
+}
+
+export function groupProjectEntries(entries: ProjectEntry[]): ProjectGroups {
+  const groups: ProjectGroups = {
+    work: [],
+    featured: [],
+    project: [],
+    experience: [],
+  };
+
+  [...entries]
+    .sort((first, second) => compareProjectIds(first.id, second.id))
+    .forEach((entry) => {
+      groups[getProjectCategory(entry.id)].push(entry);
+    });
+
+  return groups;
+}
+
+export function toProjectSummary({
+  id,
+  data,
+  body,
+}: ProjectEntry): ProjectSummary {
+  return {
+    id,
+    ...data,
+    detailHref: body?.trim() ? `/projects/${getProjectSlug(id)}` : undefined,
+  };
 }
