@@ -61,10 +61,6 @@ stack:
 | Optimistic Locking      | 중복 방지, 충돌 시 지연 증가       | 충돌이 적은 환경에 적합 |
 | **Pessimistic Locking** | 중복 방지, 고경쟁에서 더 낮은 지연 | **티켓 예약에 채택**    |
 
-```text-flow
-예약 요청 → Seat Row Lock → 상태 검증 → 예약 저장 → Commit 후 Lock 해제
-```
-
 동일 좌석 요청을 DB Row Lock으로 직렬화해 **한 요청만 예약에 성공**하도록 설계
 
 ### 조회 — Redis Cache-Aside
@@ -117,7 +113,9 @@ stack:
 ## 4. 최종 설계
 
 <img src="/images/career/projects/featured/ticketlab/image-20260721145423556.png" alt="image-20260721145423556">
-음
+
+
+
 | 경로 | 설계 목표 | 결과 |
 | --- | --- | --- |
 | **Write** | DB Lock으로 정합성 보장 | 좌석당 예약 1건 |
