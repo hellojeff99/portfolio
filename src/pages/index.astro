@@ -1,7 +1,6 @@
 ---
 import { Pin } from "@lucide/astro";
 import { getCollection, getEntry } from "astro:content";
-import Contact from "../components/home/Contact.astro";
 import Hero from "../components/home/Hero.astro";
 import ProjectCardLink from "../components/home/ProjectCardLink.astro";
 import ProjectStack from "../components/home/ProjectStack.astro";
@@ -45,9 +44,6 @@ if (!profileEntry) throw new Error("Profile content is required.");
 
 const profile = profileEntry.data;
 const bioParagraphs = profile.bio.split("\n").filter(Boolean);
-const linkedinUrl = profile.linkedin.startsWith("http")
-  ? profile.linkedin
-  : `https://${profile.linkedin}`;
 ---
 
 <SiteLayout
@@ -249,15 +245,9 @@ const linkedinUrl = profile.linkedin.startsWith("http")
           }
         </div>
       </section>
-
-      <Contact
-        email={profile.email}
-        githubUrl={profile.github}
-        linkedinUrl={linkedinUrl}
-      />
     </main>
 
-    <Footer name={profile.name} />
+    <Footer name={profile.name} email={profile.email} />
   </div>
 
   <script>

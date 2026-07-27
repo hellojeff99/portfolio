@@ -7,7 +7,6 @@ export const portfolioNavItems: NavItem[] = [
   { label: "Hero", href: "#hero" },
   { label: "Projects", href: "#projects" },
   { label: "Work", href: "#work" },
-  { label: "Contact", href: "#contact" },
 ];
 
 export const resumeNavItems: NavItem[] = [
