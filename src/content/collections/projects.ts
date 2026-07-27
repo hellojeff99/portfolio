@@ -2,13 +2,15 @@ import { defineCollection, type CollectionEntry } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
-const task = z.union([
+const projectTaskSchema = z.union([
   z.string(),
   z.object({
     title: z.string(),
     subtasks: z.array(z.string()).optional(),
   }),
 ]);
+
+export type ProjectTask = z.infer<typeof projectTaskSchema>;
 
 const optionalUrl = z.preprocess(
   (value) =>
@@ -26,8 +28,8 @@ const projectFields = {
   meta: z.string().optional(),
   period: z.string(),
   github: optionalUrl,
-  contributions: z.array(task).min(1),
-  highlights: z.array(task).min(1),
+  contributions: z.array(projectTaskSchema).min(1),
+  highlights: z.array(projectTaskSchema).min(1),
   stack: z.array(z.string()).optional(),
 };
 

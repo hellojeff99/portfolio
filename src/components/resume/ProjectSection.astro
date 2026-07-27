@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import ProjectTaskList from "../project/ProjectTaskList.astro";
 
 interface Props {
   id: "work" | "projects" | "experience";
@@ -56,30 +57,7 @@ const titleId = `${id}-title`;
               {data.meta}
             </p>
           )}
-          <ul class="mt-2 grid list-disc gap-1 pl-4">
-            {data.contributions.map((task) => (
-              <li class="text-xs leading-relaxed text-slate-700 marker:text-slate-500">
-                {typeof task === "string" ? (
-                  task
-                ) : (
-                  <div>
-                    <strong class="font-semibold text-slate-900">
-                      {task.title}
-                    </strong>
-                    {task.subtasks && (
-                      <ul class="mt-1 grid list-disc gap-1 pl-4">
-                        {task.subtasks.map((subtask) => (
-                          <li class="text-xs leading-relaxed text-slate-600 marker:text-slate-500">
-                            {subtask}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
+          <ProjectTaskList tasks={data.contributions} variant="resume" />
         </article>
       ))
     }
