@@ -1,0 +1,105 @@
+---
+import { Code2, Database } from "@lucide/astro";
+import {
+  siArduino,
+  siC,
+  siCplusplus,
+  siDocker,
+  siGit,
+  siGithub,
+  siJavascript,
+  siJira,
+  siJsonwebtokens,
+  siK6,
+  siNestjs,
+  siNextdotjs,
+  siOpenjdk,
+  siPostgresql,
+  siPrisma,
+  siPython,
+  siReact,
+  siRedis,
+  siSocketdotio,
+  siSpringboot,
+  siTailwindcss,
+  siTypeorm,
+  siTypescript,
+  siVercel,
+} from "simple-icons";
+
+interface Props {
+  name: string;
+  truncate?: boolean;
+  showName?: boolean;
+}
+
+const { name, truncate = false, showName = true } = Astro.props;
+
+const brandIcons = {
+  Arduino: siArduino,
+  C: siC,
+  "C++": siCplusplus,
+  Docker: siDocker,
+  Git: siGit,
+  Github: siGithub,
+  "GitHub Wiki": siGithub,
+  Java: siOpenjdk,
+  JavaScript: siJavascript,
+  Jira: siJira,
+  JWT: siJsonwebtokens,
+  k6: siK6,
+  NestJS: siNestjs,
+  "Next.js": siNextdotjs,
+  PostgreSQL: siPostgresql,
+  Prisma: siPrisma,
+  Python: siPython,
+  React: siReact,
+  Redis: siRedis,
+  "Socket.IO": siSocketdotio,
+  "Spring Boot": siSpringboot,
+  "Spring Boot (Java)": siSpringboot,
+  "Tailwind CSS": siTailwindcss,
+  TypeORM: siTypeorm,
+  TypeScript: siTypescript,
+  Vercel: siVercel,
+};
+
+const fallbackColors = {
+  Entry: "#00b3b8",
+  JPA: "#59666c",
+  "MS Automate": "#0066ff",
+  Oracle: "#f80000",
+  xFrame: "#2563eb",
+};
+
+const icon = brandIcons[name as keyof typeof brandIcons] ?? null;
+const color = icon?.hex
+  ? `#${icon.hex}`
+  : (fallbackColors[name as keyof typeof fallbackColors] ?? "#64748b");
+const FallbackIcon = name === "JPA" || name === "Oracle" ? Database : Code2;
+---
+
+<li
+  class:list={[
+    "inline-flex items-center gap-2 px-1 py-1 text-sm font-semibold text-base-content",
+    truncate && "min-w-0",
+  ]}
+  aria-label={showName ? undefined : name}
+>
+  <span
+    class="grid size-4 place-items-center"
+    style={`color: ${color}`}
+    aria-hidden="true"
+  >
+    {
+      icon ? (
+        <svg class="size-4 fill-current" viewBox="0 0 24 24" focusable="false">
+          <path d={icon.path} />
+        </svg>
+      ) : (
+        <FallbackIcon class="size-4" stroke-width={1.8} />
+      )
+    }
+  </span>
+  {showName && <span class:list={[truncate && "truncate"]}>{name}</span>}
+</li>

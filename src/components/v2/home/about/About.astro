@@ -1,0 +1,62 @@
+---
+import {
+  CalendarDays,
+  GraduationCap,
+  Mail,
+  MapPin,
+  Phone,
+  UserRound,
+} from "@lucide/astro";
+import { getEntry } from "astro:content";
+import SectionHead from "../../SectionHead.astro";
+import SectionLayout from "../../SectionLayout.astro";
+import AboutCard from "./AboutCard.astro";
+
+const profileEntry = await getEntry("v2Profile", "profile");
+const educationEntry = await getEntry("v2Educations", "educations");
+
+if (!profileEntry || !educationEntry) {
+  throw new Error(
+    "v2 About Me에 필요한 프로필 또는 학력 데이터를 찾을 수 없습니다.",
+  );
+}
+
+const { name, engName, birthDate, location, phone, email } = profileEntry.data;
+const latestEducation = educationEntry.data.educations[0];
+const education = [latestEducation.school, latestEducation.major]
+  .filter(Boolean)
+  .join(" · ");
+
+const infoItems = [
+  { label: "이름", value: name, icon: UserRound },
+  { label: "생년월일", value: birthDate, icon: CalendarDays },
+  { label: "위치", value: location, icon: MapPin },
+  { label: "연락처", value: phone, icon: Phone, href: `tel:${phone}` },
+  { label: "이메일", value: email, icon: Mail, href: `mailto:${email}` },
+  {
+    label: "학력",
+    value: education,
+    icon: GraduationCap,
+  },
+];
+---
+
+<SectionLayout id="about" class="flex min-h-[50svh] items-center">
+  <SectionHead title="About Me" icon="about" />
+
+  <ul class="mt-4 grid gap-3 sm:grid-cols-3">
+    {
+      infoItems.map(({ label, value, icon: Icon, href }) => (
+        <AboutCard label={label} href={href}>
+          <Icon
+            slot="icon"
+            class="size-8"
+            stroke-width={2.2}
+            aria-hidden="true"
+          />
+          {value}
+        </AboutCard>
+      ))
+    }
+  </ul>
+</SectionLayout>

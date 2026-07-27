@@ -1,0 +1,99 @@
+---
+import { Sparkles } from "@lucide/astro";
+import type {
+  ProjectSummary,
+  ProjectTask,
+} from "../../../../content/collections/projects";
+import SkillItem from "../../SkillItem.astro";
+
+interface Props {
+  experience: ProjectSummary;
+  showHighlights?: boolean;
+}
+
+const { experience, showHighlights = true } = Astro.props;
+const visibleSkills = experience.stack?.slice(0, 5) ?? [];
+const hasHiddenSkills = (experience.stack?.length ?? 0) > visibleSkills.length;
+
+function getTaskTitle(task: ProjectTask): string {
+  return typeof task === "string" ? task : task.title;
+}
+---
+
+<article
+  class="relative flex h-full flex-col overflow-hidden rounded-xl border border-base-300 bg-base-100 shadow-sm"
+>
+  <div class="h-1 w-full bg-sky-700" aria-hidden="true"></div>
+
+  <div class="flex flex-1 flex-col p-3 sm:p-4">
+    <div class="flex flex-wrap items-start justify-between gap-x-3 gap-y-1.5">
+      <div class="min-w-0">
+        <h3
+          class="text-lg font-bold tracking-[-0.03em] text-base-content sm:text-xl"
+        >
+          {experience.title}
+        </h3>
+      </div>
+      <time
+        class="shrink-0 rounded-md border border-base-300 bg-base-200/65 px-2 py-0.5 font-mono text-[0.7rem] text-base-content/60"
+      >
+        {experience.period}
+      </time>
+    </div>
+
+    {
+      experience.subtitle && (
+        <p class="mt-1.5 text-xs leading-5 text-base-content/65 sm:text-sm">
+          {experience.subtitle}
+        </p>
+      )
+    }
+
+    {
+      showHighlights && (
+        <>
+          <div
+            class="my-3 border-t border-dashed border-base-300"
+            aria-hidden="true"
+          />
+
+          <ul class="space-y-2">
+            {experience.highlights.slice(0, 3).map((highlight) => (
+              <li class="flex gap-2 text-xs leading-5 text-base-content/75 sm:text-sm">
+                <Sparkles
+                  class="mt-1 size-3.5 shrink-0 text-sky-700"
+                  stroke-width={2}
+                  aria-hidden="true"
+                />
+                <span>{getTaskTitle(highlight)}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+
+    <div class="mt-auto pt-3">
+      {
+        visibleSkills.length > 0 && (
+          <ul
+            class="flex max-w-full flex-nowrap gap-1.5 [&>li]:shrink-0"
+            aria-label={`${experience.title} 기술 스택`}
+          >
+            {visibleSkills.map((skill) => (
+              <SkillItem name={skill} showName={false} />
+            ))}
+            {hasHiddenSkills && (
+              <li
+                class="px-0.5 py-0.5 text-[0.65rem] font-semibold text-base-content/55"
+                aria-label="기술 스택 더 있음"
+              >
+                …
+              </li>
+            )}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+</article>

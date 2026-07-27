@@ -1,0 +1,96 @@
+---
+import { getEntry } from "astro:content";
+
+const profileEntry = await getEntry("v2Profile", "profile");
+
+const name = profileEntry?.data.name?.trim();
+const engName = profileEntry?.data.engName?.trim();
+const portfolioTitle = engName ? `${engName}'s Portfolio` : "Portfolio";
+const summary =
+  profileEntry?.data.summary?.trim() || "프로필 정보를 준비 중입니다.";
+---
+
+<section
+  id="hero"
+  class="flex min-h-[50svh] items-center bg-[url('/hero_bg_1.png')] bg-cover bg-center bg-no-repeat px-5 py-16 sm:px-8 lg:px-12"
+>
+  <div class="mx-auto w-full max-w-6xl text-center">
+    <p
+      class="mb-4 inline-flex rounded-full border border-sky-300/30 bg-slate-950/50 px-4 py-2 font-mono text-xs font-semibold tracking-[0.18em] text-sky-300 uppercase backdrop-blur-sm sm:text-sm"
+    >
+      {portfolioTitle}
+    </p>
+    <p
+      class="relative mx-auto max-w-4xl text-balance text-[1.75rem] leading-[1.25] font-bold tracking-[-0.025em] text-white drop-shadow-lg sm:text-[2.125rem] lg:text-[2.75rem]"
+    >
+      <span class="sr-only">{summary}</span>
+      <span class="invisible" aria-hidden="true">{summary}</span>
+      <span
+        class="absolute inset-0"
+        data-hero-typing
+        data-text={summary}
+        aria-hidden="true"
+      >
+        <span data-hero-typing-text></span>
+        <span
+          class="ml-1 inline-block h-[0.85em] w-[0.08em] translate-y-[0.08em] bg-sky-300 align-baseline motion-safe:animate-pulse motion-reduce:hidden"
+          data-hero-typing-cursor></span>
+      </span>
+    </p>
+    {
+      name && (
+        <p class="mt-4 text-base font-medium tracking-[0.24em] text-sky-100/80 sm:text-lg">
+          -{name}-
+        </p>
+      )
+    }
+  </div>
+</section>
+
+<script>
+  const initializeHeroTyping = () => {
+    const typingElement =
+      document.querySelector<HTMLElement>("[data-hero-typing]");
+
+    if (!typingElement || typingElement.dataset.typingReady === "true") {
+      return;
+    }
+
+    const textElement = typingElement.querySelector<HTMLElement>(
+      "[data-hero-typing-text]",
+    );
+    const cursorElement = typingElement.querySelector<HTMLElement>(
+      "[data-hero-typing-cursor]",
+    );
+    const text = typingElement.dataset.text ?? "";
+
+    if (!textElement || !cursorElement) {
+      return;
+    }
+
+    typingElement.dataset.typingReady = "true";
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      textElement.textContent = text;
+      cursorElement.hidden = true;
+      return;
+    }
+
+    const characters = Array.from(text);
+    let index = 0;
+
+    const typeNextCharacter = () => {
+      index += 1;
+      textElement.textContent = characters.slice(0, index).join("");
+
+      if (index < characters.length) {
+        window.setTimeout(typeNextCharacter, 65);
+      }
+    };
+
+    window.setTimeout(typeNextCharacter, 350);
+  };
+
+  initializeHeroTyping();
+  document.addEventListener("astro:page-load", initializeHeroTyping);
+</script>

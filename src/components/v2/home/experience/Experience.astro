@@ -1,0 +1,15 @@
+---
+import SectionHead from "../../SectionHead.astro";
+import SectionLayout from "../../SectionLayout.astro";
+import CareerBoard from "./CareerBoard.astro";
+import ProjBoard from "./ProjBoard.astro";
+---
+
+<SectionLayout id="experience" class="bg-slate-100" wide>
+  <SectionHead title="Experience" icon="experience" />
+
+  <div class="mt-4 grid gap-4 lg:grid-cols-3">
+    <ProjBoard class="lg:col-span-2" />
+    <CareerBoard />
+  </div>
+</SectionLayout>

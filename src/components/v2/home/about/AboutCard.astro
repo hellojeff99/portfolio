@@ -1,0 +1,44 @@
+---
+interface Props {
+  label: string;
+  href?: string;
+}
+
+const { label, href } = Astro.props;
+---
+
+<li
+  class="min-w-0 overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-sm"
+>
+  <div
+    class="flex items-center gap-1.5 border-b border-base-300 bg-base-200/70 px-4 py-2"
+  >
+    <span class="size-2.5 rounded-full bg-error/75" aria-hidden="true"></span>
+    <span class="size-2.5 rounded-full bg-warning/75" aria-hidden="true"></span>
+    <span class="size-2.5 rounded-full bg-success/75" aria-hidden="true"></span>
+  </div>
+  <div class="flex min-w-0 items-center justify-between gap-4 px-5 py-5">
+    <span class="grid size-12 shrink-0 place-items-center text-base-content">
+      <slot name="icon" />
+    </span>
+    <div class="min-w-0 text-right">
+      <span class="block truncate text-sm font-medium text-base-content/50">
+        {label}
+      </span>
+      <div class="text-base font-medium text-base-content sm:text-[1.05rem]">
+        {
+          href ? (
+            <a
+              class="break-all underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2"
+              href={href}
+            >
+              <slot />
+            </a>
+          ) : (
+            <slot />
+          )
+        }
+      </div>
+    </div>
+  </div>
+</li>

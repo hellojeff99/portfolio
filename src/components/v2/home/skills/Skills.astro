@@ -1,0 +1,51 @@
+---
+import { Braces, Database, Gauge, Layers3, Wrench } from "@lucide/astro";
+import { getEntry } from "astro:content";
+import SectionHead from "../../SectionHead.astro";
+import SectionLayout from "../../SectionLayout.astro";
+import SkillItem from "../../SkillItem.astro";
+
+const skillEntry = await getEntry("v2Skills", "skills");
+
+if (!skillEntry) {
+  throw new Error("v2 Skills에 필요한 기술 데이터를 찾을 수 없습니다.");
+}
+
+const { skills } = skillEntry.data;
+
+const categoryIcons = {
+  Languages: Braces,
+  "Frameworks & Libraries": Layers3,
+  "DB & Cache": Database,
+  "Test & Performance": Gauge,
+  "Infra & Tools": Wrench,
+};
+---
+
+<SectionLayout id="skills" class="bg-blue-400">
+  <SectionHead title="Skills" icon="skills" />
+
+  <div class="mt-4 rounded-2xl bg-base-100/90 px-3 py-2 shadow-sm">
+    {
+      skills.map(({ category, items }) => (
+        <section class="grid gap-4 px-5 py-3 sm:grid-cols-[12rem_1fr] sm:items-center sm:gap-8 sm:px-8">
+          <h3 class="flex items-center gap-2 font-mono text-sm font-bold uppercase tracking-[0.12em]">
+            {(() => {
+              const Icon =
+                categoryIcons[category as keyof typeof categoryIcons] ?? Braces;
+              return (
+                <Icon class="size-4" stroke-width={2} aria-hidden="true" />
+              );
+            })()}
+            <span>{category}</span>
+          </h3>
+          <ul class="flex flex-wrap gap-2" aria-label={`${category} skills`}>
+            {items.map((item) => (
+              <SkillItem name={item} />
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</SectionLayout>

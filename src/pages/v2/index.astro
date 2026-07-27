@@ -1,26 +1,14 @@
 ---
-import { getEntry } from "astro:content";
-import AboutMeSection from "../../components/v2/home/AboutMe.astro";
-import ExperienceSection from "../../components/v2/home/Experience.astro";
-import Footer from "../../components/v2/layout/Footer.astro";
-import Header from "../../components/v2/layout/Header.astro";
-import HeroSection from "../../components/v2/home/Hero.astro";
-import SkillsSection from "../../components/v2/home/Skills.astro";
+import AboutSection from "../../components/v2/home/about/About.astro";
+import ExperienceSection from "../../components/v2/home/experience/Experience.astro";
+import HeroSection from "../../components/v2/home/hero/Hero.astro";
+import SkillsSection from "../../components/v2/home/skills/Skills.astro";
 import Layout from "../../layouts/v2/Layout.astro";
-
-const profileEntry = await getEntry("profile", "profile");
-if (!profileEntry) throw new Error("Profile content is required.");
-
-const profile = profileEntry.data;
 ---
 
 <Layout title="Portfolio v2">
-  <Header name={profile.name} />
-  <main>
-    <HeroSection />
-    <AboutMeSection />
-    <SkillsSection />
-    <ExperienceSection />
-  </main>
-  <Footer />
+  <HeroSection />
+  <AboutSection />
+  <SkillsSection />
+  <ExperienceSection />
 </Layout>
