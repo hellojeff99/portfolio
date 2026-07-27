@@ -41,6 +41,7 @@ const bioParagraphs = profile.bio.split("\n").filter(Boolean);
   <div class="min-w-0 w-full">
     <main id="main-content">
       <Hero
+        name={profile.name}
         role={profile.role}
         email={profile.email}
         location={profile.location}
