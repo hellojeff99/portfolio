@@ -5,6 +5,7 @@ import {
   FileText,
   GitFork,
   LayoutGrid,
+  Mail,
   Menu,
   Terminal,
   X,
@@ -13,6 +14,7 @@ import type { NavItem } from "../../data/navigation";
 
 interface Props {
   name: string;
+  email: string;
   githubUrl: string;
   navItems: NavItem[];
   showMenu?: boolean;
@@ -23,6 +25,7 @@ interface Props {
 
 const {
   name,
+  email,
   githubUrl,
   navItems,
   showMenu = true,
@@ -137,6 +140,14 @@ const mobilePrimaryLinkClass =
       <span class="mx-0.5 h-5 w-px bg-white/20" aria-hidden="true"></span>
       <a
         class:list={[primaryLinkClass, inactivePrimaryLinkClass]}
+        href={`mailto:${email}`}
+        title={email}
+      >
+        <Mail size={16} stroke-width={1.8} aria-hidden="true" />
+        <span>Email</span>
+      </a>
+      <a
+        class:list={[primaryLinkClass, inactivePrimaryLinkClass]}
         href={githubUrl}
         target="_blank"
         rel="noreferrer"
@@ -198,7 +209,18 @@ const mobilePrimaryLinkClass =
               <a
                 class:list={[
                   mobilePrimaryLinkClass,
-                  "col-span-2 border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
+                  "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
+                ]}
+                href={`mailto:${email}`}
+                title={email}
+              >
+                <Mail size={17} stroke-width={1.8} aria-hidden="true" />
+                <span>Email</span>
+              </a>
+              <a
+                class:list={[
+                  mobilePrimaryLinkClass,
+                  "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
                 ]}
                 href={githubUrl}
                 target="_blank"

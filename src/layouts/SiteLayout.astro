@@ -18,6 +18,7 @@ interface Props {
   bodyClass?: string;
   bodyId?: string;
   name: string;
+  email: string;
   githubUrl: string;
   navItems?: NavItem[];
   sidebarTitle?: string;
@@ -44,6 +45,7 @@ const {
   bodyClass,
   bodyId = "top",
   name,
+  email,
   githubUrl,
   navItems = [],
   sidebarTitle = "",
@@ -93,6 +95,7 @@ const hasSidebarFooter = Astro.slots.has("sidebar-footer");
         >
           <Header
             name={name}
+            email={email}
             githubUrl={githubUrl}
             navItems={navItems}
             printHidden={headerPrintHidden}
@@ -140,6 +143,7 @@ const hasSidebarFooter = Astro.slots.has("sidebar-footer");
         <>
           <Header
             name={name}
+            email={email}
             githubUrl={githubUrl}
             navItems={[]}
             showMenu={false}
