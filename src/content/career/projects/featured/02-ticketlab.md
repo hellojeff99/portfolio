@@ -13,14 +13,8 @@ contributions:
 - k6와 EXPLAIN ANALYZE를 활용한 Baseline·Indexing·Redis 성능 비교
 highlights:
 - title: 동일 좌석 중복 예약 9건 → 0건
-  subtasks:
-  - 100개 동시 스레드 · Lock 전략 비교 · PESSIMISTIC_WRITE 기반 예약 직렬화
 - title: 좌석 조회 p95 51.0% 단축
-  subtasks:
-  - Redis Cache-Aside · 커밋 후 캐시 무효화 · Redis 장애 시 DB Fallback
 - title: 측정 기반 최적화 전략 선정
-  subtasks:
-  - k6 100·500·1,000 VU 비교 · EXPLAIN ANALYZE 분석 · End-to-End 성능 측정
 stack:
 - Java
 - Spring Boot

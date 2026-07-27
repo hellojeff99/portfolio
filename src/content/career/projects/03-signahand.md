@@ -12,15 +12,9 @@ contributions:
 - Canvas 출력과 팀 서명 데이터 연동 및 jsPDF 기반 다중 페이지 PDF 내보내기
 
 highlights:
-- title: 브라우저 기반 PDF 페이지 편집 파이프라인
-  subtasks:
-  - 로컬 PDF의 전 페이지를 Canvas 이미지로 변환하고 공통 페이지 상태로 연결
-- title: 페이지 이동 이후에도 유지되는 편집 결과
-  subtasks:
-  - 페이지 전환 전 Canvas 스냅샷을 저장해 편집 화면·미리보기·최종 출력 간 상태 동기화
-- title: 단일 이미지 저장에서 다중 페이지 PDF 출력으로 확장
-  subtasks:
-  - 페이지별 편집 이미지를 jsPDF로 재구성해 하나의 PDF 다운로드 흐름 구현
+  - title: 브라우저 기반 PDF 전 페이지 편집
+  - title: 페이지 전환 간 편집 상태 동기화
+  - title: 다중 페이지 PDF 재구성 및 다운로드
 
 stack:
 - React

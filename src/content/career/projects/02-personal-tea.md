@@ -12,12 +12,8 @@ contributions:
 - 5단계 허브 취향 테스트 구현
 
 highlights:
-- title: 질문·점수·결과를 연결한 5단계 허브 추천
-  subtasks:
-  - 5개 질문과 20개 선택지의 진행 상태·허브별 점수·최종 결과를 하나의 화면 흐름으로 구성
-- title: 7개 화면을 연결한 라우팅·공통 UI 구조
-  subtasks:
-  - 페이지를 containers로 분리하고 Banner·Board·Card·NavLink를 재사용 컴포넌트로 구성
+  - title: 5개 질문·20개 선택지 기반 5단계 허브 추천 흐름 설계
+  - title: 7개 화면 라우팅 및 공통 UI 컴포넌트 구조화
 
 stack:
 - React

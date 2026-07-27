@@ -1,5 +1,5 @@
 ---
-title: 제대로 먹젠!?
+title: 카카오 현장실습(제대로 먹젠!?)
 subtitle: 교내 위치와 이동 시간을 기준으로 음식 종류와 주변 식당을 추천하는 제주대학교 학생 대상 모바일 웹 서비스
 role: "Front: Kakao Maps SDK 연동·지도/마커 원형·초기 식당/건물 데이터 구축 / Management: Jira·Agit 협업 운영·GitHub Wiki 문서화"
 team-size: 5명
@@ -12,15 +12,9 @@ contributions:
 - Jira Kanban·Agit Daily Scrum 기반 협업 운영과 GitHub Wiki 문서화
 
 highlights:
-- title: 지도 SDK와 정적 데이터를 연결한 위치 탐색 기반
-  subtasks:
-  - React 생명주기에서 지도와 다중 마커를 생성하고 지도 중심·줌 레벨 제어
-- title: 서버·DB 없이 재현 가능한 추천 데이터 기반
-  subtasks:
-  - 식당·건물 정보를 공통 JSON 구조로 정리해 지도와 추천 흐름의 입력으로 연결
-- title: Jira·Agit·GitHub 기반 협업 흐름과 지식 자산
-  subtasks:
-  - Kanban·Daily Scrum·Ground Rule·회의 기록으로 작업 상태와 의사결정 공유
+  - title: 지도 SDK·다중 마커 기반 위치 탐색
+  - title: 공통 JSON 기반 무서버 추천 데이터 구축
+  - title: Jira·Agit·GitHub 기반 협업 및 지식 관리
 
 stack:
 - React

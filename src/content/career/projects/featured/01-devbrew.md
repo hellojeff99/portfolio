@@ -13,17 +13,9 @@ contributions:
   - Vercel·Railway·Neon 기반 프론트엔드·서버·데이터베이스 분리 배포
 highlights:
   - title: 예약 데이터 일관성 확보
-    subtasks:
-      - 슬롯 점유와 커피챗 생성을 트랜잭션으로 처리하고 고유 제약으로 중복 관계 차단
   - title: 예약과 채팅 흐름 연결
-    subtasks:
-      - 커피챗 승인 시 1:1 채팅방 자동 생성을 통한 사용자 흐름 통합
   - title: 실시간 채팅의 영속성 확보
-    subtasks:
-      - 메시지 저장 후 브로드캐스트를 통한 실시간 데이터와 대화 기록 일치
   - title: 분리 배포 환경 연결 안정화
-    subtasks:
-      - CORS·Socket.IO transport·연결 시점 조정을 통한 프록시 환경 연결 문제 해결
 stack:
   - Next.js
   - NestJS
