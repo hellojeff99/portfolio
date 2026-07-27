@@ -29,9 +29,10 @@ import {
 
 interface Props {
   name: string;
+  large?: boolean;
 }
 
-const { name } = Astro.props;
+const { name, large = false } = Astro.props;
 
 const brandIcons = {
   Arduino: siArduino,
@@ -78,7 +79,10 @@ const FallbackIcon = name === "JPA" || name === "Oracle" ? Database : Code2;
 ---
 
 <li
-  class="font-mono flex min-h-7 w-fit flex-none items-center gap-1.5 rounded-md p-1 pr-2 text-[10px] font-bold leading-snug text-slate-600"
+  class:list={[
+    "font-mono flex min-h-7 w-fit flex-none items-center gap-1.5 rounded-md p-1 pr-2 font-bold leading-snug text-slate-600",
+    large ? "text-xs" : "text-[10px]",
+  ]}
 >
   <span
     class="inline-grid size-5 shrink-0 place-items-center"
