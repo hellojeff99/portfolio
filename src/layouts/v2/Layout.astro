@@ -1,4 +1,6 @@
 ---
+import Footer from "../../components/v2/layout/Footer.astro";
+import Header from "../../components/v2/layout/Header.astro";
 import "../../styles/v2/global.css";
 
 interface Props {
@@ -6,6 +8,7 @@ interface Props {
 }
 
 const { title = "Portfolio v2" } = Astro.props;
+const isDevelopment = import.meta.env.DEV;
 ---
 
 <!doctype html>
@@ -24,8 +27,17 @@ const { title = "Portfolio v2" } = Astro.props;
   </head>
   <body
     id="top"
-    class="min-h-screen min-w-80 bg-base-100 font-sans text-base-content antialiased"
+    class:list={[
+      "min-h-screen min-w-80 bg-base-100 font-sans text-base-content antialiased",
+      isDevelopment && "border-sky-700 border-2 border-dashed",
+    ]}
   >
-    <slot />
+    <Header />
+    <main
+      class:list={[isDevelopment && "border-sky-700 border-y-2 border-dashed"]}
+    >
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>
