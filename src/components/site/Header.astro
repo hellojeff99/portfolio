@@ -23,6 +23,16 @@ interface Props {
   backLabel?: string;
 }
 
+interface PrimaryLink {
+  label: string;
+  href: string;
+  Icon: typeof LayoutGrid;
+  isActive: boolean;
+  title?: string;
+  external?: boolean;
+  separated?: boolean;
+}
+
 const {
   name,
   email,
@@ -52,6 +62,39 @@ const inactivePrimaryLinkClass =
   "text-blue-50 hover:bg-white/15 hover:text-white";
 const mobilePrimaryLinkClass =
   "flex min-h-11 items-center justify-center gap-2 rounded-lg border text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2";
+const activeMobilePrimaryLinkClass =
+  "border-blue-600 bg-blue-600 text-white shadow-sm shadow-blue-600/20";
+const inactiveMobilePrimaryLinkClass =
+  "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50";
+const primaryLinks: PrimaryLink[] = [
+  {
+    label: "Portfolio",
+    href: "/",
+    Icon: LayoutGrid,
+    isActive: isPortfolioPage,
+  },
+  {
+    label: "Resume",
+    href: "/resume",
+    Icon: FileText,
+    isActive: isResumePage,
+  },
+  {
+    label: "Email",
+    href: `mailto:${email}`,
+    Icon: Mail,
+    isActive: false,
+    title: email,
+    separated: true,
+  },
+  {
+    label: "GitHub",
+    href: githubUrl,
+    Icon: GitFork,
+    isActive: false,
+    external: true,
+  },
+];
 ---
 
 <header
@@ -115,52 +158,39 @@ const mobilePrimaryLinkClass =
     </div>
 
     <nav class="hidden items-center gap-1 md:flex" aria-label="주요 링크">
-      <a
-        class:list={[
-          primaryLinkClass,
-          isPortfolioPage ? activePrimaryLinkClass : inactivePrimaryLinkClass,
-        ]}
-        href="/"
-        aria-current={isPortfolioPage ? "page" : undefined}
-      >
-        <LayoutGrid size={16} stroke-width={1.8} aria-hidden="true" />
-        <span>Portfolio</span>
-      </a>
-      <a
-        class:list={[
-          primaryLinkClass,
-          isResumePage ? activePrimaryLinkClass : inactivePrimaryLinkClass,
-        ]}
-        href="/resume"
-        aria-current={isResumePage ? "page" : undefined}
-      >
-        <FileText size={16} stroke-width={1.8} aria-hidden="true" />
-        <span>Resume</span>
-      </a>
-      <span class="mx-0.5 h-5 w-px bg-white/20" aria-hidden="true"></span>
-      <a
-        class:list={[primaryLinkClass, inactivePrimaryLinkClass]}
-        href={`mailto:${email}`}
-        title={email}
-      >
-        <Mail size={16} stroke-width={1.8} aria-hidden="true" />
-        <span>Email</span>
-      </a>
-      <a
-        class:list={[primaryLinkClass, inactivePrimaryLinkClass]}
-        href={githubUrl}
-        target="_blank"
-        rel="noreferrer"
-      >
-        <GitFork size={16} stroke-width={1.8} aria-hidden="true" />
-        <span>GitHub</span>
-        <ArrowUpRight
-          class="text-blue-100"
-          size={13}
-          stroke-width={1.8}
-          aria-hidden="true"
-        />
-      </a>
+      {
+        primaryLinks.map(
+          ({ label, href, Icon, isActive, title, external, separated }) => (
+            <>
+              {separated && (
+                <span class="mx-0.5 h-5 w-px bg-white/20" aria-hidden="true" />
+              )}
+              <a
+                class:list={[
+                  primaryLinkClass,
+                  isActive ? activePrimaryLinkClass : inactivePrimaryLinkClass,
+                ]}
+                href={href}
+                title={title}
+                target={external ? "_blank" : undefined}
+                rel={external ? "noreferrer" : undefined}
+                aria-current={isActive ? "page" : undefined}
+              >
+                <Icon size={16} stroke-width={1.8} aria-hidden="true" />
+                <span>{label}</span>
+                {external && (
+                  <ArrowUpRight
+                    class="text-blue-100"
+                    size={13}
+                    stroke-width={1.8}
+                    aria-hidden="true"
+                  />
+                )}
+              </a>
+            </>
+          ),
+        )
+      }
     </nav>
   </div>
 
@@ -180,61 +210,34 @@ const mobilePrimaryLinkClass =
               Navigate
             </p>
             <div class="grid grid-cols-2 gap-2">
-              <a
-                class:list={[
-                  mobilePrimaryLinkClass,
-                  isPortfolioPage
-                    ? "border-blue-600 bg-blue-600 text-white shadow-sm shadow-blue-600/20"
-                    : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
-                ]}
-                href="/"
-                aria-current={isPortfolioPage ? "page" : undefined}
-              >
-                <LayoutGrid size={17} stroke-width={1.8} aria-hidden="true" />
-                <span>Portfolio</span>
-              </a>
-              <a
-                class:list={[
-                  mobilePrimaryLinkClass,
-                  isResumePage
-                    ? "border-blue-600 bg-blue-600 text-white shadow-sm shadow-blue-600/20"
-                    : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
-                ]}
-                href="/resume"
-                aria-current={isResumePage ? "page" : undefined}
-              >
-                <FileText size={17} stroke-width={1.8} aria-hidden="true" />
-                <span>Resume</span>
-              </a>
-              <a
-                class:list={[
-                  mobilePrimaryLinkClass,
-                  "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
-                ]}
-                href={`mailto:${email}`}
-                title={email}
-              >
-                <Mail size={17} stroke-width={1.8} aria-hidden="true" />
-                <span>Email</span>
-              </a>
-              <a
-                class:list={[
-                  mobilePrimaryLinkClass,
-                  "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
-                ]}
-                href={githubUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <GitFork size={17} stroke-width={1.8} aria-hidden="true" />
-                <span>GitHub</span>
-                <ArrowUpRight
-                  class="text-slate-400"
-                  size={13}
-                  stroke-width={1.8}
-                  aria-hidden="true"
-                />
-              </a>
+              {primaryLinks.map(
+                ({ label, href, Icon, isActive, title, external }) => (
+                  <a
+                    class:list={[
+                      mobilePrimaryLinkClass,
+                      isActive
+                        ? activeMobilePrimaryLinkClass
+                        : inactiveMobilePrimaryLinkClass,
+                    ]}
+                    href={href}
+                    title={title}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noreferrer" : undefined}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    <Icon size={17} stroke-width={1.8} aria-hidden="true" />
+                    <span>{label}</span>
+                    {external && (
+                      <ArrowUpRight
+                        class="text-slate-400"
+                        size={13}
+                        stroke-width={1.8}
+                        aria-hidden="true"
+                      />
+                    )}
+                  </a>
+                ),
+              )}
             </div>
 
             {navItems.length > 0 && (
