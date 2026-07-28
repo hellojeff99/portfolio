@@ -1,5 +1,5 @@
 ---
-import { Code2, Database } from "@lucide/astro";
+import { Icon } from "astro-icon/components";
 import {
   siArduino,
   siC,
@@ -82,7 +82,10 @@ const icon = brandIcons[name as keyof typeof brandIcons] ?? null;
 const color = icon?.hex
   ? `#${icon.hex}`
   : (fallbackColors[name as keyof typeof fallbackColors] ?? "#64748b");
-const FallbackIcon = name === "JPA" || name === "Oracle" ? Database : Code2;
+const fallbackIcon =
+  name === "JPA" || name === "Oracle"
+    ? "ph:database-bold"
+    : "ph:brackets-curly-bold";
 ---
 
 <li
@@ -114,9 +117,10 @@ const FallbackIcon = name === "JPA" || name === "Oracle" ? Database : Code2;
           <path d={icon.path} />
         </svg>
       ) : (
-        <FallbackIcon
+        <Icon
+          name={fallbackIcon}
           class:list={[compact ? "size-3.5" : "size-[1.125rem]"]}
-          stroke-width={1.8}
+          aria-hidden="true"
         />
       )
     }

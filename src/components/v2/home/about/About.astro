@@ -1,12 +1,5 @@
 ---
-import {
-  CalendarDays,
-  GraduationCap,
-  Mail,
-  MapPin,
-  Phone,
-  UserRound,
-} from "@lucide/astro";
+import { Icon } from "astro-icon/components";
 import { getEntry } from "astro:content";
 import SectionHead from "../../SectionHead.astro";
 import SectionLayout from "../../SectionLayout.astro";
@@ -28,15 +21,37 @@ const education = [latestEducation.school, latestEducation.major]
   .join(" · ");
 
 const infoItems = [
-  { label: "이름", value: name, icon: UserRound },
-  { label: "생년월일", value: birthDate, icon: CalendarDays },
-  { label: "위치", value: location, icon: MapPin },
-  { label: "연락처", value: phone, icon: Phone, href: `tel:${phone}` },
-  { label: "이메일", value: email, icon: Mail, href: `mailto:${email}` },
+  {
+    label: "이름",
+    value: name,
+    icon: "ph:user-fill",
+  },
+  {
+    label: "생년월일",
+    value: birthDate,
+    icon: "ph:calendar-blank-fill",
+  },
+  {
+    label: "위치",
+    value: location,
+    icon: "ph:map-pin-fill",
+  },
+  {
+    label: "연락처",
+    value: phone,
+    icon: "ph:phone-fill",
+    href: `tel:${phone}`,
+  },
+  {
+    label: "이메일",
+    value: email,
+    icon: "ph:envelope-simple-fill",
+    href: `mailto:${email}`,
+  },
   {
     label: "학력",
     value: education,
-    icon: GraduationCap,
+    icon: "ph:graduation-cap-fill",
   },
 ];
 ---
@@ -46,14 +61,9 @@ const infoItems = [
 
   <ul class="mt-4 grid gap-3 sm:grid-cols-3">
     {
-      infoItems.map(({ label, value, icon: Icon, href }) => (
+      infoItems.map(({ label, value, icon, href }) => (
         <AboutCard label={label} href={href}>
-          <Icon
-            slot="icon"
-            class="size-8"
-            stroke-width={2.2}
-            aria-hidden="true"
-          />
+          <Icon slot="icon" name={icon} class="size-10" aria-hidden="true" />
           {value}
         </AboutCard>
       ))

@@ -1,6 +1,6 @@
 ---
-import { Braces, Database, Gauge, Layers3, Wrench } from "@lucide/astro";
 import { getEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
 import SectionHead from "../../SectionHead.astro";
 import SectionLayout from "../../SectionLayout.astro";
 import SkillItem from "../../SkillItem.astro";
@@ -14,11 +14,11 @@ if (!skillEntry) {
 const { skills } = skillEntry.data;
 
 const categoryIcons = {
-  Languages: Braces,
-  "Frameworks & Libraries": Layers3,
-  "DB & Cache": Database,
-  "Test & Performance": Gauge,
-  "Infra & Tools": Wrench,
+  Languages: "ph:brackets-curly-bold",
+  "Frameworks & Libraries": "ph:stack-bold",
+  "DB & Cache": "ph:database-bold",
+  "Test & Performance": "ph:gauge-bold",
+  "Infra & Tools": "ph:toolbox-bold",
 };
 
 const categoryAccents = {
@@ -32,7 +32,9 @@ const categoryAccents = {
 const skillGroups = skills.map(({ category, items }) => ({
   category,
   items,
-  icon: categoryIcons[category as keyof typeof categoryIcons] ?? Braces,
+  icon:
+    categoryIcons[category as keyof typeof categoryIcons] ??
+    "ph:brackets-curly-bold",
   accent:
     categoryAccents[category as keyof typeof categoryAccents] ??
     "from-primary to-secondary",
@@ -44,7 +46,7 @@ const skillGroups = skills.map(({ category, items }) => ({
 
   <div class="mt-4 rounded-2xl bg-white/90 px-3 py-2 shadow-sm">
     {
-      skillGroups.map(({ category, items, icon: Icon, accent }) => (
+      skillGroups.map(({ category, items, icon, accent }) => (
         <section class="grid gap-4 px-5 py-2 sm:grid-cols-[16rem_1fr] sm:items-center sm:gap-4 sm:px-8">
           <h3 class="inline-flex w-fit items-center gap-3 whitespace-nowrap">
             <span
@@ -53,7 +55,7 @@ const skillGroups = skills.map(({ category, items }) => ({
                 accent,
               ]}
             >
-              <Icon class="size-4" stroke-width={2.2} aria-hidden="true" />
+              <Icon name={icon} class="size-4" aria-hidden="true" />
             </span>
             <span class="font-sans text-sm leading-tight font-black uppercase tracking-[0.08em] text-base-content">
               {category.includes(" & ") ? (
