@@ -20,24 +20,51 @@ const categoryIcons = {
   "Test & Performance": Gauge,
   "Infra & Tools": Wrench,
 };
+
+const categoryAccents = {
+  Languages: "from-amber-400 to-orange-500",
+  "Frameworks & Libraries": "from-violet-500 to-fuchsia-500",
+  "DB & Cache": "from-cyan-400 to-blue-500",
+  "Test & Performance": "from-emerald-400 to-teal-500",
+  "Infra & Tools": "from-slate-500 to-indigo-500",
+};
+
+const skillGroups = skills.map(({ category, items }) => ({
+  category,
+  items,
+  icon: categoryIcons[category as keyof typeof categoryIcons] ?? Braces,
+  accent:
+    categoryAccents[category as keyof typeof categoryAccents] ??
+    "from-primary to-secondary",
+}));
 ---
 
 <SectionLayout id="skills" class="bg-blue-400">
   <SectionHead title="Skills" icon="skills" />
 
-  <div class="mt-4 rounded-2xl bg-base-100/90 px-3 py-2 shadow-sm">
+  <div class="mt-4 rounded-2xl bg-white/90 px-3 py-2 shadow-sm">
     {
-      skills.map(({ category, items }) => (
-        <section class="grid gap-4 px-5 py-3 sm:grid-cols-[12rem_1fr] sm:items-center sm:gap-8 sm:px-8">
-          <h3 class="flex items-center gap-2 font-mono text-sm font-bold uppercase tracking-[0.12em]">
-            {(() => {
-              const Icon =
-                categoryIcons[category as keyof typeof categoryIcons] ?? Braces;
-              return (
-                <Icon class="size-4" stroke-width={2} aria-hidden="true" />
-              );
-            })()}
-            <span>{category}</span>
+      skillGroups.map(({ category, items, icon: Icon, accent }) => (
+        <section class="grid gap-4 px-5 py-2 sm:grid-cols-[16rem_1fr] sm:items-center sm:gap-4 sm:px-8">
+          <h3 class="inline-flex w-fit items-center gap-3 whitespace-nowrap">
+            <span
+              class:list={[
+                "grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-white shadow-md",
+                accent,
+              ]}
+            >
+              <Icon class="size-4" stroke-width={2.2} aria-hidden="true" />
+            </span>
+            <span class="font-sans text-sm leading-tight font-black uppercase tracking-[0.08em] text-base-content">
+              {category.includes(" & ") ? (
+                <>
+                  {category.split(" & ")[0]}
+                  <span class="block">&amp; {category.split(" & ")[1]}</span>
+                </>
+              ) : (
+                category
+              )}
+            </span>
           </h3>
           <ul class="flex flex-wrap gap-2" aria-label={`${category} skills`}>
             {items.map((item) => (
