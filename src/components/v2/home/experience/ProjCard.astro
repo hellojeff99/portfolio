@@ -1,16 +1,21 @@
 ---
 import type {
+  ProjectEntry,
   ProjectSummary,
   ProjectTask,
 } from "../../../../content/v2/collections/projects";
 import SkillItem from "../../SkillItem.astro";
 import ReadmeBtn from "./ReadmeBtn.astro";
+import ReadmeModal from "./ReadmeModal.astro";
 
 interface Props {
   project: ProjectSummary;
+  entry: ProjectEntry;
 }
 
-const { project } = Astro.props;
+const { project, entry } = Astro.props;
+const readmeModalId = `readme-${project.id.replaceAll("/", "-")}`;
+const hasDocument = Boolean(entry.body?.trim());
 const visibleSkills = project.stack?.slice(0, 3) ?? [];
 const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
 
@@ -79,9 +84,9 @@ function getTaskTitle(task: ProjectTask): string {
         )
       }
       {
-        project.github && (
+        hasDocument && (
           <ReadmeBtn
-            href={project.github}
+            modalId={readmeModalId}
             projectTitle={project.title}
             showText={false}
           />
@@ -90,3 +95,5 @@ function getTaskTitle(task: ProjectTask): string {
     </div>
   </div>
 </article>
+
+{hasDocument && <ReadmeModal modalId={readmeModalId} project={entry} />}

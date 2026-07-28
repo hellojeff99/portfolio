@@ -2,21 +2,20 @@
 import { FileText } from "@lucide/astro";
 
 interface Props {
-  href: string;
+  modalId: string;
   projectTitle: string;
   showText?: boolean;
 }
 
-const { href, projectTitle, showText = true } = Astro.props;
+const { modalId, projectTitle, showText = true } = Astro.props;
 ---
 
-<a
+<button
+  type="button"
   class="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-blue-500 px-2.5 py-1.5 text-xs font-bold text-white transition-colors hover:bg-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-  href={href}
-  target="_blank"
-  rel="noreferrer"
-  aria-label={`${projectTitle} README 열기`}
+  data-readme-open={modalId}
+  aria-label={`${projectTitle} README 보기`}
 >
   <FileText class="size-3.5" stroke-width={2} aria-hidden="true" />
   {showText && <span>README</span>}
-</a>
+</button>

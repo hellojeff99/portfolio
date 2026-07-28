@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import type { ProjectTask } from "../../../../content/v2/collections/projects";
+import ReadmeBtn from "./ReadmeBtn.astro";
+import ReadmeModal from "./ReadmeModal.astro";
 import SkillItem from "../../SkillItem.astro";
 
 interface Props {
@@ -8,6 +10,8 @@ interface Props {
 }
 
 const { career } = Astro.props;
+const readmeModalId = `readme-${career.id.replaceAll("/", "-")}`;
+const hasDocument = Boolean(career.body?.trim());
 
 function getTaskTitle(task: ProjectTask): string {
   return typeof task === "string" ? task : task.title;
@@ -70,17 +74,24 @@ function getTaskTitle(task: ProjectTask): string {
   </ul>
 
   {
-    career.data.stack && career.data.stack.length > 0 && (
-      <div class="mt-auto pt-6">
-        <ul
-          class="flex flex-wrap gap-x-3 gap-y-1.5 rounded-xl bg-base-200/55 px-3 py-2"
-          aria-label={`${career.data.title} 기술 스택`}
-        >
-          {career.data.stack.slice(0, 4).map((skill) => (
-            <SkillItem name={skill} showName={false} />
-          ))}
-        </ul>
+    (career.data.stack?.length || hasDocument) && (
+      <div class="mt-auto flex flex-wrap items-center justify-between gap-3 pt-6">
+        {career.data.stack && career.data.stack.length > 0 && (
+          <ul
+            class="flex flex-wrap gap-x-3 gap-y-1.5 px-3 py-2"
+            aria-label={`${career.data.title} 기술 스택`}
+          >
+            {career.data.stack.slice(0, 4).map((skill) => (
+              <SkillItem name={skill} showName={false} />
+            ))}
+          </ul>
+        )}
+        {hasDocument && (
+          <ReadmeBtn modalId={readmeModalId} projectTitle={career.data.title} />
+        )}
       </div>
     )
   }
 </div>
+
+{hasDocument && <ReadmeModal modalId={readmeModalId} project={career} />}

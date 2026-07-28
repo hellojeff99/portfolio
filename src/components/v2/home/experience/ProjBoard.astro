@@ -19,8 +19,14 @@ const projectGroups = groupProjectEntries(
     entry.id.startsWith("project/"),
   ),
 );
-const featuredProjects = projectGroups.featured.map(toProjectSummary);
-const projects = projectGroups.project.map(toProjectSummary);
+const featuredProjects = projectGroups.featured.map((entry) => ({
+  entry,
+  summary: toProjectSummary(entry),
+}));
+const projects = projectGroups.project.map((entry) => ({
+  entry,
+  summary: toProjectSummary(entry),
+}));
 ---
 
 <section class:list={["min-w-0", className]}>
@@ -41,13 +47,21 @@ const projects = projectGroups.project.map(toProjectSummary);
   <div class="grid gap-4 pb-5 sm:pb-6">
     <section class="min-w-0" aria-label="Featured Projects">
       <div class="grid gap-3 md:grid-cols-2">
-        {featuredProjects.map((project) => <FeatProjCard project={project} />)}
+        {
+          featuredProjects.map(({ entry, summary }) => (
+            <FeatProjCard project={summary} entry={entry} />
+          ))
+        }
       </div>
     </section>
 
     <section class="min-w-0" aria-label="Projects">
       <div class="grid gap-2 md:grid-cols-3">
-        {projects.map((project) => <ProjCard project={project} />)}
+        {
+          projects.map(({ entry, summary }) => (
+            <ProjCard project={summary} entry={entry} />
+          ))
+        }
       </div>
     </section>
   </div>
