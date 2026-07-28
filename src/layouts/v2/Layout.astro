@@ -8,7 +8,6 @@ interface Props {
 }
 
 const { title = "Portfolio v2" } = Astro.props;
-const isDevelopment = import.meta.env.DEV;
 ---
 
 <!doctype html>
@@ -27,15 +26,10 @@ const isDevelopment = import.meta.env.DEV;
   </head>
   <body
     id="top"
-    class:list={[
-      "min-h-screen min-w-80 bg-base-100 font-sans text-base-content antialiased",
-      isDevelopment && "border-sky-700 border-2 border-dashed",
-    ]}
+    class="min-h-screen min-w-80 bg-base-100 font-sans text-base-content antialiased"
   >
     <Header />
-    <main
-      class:list={[isDevelopment && "border-sky-700 border-y-2 border-dashed"]}
-    >
+    <main>
       <slot />
     </main>
     <Footer />

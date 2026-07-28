@@ -1,68 +1,65 @@
 ---
-import { ArrowUpRight, Mail } from "@lucide/astro";
+import { ArrowUpRight } from "@lucide/astro";
+import { getEntry } from "astro:content";
 import { siGithub } from "simple-icons";
 
-const email = "ysw991106@gmail.com";
-const githubUrl = "https://github.com/hellojeff99";
+const profileEntry = await getEntry("v2Profile", "profile");
+const profile = profileEntry?.data;
+const email = profile?.email ?? "ysw991106@gmail.com";
+const githubUrl = profile?.github ?? "https://github.com/hellojeff99";
+const name = profile?.name ?? "Yang Seongwon";
 ---
 
 <footer
   id="contact"
-  class="border-t border-base-300 bg-base-100 px-5 py-10 sm:px-8 lg:px-12 lg:py-12"
+  class="bg-gray-950 px-5 py-4 text-white sm:px-8 sm:py-5 lg:px-12"
   aria-label="연락처"
 >
   <div
-    class="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-end sm:justify-between"
+    class="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
   >
-    <div class="space-y-2">
-      <p class="text-sm font-medium tracking-tight text-base-content/60">
-        CONTACT
-      </p>
-      <a
-        class="group inline-flex items-center gap-2 text-xl font-semibold tracking-tight text-base-content transition-colors hover:text-sky-700 sm:text-2xl"
-        href={`mailto:${email}`}
-      >
-        {email}
-        <ArrowUpRight
-          class="size-5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none"
-          aria-hidden="true"
-        />
-      </a>
-    </div>
-
-    <div
-      class="flex items-center gap-5 text-sm font-medium text-base-content/60"
+    <a
+      class="group inline-flex items-center gap-1.5 text-sm font-semibold tracking-tight text-white/65 transition-colors hover:text-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
+      href={`mailto:${email}`}
     >
+      <span
+        class="font-mono text-[0.6rem] font-semibold tracking-[0.16em] text-white/40"
+        >CONTACT</span
+      >
+      {email}
+      <ArrowUpRight
+        class="size-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none"
+        aria-hidden="true"
+      />
+    </a>
+
+    <div class="flex items-center gap-4 text-xs font-medium text-white/55">
       <a
-        class="inline-flex items-center gap-2 transition-colors hover:text-base-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2"
+        class="inline-flex items-center gap-2 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
         href={githubUrl}
         target="_blank"
         rel="noreferrer"
       >
-        <svg class="size-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+        <svg
+          class="size-3.5 fill-current"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <path d={siGithub.path}></path>
         </svg>
         GitHub
       </a>
       <a
-        class="inline-flex items-center gap-2 transition-colors hover:text-base-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2"
-        href={`mailto:${email}`}
-      >
-        <Mail class="size-4" aria-hidden="true" />
-        Email
-      </a>
-      <a
-        class="transition-colors hover:text-base-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2"
+        class="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
         href="#top"
       >
         Top
       </a>
+      <span class="h-3 w-px bg-white/15" aria-hidden="true"></span>
+      <p class="text-[0.65rem] text-white/35">
+        © {new Date().getFullYear()}
+        {name}
+      </p>
     </div>
-  </div>
-
-  <div class="mx-auto mt-10 max-w-6xl border-t border-base-300 pt-4">
-    <p class="text-xs text-base-content/40">
-      © {new Date().getFullYear()} Yang Seongwon
-    </p>
   </div>
 </footer>
