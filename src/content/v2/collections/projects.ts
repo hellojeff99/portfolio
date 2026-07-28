@@ -81,8 +81,8 @@ export const PROJECT_CATEGORY_META = {
 export function getProjectCategory(id: string): ProjectCategory {
   const [section, subsection] = id.split("/");
 
-  if (section === "work") return "work";
-  if (section === "experience") return "experience";
+  if (section === "career") return "work";
+  if (section === "activity") return "experience";
   if (section === "project" && subsection === "featured") return "featured";
   if (section === "project") return "project";
 

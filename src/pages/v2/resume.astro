@@ -1,0 +1,89 @@
+---
+import { ArrowLeft, Printer } from "@lucide/astro";
+import { getCollection, getEntry } from "astro:content";
+import CertificationSection from "../../components/resume/CertificationSection.astro";
+import EducationSection from "../../components/resume/EducationSection.astro";
+import ProjectSection from "../../components/resume/ProjectSection.astro";
+import ResumeProfile from "../../components/resume/ResumeProfile.astro";
+import SkillsSection from "../../components/resume/SkillsSection.astro";
+import { groupProjectEntries } from "../../content/v2/collections/projects";
+import Layout from "../../layouts/v2/Layout.astro";
+
+const profileEntry = await getEntry("v2Profile", "profile");
+const skillEntry = await getEntry("v2Skills", "skills");
+const educationEntry = await getEntry("v2Educations", "educations");
+const certificationEntry = await getEntry("v2Certifications", "certifications");
+const projectGroups = groupProjectEntries(await getCollection("v2Projects"));
+
+if (!profileEntry) throw new Error("Profile content is required.");
+
+const profile = profileEntry.data;
+const bioParagraphs = profile.bio.split("\n").filter(Boolean);
+const skills = skillEntry?.data.skills ?? [];
+const educations = educationEntry?.data.educations ?? [];
+const certifications = certificationEntry?.data.certifications ?? [];
+const workProjects = projectGroups.work;
+const selectedProjects = [...projectGroups.featured, ...projectGroups.project];
+const activities = projectGroups.experience;
+---
+
+<Layout title={`${profile.name} — Resume`}>
+  <section class="bg-base-200 px-5 pt-24 pb-12 sm:px-8 lg:px-12">
+    <div class="mx-auto w-full max-w-4xl">
+      <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <a
+          class="inline-flex min-h-10 items-center gap-2 rounded-full border border-base-300 bg-base-100 px-4 text-sm font-bold text-base-content transition-colors hover:border-base-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2"
+          href="/v2"
+        >
+          <ArrowLeft size={16} stroke-width={2} aria-hidden="true" />
+          <span>포트폴리오</span>
+        </a>
+        <button
+          class="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-full bg-slate-950 px-4 text-sm font-bold text-white transition-colors hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2"
+          type="button"
+          aria-label="PDF로 저장"
+          data-print-resume
+        >
+          <Printer size={16} stroke-width={2} aria-hidden="true" />
+          <span>PDF 저장</span>
+        </button>
+      </div>
+
+      <main id="resume-content">
+        <article
+          class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8 print:rounded-none print:border-0 print:bg-transparent print:p-0 print:shadow-none"
+        >
+          <ResumeProfile profile={profile} />
+          <EducationSection educations={educations} />
+          <CertificationSection certifications={certifications} />
+          <SkillsSection skills={skills} />
+          <ProjectSection
+            id="work"
+            title="Work"
+            projects={workProjects}
+            compact
+            subtitleBeforeTitle
+          />
+          <ProjectSection
+            id="projects"
+            title="Projects"
+            projects={selectedProjects}
+          />
+          <ProjectSection
+            id="experience"
+            title="Experience"
+            projects={activities}
+          />
+        </article>
+      </main>
+    </div>
+  </section>
+
+  <script>
+    document
+      .querySelectorAll<HTMLButtonElement>("[data-print-resume]")
+      .forEach((button) =>
+        button.addEventListener("click", () => window.print()),
+      );
+  </script>
+</Layout>
