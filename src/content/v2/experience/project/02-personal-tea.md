@@ -12,7 +12,7 @@ contributions:
   - 5단계 허브 취향 테스트 구현
 
 highlights:
-  - title: 5개 질문·20개 선택지 기반 5단계 허브 추천 흐름 설계
+  - title: 선택지 기반 5단계 허브 추천 흐름 설계
   - title: 7개 화면 라우팅 및 공통 UI 컴포넌트 구조화
 
 stack:
