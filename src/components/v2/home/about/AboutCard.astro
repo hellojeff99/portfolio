@@ -8,7 +8,7 @@ const { label, href } = Astro.props;
 ---
 
 <li
-  class="min-w-0 overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-sm"
+  class="min-w-0 overflow-hidden rounded-2xl border border-base-300 bg-base-100 font-sans shadow-sm"
 >
   <div
     class="flex items-center gap-1.5 border-b border-base-300 bg-base-200/70 px-4 py-2"
@@ -22,10 +22,10 @@ const { label, href } = Astro.props;
       <slot name="icon" />
     </span>
     <div class="min-w-0 text-right">
-      <span class="block truncate text-sm font-medium text-base-content/50">
+      <span class="block truncate text-sm font-semibold text-base-content/70">
         {label}
       </span>
-      <div class="text-base font-medium text-base-content sm:text-[1.05rem]">
+      <div class="text-base font-semibold text-base-content sm:text-[1.05rem]">
         {
           href ? (
             <a

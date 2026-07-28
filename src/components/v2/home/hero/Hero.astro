@@ -4,10 +4,17 @@ import { getEntry } from "astro:content";
 const profileEntry = await getEntry("v2Profile", "profile");
 
 const name = profileEntry?.data.name?.trim();
+const role = profileEntry?.data.role?.trim();
 const engName = profileEntry?.data.engName?.trim();
-const portfolioTitle = engName ? `${engName}'s Portfolio` : "Portfolio";
+const label = "DEV PORTFOLIO";
 const summary =
   profileEntry?.data.summary?.trim() || "프로필 정보를 준비 중입니다.";
+const headlineWords = summary.split(/\s+/);
+const headlineSplitIndex = Math.ceil(headlineWords.length / 2);
+const headline =
+  headlineWords.length > 1
+    ? `${headlineWords.slice(0, headlineSplitIndex).join(" ")}\n${headlineWords.slice(headlineSplitIndex).join(" ")}`
+    : summary;
 ---
 
 <section
@@ -16,19 +23,40 @@ const summary =
 >
   <div class="mx-auto w-full max-w-6xl text-center">
     <p
-      class="mb-4 inline-flex rounded-full border border-sky-300/30 bg-slate-950/50 px-4 py-2 font-mono text-xs font-semibold tracking-[0.18em] text-sky-300 uppercase backdrop-blur-sm sm:text-sm"
+      class="mb-4 inline-flex rounded-full border border-sky-300/30 bg-slate-950/50 px-4 py-2 font-mono text-lg font-semibold tracking-[0.18em] text-sky-300 uppercase backdrop-blur-sm sm:text-xl"
     >
-      {portfolioTitle}
+      {label}
     </p>
+    {
+      name && (
+        <p class="text-3xl font-semibold tracking-[0.24em] text-white sm:text-4xl">
+          -{name}-
+        </p>
+      )
+    }
+    {
+      role && (
+        <p class="mt-3 text-base font-medium tracking-[0.12em] text-sky-100/80 sm:text-lg">
+          {role}
+        </p>
+      )
+    }
+    {
+      (name || role) && (
+        <div class="mx-auto mt-10 mb-10 h-px w-16 bg-sky-200/60" />
+      )
+    }
     <p
-      class="relative mx-auto max-w-4xl text-balance text-[1.75rem] leading-[1.25] font-bold tracking-[-0.025em] text-white drop-shadow-lg sm:text-[2.125rem] lg:text-[2.75rem]"
+      class="relative mx-auto max-w-4xl text-balance text-lg leading-[1.25] font-bold tracking-[-0.025em] text-white/90 sm:text-xl lg:text-2xl"
     >
       <span class="sr-only">{summary}</span>
-      <span class="invisible" aria-hidden="true">{summary}</span>
+      <span class="invisible whitespace-pre-line" aria-hidden="true"
+        >{headline}</span
+      >
       <span
-        class="absolute inset-0"
+        class="absolute inset-0 whitespace-pre-line"
         data-hero-typing
-        data-text={summary}
+        data-text={headline}
         aria-hidden="true"
       >
         <span data-hero-typing-text></span>
@@ -37,13 +65,6 @@ const summary =
           data-hero-typing-cursor></span>
       </span>
     </p>
-    {
-      name && (
-        <p class="mt-4 text-base font-medium tracking-[0.24em] text-sky-100/80 sm:text-lg">
-          -{name}-
-        </p>
-      )
-    }
   </div>
 </section>
 

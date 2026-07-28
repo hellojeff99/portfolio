@@ -21,7 +21,7 @@ if (!profileEntry || !educationEntry) {
   );
 }
 
-const { name, engName, birthDate, location, phone, email } = profileEntry.data;
+const { name, birthDate, location, phone, email } = profileEntry.data;
 const latestEducation = educationEntry.data.educations[0];
 const education = [latestEducation.school, latestEducation.major]
   .filter(Boolean)
