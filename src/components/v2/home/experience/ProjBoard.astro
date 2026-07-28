@@ -4,7 +4,8 @@ import { getCollection } from "astro:content";
 import {
   groupProjectEntries,
   toProjectSummary,
-} from "../../../../content/collections/projects";
+} from "../../../../content/v2/collections/projects";
+import FeatProjCard from "./FeatProjCard.astro";
 import ProjCard from "./ProjCard.astro";
 
 interface Props {
@@ -13,7 +14,11 @@ interface Props {
 
 const { class: className } = Astro.props;
 
-const projectGroups = groupProjectEntries(await getCollection("projects"));
+const projectGroups = groupProjectEntries(
+  (await getCollection("v2Projects")).filter((entry) =>
+    entry.id.startsWith("project/"),
+  ),
+);
 const featuredProjects = projectGroups.featured.map(toProjectSummary);
 const projects = projectGroups.project.map(toProjectSummary);
 ---
@@ -22,7 +27,7 @@ const projects = projectGroups.project.map(toProjectSummary);
   <header class="py-2.5 sm:py-3">
     <div class="flex min-w-0 items-center gap-3">
       <span
-        class="grid size-8 shrink-0 place-items-center rounded-xl text-sky-700"
+        class="grid size-8 shrink-0 place-items-center rounded-xl text-slate-800"
       >
         <PanelsTopLeft class="size-4.5" stroke-width={1.8} aria-hidden="true" />
       </span>
@@ -33,20 +38,16 @@ const projects = projectGroups.project.map(toProjectSummary);
       </h3>
     </div>
   </header>
-  <div class="grid gap-7 pb-5 sm:pb-6">
+  <div class="grid gap-4 pb-5 sm:pb-6">
     <section class="min-w-0" aria-label="Featured Projects">
       <div class="grid gap-3 md:grid-cols-2">
-        {featuredProjects.map((project) => <ProjCard experience={project} />)}
+        {featuredProjects.map((project) => <FeatProjCard project={project} />)}
       </div>
     </section>
 
     <section class="min-w-0" aria-label="Projects">
-      <div class="grid gap-3 md:grid-cols-3">
-        {
-          projects.map((project) => (
-            <ProjCard experience={project} showHighlights={false} />
-          ))
-        }
+      <div class="grid gap-2 md:grid-cols-3">
+        {projects.map((project) => <ProjCard project={project} />)}
       </div>
     </section>
   </div>

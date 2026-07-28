@@ -1,4 +1,5 @@
 ---
+import { Pin } from "@lucide/astro";
 import type {
   ProjectSummary,
   ProjectTask,
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const visibleSkills = project.stack?.slice(0, 3) ?? [];
+const visibleSkills = project.stack?.slice(0, 5) ?? [];
 const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
 
 function getTaskTitle(task: ProjectTask): string {
@@ -22,18 +23,34 @@ function getTaskTitle(task: ProjectTask): string {
 <article
   class="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white"
 >
-  <div class="flex flex-1 flex-col px-4 py-1.5 sm:px-5 sm:py-2">
+  <div class="flex flex-1 flex-col px-4 py-3 sm:px-5 sm:py-4">
     <header class="min-w-0">
-      <h3
-        class="text-sm font-bold tracking-[-0.03em] text-slate-950 sm:text-base"
-      >
-        {project.title}
-      </h3>
-      <time
-        class="inline-flex items-center gap-1.5 font-mono text-[0.65rem] font-semibold tracking-[0.06em] text-slate-500"
-      >
-        {project.period}
-      </time>
+      <div class="flex items-center justify-between gap-3">
+        <h3
+          class="flex min-w-0 items-center gap-1.5 text-lg font-bold tracking-[-0.03em] text-slate-950 sm:text-xl"
+        >
+          <Pin
+            class="shrink-0 text-blue-700"
+            size={19}
+            stroke-width={2.5}
+            fill="currentColor"
+            aria-hidden="true"
+          />
+          <span class="min-w-0 break-keep">{project.title}</span>
+        </h3>
+        <time
+          class="shrink-0 font-mono text-[0.65rem] font-semibold tracking-[0.04em] text-slate-600"
+        >
+          {project.period}
+        </time>
+      </div>
+      {
+        project.subtitle && (
+          <p class="text-xs leading-5 text-slate-600 sm:text-sm">
+            {project.subtitle}
+          </p>
+        )
+      }
     </header>
 
     <div
@@ -44,7 +61,7 @@ function getTaskTitle(task: ProjectTask): string {
     <ul class="space-y-1.5">
       {
         project.highlights.slice(0, 3).map((highlight) => (
-          <li class="flex items-start gap-2 text-[0.6875rem] leading-4 font-medium text-slate-900 sm:text-xs">
+          <li class="flex items-start gap-2 text-xs leading-5 font-medium text-slate-900 sm:text-sm">
             <span
               class="mt-2 size-1 shrink-0 rounded-full bg-slate-400"
               aria-hidden="true"
@@ -55,16 +72,16 @@ function getTaskTitle(task: ProjectTask): string {
       }
     </ul>
 
-    <div class="mt-auto flex flex-nowrap items-center justify-between gap-3">
+    <div class="mt-auto flex flex-wrap items-center justify-between gap-3 pt-3">
       {
         visibleSkills.length > 0 && (
-          <div class="inline-flex shrink-0 px-2 py-1.5">
+          <div class="inline-flex max-w-full px-2 py-1.5">
             <ul
               class="flex max-w-full flex-nowrap gap-1.5 [&>li]:shrink-0"
               aria-label={`${project.title} 기술 스택`}
             >
               {visibleSkills.map((skill) => (
-                <SkillItem name={skill} showName={false} compact />
+                <SkillItem name={skill} showName={false} />
               ))}
               {hasHiddenSkills && (
                 <li
@@ -80,11 +97,7 @@ function getTaskTitle(task: ProjectTask): string {
       }
       {
         project.github && (
-          <ReadmeBtn
-            href={project.github}
-            projectTitle={project.title}
-            showText={false}
-          />
+          <ReadmeBtn href={project.github} projectTitle={project.title} />
         )
       }
     </div>

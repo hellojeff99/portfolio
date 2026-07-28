@@ -83,14 +83,14 @@ export function getProjectCategory(id: string): ProjectCategory {
 
   if (section === "work") return "work";
   if (section === "experience") return "experience";
-  if (section === "projects" && subsection === "featured") return "featured";
-  if (section === "projects") return "project";
+  if (section === "project" && subsection === "featured") return "featured";
+  if (section === "project") return "project";
 
   throw new Error(`Unknown project category: ${id}`);
 }
 
 export function getProjectSlug(id: string): string {
-  return id.startsWith("projects/") ? id.slice("projects/".length) : id;
+  return id.startsWith("project/") ? id.slice("project/".length) : id;
 }
 
 export function getProjectCategoryMeta(id: string): ProjectCategoryMeta {
