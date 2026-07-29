@@ -3,8 +3,8 @@ import { ArrowUpRight } from "@lucide/astro";
 import { getEntry } from "astro:content";
 import { siGithub } from "simple-icons";
 
-const profileEntry = await getEntry("v2Profile", "profile");
-const profile = profileEntry?.data;
+const resumeEntry = await getEntry("v2Resume", "resume");
+const profile = resumeEntry?.data.about;
 const email = profile?.email ?? "ysw991106@gmail.com";
 const githubUrl = profile?.github ?? "https://github.com/hellojeff99";
 const name = profile?.name ?? "Yang Seongwon";

@@ -5,13 +5,13 @@ import SectionHead from "../../SectionHead.astro";
 import SectionLayout from "../../SectionLayout.astro";
 import SkillItem from "../../SkillItem.astro";
 
-const skillEntry = await getEntry("v2Skills", "skills");
+const resumeEntry = await getEntry("v2Resume", "resume");
 
-if (!skillEntry) {
+if (!resumeEntry) {
   throw new Error("v2 Skills에 필요한 기술 데이터를 찾을 수 없습니다.");
 }
 
-const { skills } = skillEntry.data;
+const { skills } = resumeEntry.data;
 
 const categoryIcons = {
   Languages: "ph:brackets-curly-bold",
@@ -29,7 +29,7 @@ const categoryAccents = {
   "Infra & Tools": "from-slate-500 to-indigo-500",
 };
 
-const skillGroups = skills.map(({ category, items }) => ({
+const skillGroups = Object.entries(skills).map(([category, items]) => ({
   category,
   items,
   icon:

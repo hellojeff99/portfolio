@@ -1,14 +1,13 @@
 ---
 import { getEntry } from "astro:content";
 
-const profileEntry = await getEntry("v2Profile", "profile");
+const resumeEntry = await getEntry("v2Resume", "resume");
 
-const name = profileEntry?.data.name?.trim();
-const role = profileEntry?.data.role?.trim();
-const engName = profileEntry?.data.engName?.trim();
+const profile = resumeEntry?.data.about;
+const name = profile?.name?.trim();
+const role = profile?.role?.trim();
 const label = "DEV PORTFOLIO";
-const summary =
-  profileEntry?.data.summary?.trim() || "프로필 정보를 준비 중입니다.";
+const summary = profile?.summary?.trim() || "프로필 정보를 준비 중입니다.";
 const headlineWords = summary.split(/\s+/);
 const headlineSplitIndex = Math.ceil(headlineWords.length / 2);
 const headline =

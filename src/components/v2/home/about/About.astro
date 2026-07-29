@@ -5,17 +5,15 @@ import SectionHead from "../../SectionHead.astro";
 import SectionLayout from "../../SectionLayout.astro";
 import AboutCard from "./AboutCard.astro";
 
-const profileEntry = await getEntry("v2Profile", "profile");
-const educationEntry = await getEntry("v2Educations", "educations");
+const resumeEntry = await getEntry("v2Resume", "resume");
 
-if (!profileEntry || !educationEntry) {
-  throw new Error(
-    "v2 About Me에 필요한 프로필 또는 학력 데이터를 찾을 수 없습니다.",
-  );
+if (!resumeEntry) {
+  throw new Error("v2 About Me에 필요한 이력서 데이터를 찾을 수 없습니다.");
 }
 
-const { name, birthDate, location, phone, email } = profileEntry.data;
-const latestEducation = educationEntry.data.educations[0];
+const { name, birthDate, location, phone, email } = resumeEntry.data.about;
+const { educations } = resumeEntry.data;
+const latestEducation = educations[0];
 const education = [latestEducation.school, latestEducation.major]
   .filter(Boolean)
   .join(" · ");
