@@ -1,0 +1,25 @@
+---
+import SectionHead from "./SectionHead.astro";
+
+interface Props {
+  title: string;
+  id?: string;
+  icon:
+    | "activities"
+    | "about"
+    | "career"
+    | "certifications"
+    | "education"
+    | "languages"
+    | "projects";
+}
+
+const { title, id, icon } = Astro.props;
+---
+
+<section class="px-16 py-4 print:px-12 print:py-2">
+  <SectionHead {title} {id} {icon} />
+  <div>
+    <slot />
+  </div>
+</section>

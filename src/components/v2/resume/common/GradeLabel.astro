@@ -1,0 +1,14 @@
+---
+interface Props {
+  grade: string;
+}
+
+const { grade } = Astro.props;
+---
+
+<span
+  class="inline-flex shrink-0 items-center gap-2 text-xs font-medium text-slate-800"
+>
+  <span class="h-3.5 w-px bg-slate-300" aria-hidden="true"></span>
+  {grade}
+</span>

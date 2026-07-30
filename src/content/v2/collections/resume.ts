@@ -5,18 +5,20 @@ import { z } from "astro/zod";
 export const v2Resume = defineCollection({
   loader: glob({ pattern: "resume.md", base: "./src/content/v2" }),
   schema: z.object({
-    about: z.object({
+    info: z.object({
       name: z.string(),
       engName: z.string(),
       birthDate: z.string().optional(),
       role: z.string(),
       summary: z.string(),
-      bio: z.string(),
+      bio: z.array(z.string().min(1)).min(1),
       email: z.email(),
       phone: z.string(),
       location: z.string(),
       photo: z.string(),
-      github: z.url(),
+      links: z.object({
+        github: z.url(),
+      }),
     }),
     educations: z.array(
       z.object({

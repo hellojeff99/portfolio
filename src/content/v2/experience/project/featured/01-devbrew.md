@@ -2,6 +2,7 @@
 title: DevBrew
 subtitle: 멘토 탐색부터 커피챗 예약·승인·1:1 실시간 채팅까지 연결한 개발자 멘토링 플랫폼
 role: 풀스택 개발
+type: 개인프로젝트
 team-size: 1명
 period: 2026.05.14 ~ 2026.05.24
 github: https://github.com/hellojeff99/devbrew

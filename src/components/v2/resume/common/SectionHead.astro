@@ -1,0 +1,20 @@
+---
+interface Props {
+  title: string;
+  id?: string;
+  icon?: string;
+}
+
+const { title, id } = Astro.props;
+---
+
+<header
+  class="mb-4 border-b border-slate-400 print:mb-2 print:break-after-avoid"
+>
+  <h2
+    class="-mb-px inline-block border-b-2 border-slate-950 pb-2 text-xl font-bold uppercase leading-none tracking-[0.06em] text-slate-950 print:pb-1.5 print:text-lg"
+    id={id}
+  >
+    {title}
+  </h2>
+</header>

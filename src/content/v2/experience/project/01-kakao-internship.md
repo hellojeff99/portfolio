@@ -2,6 +2,7 @@
 title: 카카오 현장실습(제대로 먹젠!?)
 subtitle: 교내 위치와 이동 시간을 기준으로 음식 종류와 주변 식당을 추천하는 제주대학교 학생 대상 모바일 웹 서비스
 role: "Front: Kakao Maps SDK 연동·지도/마커 원형·초기 식당/건물 데이터 구축 / Management: Jira·Agit 협업 운영·GitHub Wiki 문서화"
+type: 팀프로젝트
 team-size: 5명
 period: "2023.01.03 ~ 2023.01.30"
 github: https://github.com/kakaoDreamy/jnu-eat

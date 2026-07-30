@@ -2,7 +2,8 @@
 title: TicketLab
 subtitle: 동시성 제어와 캐시 최적화를 통해 예약 정합성과 고동시성 조회 성능을 개선한 티켓 예매 시스템
 role: 백엔드 설계·구현 및 성능 테스트
-team-size: 개인 프로젝트
+type: 개인프로젝트
+team-size: 1명
 period: 2026.06.19 ~ 2026.06.26
 github: https://github.com/hellojeff99/ticketlab
 contributions:

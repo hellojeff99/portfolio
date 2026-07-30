@@ -4,9 +4,9 @@ import { getEntry } from "astro:content";
 import { siGithub } from "simple-icons";
 
 const resumeEntry = await getEntry("v2Resume", "resume");
-const profile = resumeEntry?.data.about;
+const profile = resumeEntry?.data.info;
 const email = profile?.email ?? "ysw991106@gmail.com";
-const githubUrl = profile?.github ?? "https://github.com/hellojeff99";
+const githubUrl = profile?.links.github ?? "https://github.com/hellojeff99";
 const name = profile?.name ?? "Yang Seongwon";
 ---
 
@@ -22,8 +22,7 @@ const name = profile?.name ?? "Yang Seongwon";
       class="group inline-flex items-center gap-1.5 text-sm font-semibold tracking-tight text-white/65 transition-colors hover:text-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
       href={`mailto:${email}`}
     >
-      <span
-        class="font-mono text-[0.6rem] font-semibold tracking-[0.16em] text-white/40"
+      <span class="text-xs font-semibold tracking-[0.16em] text-white/40"
         >CONTACT</span
       >
       {email}
@@ -56,7 +55,7 @@ const name = profile?.name ?? "Yang Seongwon";
         Top
       </a>
       <span class="h-3 w-px bg-white/15" aria-hidden="true"></span>
-      <p class="text-[0.65rem] text-white/35">
+      <p class="text-xs text-white/35">
         © {new Date().getFullYear()}
         {name}
       </p>

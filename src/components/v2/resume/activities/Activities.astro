@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import {
+  compareProjectIds,
+  type ProjectEntry,
+} from "../../../../content/v2/collections/projects";
+import Divider from "../common/Divider.astro";
+import SectionLayout from "../common/SectionLayout.astro";
+import ActEntry from "./ActEntry.astro";
+
+const activityEntries: ProjectEntry[] = (await getCollection("v2Projects"))
+  .filter((entry) => entry.id.startsWith("activity/"))
+  .sort((first, second) => compareProjectIds(first.id, second.id));
+---
+
+<SectionLayout title="Activities" id="activities" icon="activities">
+  <div class="grid">
+    {
+      activityEntries.map((activity, index) => (
+        <div class="pt-4 first:pt-0 print:break-inside-avoid print:pt-2 print:first:pt-0">
+          <ActEntry {activity} />
+          {index < activityEntries.length - 1 && <Divider />}
+        </div>
+      ))
+    }
+  </div>
+</SectionLayout>

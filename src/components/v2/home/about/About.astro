@@ -11,7 +11,7 @@ if (!resumeEntry) {
   throw new Error("v2 About Me에 필요한 이력서 데이터를 찾을 수 없습니다.");
 }
 
-const { name, birthDate, location, phone, email } = resumeEntry.data.about;
+const { name, birthDate, location, phone, email } = resumeEntry.data.info;
 const { educations } = resumeEntry.data;
 const latestEducation = educations[0];
 const education = [latestEducation.school, latestEducation.major]
