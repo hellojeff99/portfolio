@@ -36,7 +36,7 @@ const projectFields = {
 export const projects = defineCollection({
   loader: glob({
     pattern: "**/[0-9][0-9]-*.md",
-    base: "./src/content/career",
+    base: "./src/content/v1/career",
   }),
   schema: z.object(projectFields),
 });
@@ -58,22 +58,22 @@ type ProjectCategoryMeta = {
 export const PROJECT_CATEGORY_META = {
   work: {
     label: "Work Experience",
-    backHref: "/#work",
+    backHref: "/v1#work",
     backLabel: "경력 목록으로 돌아가기",
   },
   featured: {
     label: "Featured Project",
-    backHref: "/#projects",
+    backHref: "/v1#projects",
     backLabel: "프로젝트 목록으로 돌아가기",
   },
   project: {
     label: "Project",
-    backHref: "/#projects",
+    backHref: "/v1#projects",
     backLabel: "프로젝트 목록으로 돌아가기",
   },
   experience: {
     label: "Experience",
-    backHref: "/resume#experience",
+    backHref: "/v1/resume#experience",
     backLabel: "경험 목록으로 돌아가기",
   },
 } satisfies Record<ProjectCategory, ProjectCategoryMeta>;
@@ -131,6 +131,6 @@ export function toProjectSummary({
   return {
     id,
     ...data,
-    detailHref: body?.trim() ? `/projects/${getProjectSlug(id)}` : undefined,
+    detailHref: body?.trim() ? `/v1/projects/${getProjectSlug(id)}` : undefined,
   };
 }

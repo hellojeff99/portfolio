@@ -3,7 +3,7 @@ import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 export const certifications = defineCollection({
-  loader: glob({ pattern: "certifications.md", base: "./src/content" }),
+  loader: glob({ pattern: "certifications.md", base: "./src/content/v1" }),
   schema: z.object({
     certifications: z.array(
       z.object({

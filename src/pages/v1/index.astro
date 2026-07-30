@@ -1,0 +1,232 @@
+---
+import { Pin } from "@lucide/astro";
+import { getCollection, getEntry } from "astro:content";
+import Hero from "../../components/v1/home/Hero.astro";
+import ProjectCardLink from "../../components/v1/home/ProjectCardLink.astro";
+import ProjectStack from "../../components/v1/home/ProjectStack.astro";
+import SectionHeading from "../../components/v1/home/SectionHeading.astro";
+import ProjectTaskList from "../../components/v1/project/ProjectTaskList.astro";
+import Footer from "../../components/v1/site/Footer.astro";
+import {
+  groupProjectEntries,
+  toProjectSummary,
+} from "../../content/v1/collections/projects";
+import { portfolioNavItems } from "../../data/v1/navigation";
+import SiteLayout from "../../layouts/v1/SiteLayout.astro";
+
+const projectGroups = groupProjectEntries(await getCollection("projects"));
+const workProjects = projectGroups.work.map(toProjectSummary);
+const pinnedProjects = projectGroups.featured.map(toProjectSummary);
+const otherProjects = projectGroups.project.map(toProjectSummary);
+const profileEntry = await getEntry("profile", "profile");
+if (!profileEntry) throw new Error("Profile content is required.");
+
+const profile = profileEntry.data;
+const bioParagraphs = profile.bio.split("\n").filter(Boolean);
+---
+
+<SiteLayout
+  title={`${profile.name} — ${profile.role}`}
+  description={bioParagraphs[0]}
+  ogImageAlt={`${profile.name} — ${profile.role}`}
+  htmlClass="scroll-smooth overscroll-y-none bg-slate-50 motion-reduce:scroll-auto"
+  bodyClass="m-0 overscroll-y-none bg-slate-50 font-sans text-base leading-relaxed text-slate-900 antialiased selection:bg-blue-600 selection:text-white"
+  name={profile.name}
+  email={profile.email}
+  githubUrl={profile.github}
+  navItems={portfolioNavItems}
+  sidebarTitle="Portfolio"
+  layoutClass="pt-16 md:gap-0"
+>
+  <div class="min-w-0 w-full">
+    <main id="main-content">
+      <Hero
+        name={profile.name}
+        role={profile.role}
+        email={profile.email}
+        location={profile.location}
+        summary="데이터 흐름을 추적해 문제의 원인을 분석하고, 정합성·성능·유지보수성을 고려한 개발을 지향합니다."
+        summaryHighlight="정합성·성능·유지보수성"
+      />
+
+      <section
+        id="projects"
+        class="scroll-mt-24 px-3 py-3 sm:px-4 md:py-4 lg:px-6"
+        data-nav-section
+        aria-labelledby="projects-title"
+      >
+        <SectionHeading
+          icon="projects"
+          eyebrow="Projects"
+          id="projects-title"
+        />
+        <div class="mb-4 flex items-center">
+          <div class="flex items-center gap-3.5">
+            <span
+              class="inline-grid size-7 place-items-center rounded-md border border-blue-200 bg-blue-50 text-blue-600"
+              aria-hidden="true"
+            >
+              <Pin size={15} stroke-width={1.9} />
+            </span>
+            <h3 class="m-0 text-base font-bold text-slate-900">
+              Featured Projects
+            </h3>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-stretch gap-4">
+          {
+            pinnedProjects.map((project) => (
+              <article class="flex w-full max-w-xl shrink-0 flex-col rounded-lg border border-slate-200 bg-white p-4 shadow-lg sm:p-5 lg:w-[calc((100%_-_1rem)/2)]">
+                <div class="flex flex-col items-start gap-1 sm:flex-row sm:justify-between sm:gap-4">
+                  <h3 class="m-0 min-w-0 break-words text-2xl font-bold tracking-tight text-slate-900">
+                    {project.title}
+                  </h3>
+                  <time class="shrink-0 font-mono text-sm leading-normal text-slate-500 sm:pt-1">
+                    {project.period}
+                  </time>
+                </div>
+                {project.subtitle && (
+                  <p class="mt-1.5 text-sm leading-5 text-slate-600 break-keep">
+                    {project.subtitle}
+                  </p>
+                )}
+                <ProjectTaskList tasks={project.highlights} compact />
+                <div class="mt-auto">
+                  <ProjectStack
+                    items={project.stack}
+                    projectTitle={project.title}
+                    compact
+                    class="pt-4"
+                  />
+                  <ProjectCardLink
+                    href={project.detailHref}
+                    projectTitle={project.title}
+                    compact
+                  />
+                </div>
+              </article>
+            ))
+          }
+        </div>
+
+        <div class="pt-4">
+          <div
+            class="mx-auto mb-3 w-[96%] border-t border-dashed border-slate-200/70"
+            aria-hidden="true"
+          >
+          </div>
+          <div class="flex flex-wrap items-stretch gap-3">
+            {
+              otherProjects.map((project) => (
+                <article class="relative flex w-full max-w-md shrink-0 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-blue-600 md:w-[calc((100%_-_0.75rem)/2)] xl:w-[calc((100%_-_1.5rem)/3)]">
+                  <div class="flex flex-1 flex-col p-3.5 sm:p-4">
+                    <div class="h-10 overflow-hidden">
+                      <h3 class="m-0 text-lg font-bold leading-5 tracking-tight text-slate-900 break-keep">
+                        {project.title}
+                      </h3>
+                      {project.subtitle && (
+                        <p class="mt-1 line-clamp-1 text-sm leading-4 text-slate-600 break-keep">
+                          {project.subtitle}
+                        </p>
+                      )}
+                    </div>
+                    <time class="block text-right font-mono text-xs leading-normal text-slate-500">
+                      {project.period}
+                    </time>
+                    <ProjectTaskList tasks={project.highlights} compact />
+                    <div class="mt-auto">
+                      <ProjectStack
+                        items={project.stack}
+                        projectTitle={project.title}
+                        compact
+                        class="pt-3"
+                      />
+                      <ProjectCardLink
+                        href={project.detailHref}
+                        projectTitle={project.title}
+                        compact
+                      />
+                    </div>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="work"
+        class="scroll-mt-24 px-3 py-3 sm:px-4 md:py-4 lg:px-6"
+        data-nav-section
+        aria-labelledby="work-title"
+      >
+        <SectionHeading icon="work" eyebrow="Work" id="work-title" />
+        <div class="border-t border-slate-300 bg-white">
+          {
+            workProjects.map((project, index) => (
+              <article class="grid grid-cols-12 gap-4 border-b border-slate-200 px-1 py-5">
+                <div
+                  class="relative col-span-1 flex justify-center after:absolute after:bottom-0 after:left-1/2 after:top-7 after:w-px after:bg-slate-200"
+                  aria-hidden="true"
+                >
+                  <span class="relative z-10 inline-grid size-7 place-items-center rounded-full border border-blue-200 bg-slate-50 font-mono text-xs font-bold text-blue-600">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <div class="col-span-11 flex flex-col">
+                  <div class="font-mono text-xs text-slate-500">
+                    <time>{project.period}</time>
+                  </div>
+                  <h3 class="text-lg font-bold tracking-tight text-slate-900">
+                    {project.title}
+                  </h3>
+                  {(project.subtitle || project.meta) && (
+                    <div class="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                      {project.subtitle && (
+                        <p class="m-0 text-xs font-semibold text-blue-600">
+                          {project.subtitle}
+                        </p>
+                      )}
+                      {project.meta && (
+                        <span class="font-mono text-xs text-slate-500">
+                          {project.meta}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  <ProjectTaskList tasks={project.highlights} />
+                  <div class="mt-auto">
+                    <ProjectStack
+                      items={project.stack}
+                      projectTitle={project.title}
+                      class="pt-5"
+                    />
+                    <ProjectCardLink
+                      href={project.detailHref}
+                      projectTitle={project.title}
+                    />
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+
+    <Footer name={profile.name} email={profile.email} />
+  </div>
+
+  <script>
+    window.addEventListener(
+      "wheel",
+      (event) => {
+        if (window.scrollY <= 0 && event.deltaY < 0) {
+          event.preventDefault();
+        }
+      },
+      { passive: false },
+    );
+  </script>
+</SiteLayout>

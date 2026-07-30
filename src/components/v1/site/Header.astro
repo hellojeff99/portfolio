@@ -10,7 +10,7 @@ import {
   Terminal,
   X,
 } from "@lucide/astro";
-import type { NavItem } from "../../data/navigation";
+import type { NavItem } from "../../../data/v1/navigation";
 
 interface Props {
   name: string;
@@ -45,12 +45,13 @@ const {
 } = Astro.props;
 
 const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
-const isPortfolioPage = pathname === "/" || pathname.startsWith("/projects/");
-const isResumePage = pathname === "/resume";
+const isPortfolioPage =
+  pathname === "/v1" || pathname.startsWith("/v1/projects/");
+const isResumePage = pathname === "/v1/resume";
 const brandName = "hellojeff99";
-const brandHref = pathname === "/" ? "#top" : "/";
+const brandHref = pathname === "/v1" ? "#top" : "/v1";
 const brandLabel =
-  pathname === "/"
+  pathname === "/v1"
     ? `${brandName}.dev — ${name} 포트폴리오 페이지 최상단으로 이동`
     : `${brandName}.dev — ${name} 포트폴리오 홈으로 이동`;
 
@@ -69,13 +70,13 @@ const inactiveMobilePrimaryLinkClass =
 const primaryLinks: PrimaryLink[] = [
   {
     label: "Portfolio",
-    href: "/",
+    href: "/v1",
     Icon: LayoutGrid,
     isActive: isPortfolioPage,
   },
   {
     label: "Resume",
-    href: "/resume",
+    href: "/v1/resume",
     Icon: FileText,
     isActive: isResumePage,
   },

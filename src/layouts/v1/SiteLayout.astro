@@ -1,8 +1,8 @@
 ---
-import Header from "../components/site/Header.astro";
-import Sidebar from "../components/site/Sidebar.astro";
-import type { NavItem } from "../data/navigation";
-import "../styles/global.css";
+import Header from "../../components/v1/site/Header.astro";
+import Sidebar from "../../components/v1/site/Sidebar.astro";
+import type { NavItem } from "../../data/v1/navigation";
+import "../../styles/v1/global.css";
 
 interface Props {
   variant?: "navigation" | "detail";
@@ -156,7 +156,7 @@ const hasSidebarFooter = Astro.slots.has("sidebar-footer");
     }
 
     <script>
-      import { initializePageNavigation } from "../scripts/page-navigation";
+      import { initializePageNavigation } from "../../scripts/v1/page-navigation";
 
       document
         .querySelectorAll<HTMLElement>("[data-page-navigation]")

@@ -4,7 +4,7 @@ import {
   profile,
   projects,
   skills,
-} from "./content/collections";
+} from "./content/v1/collections";
 import { v2Collections } from "./content/v2/content.config";
 
 export const collections = {

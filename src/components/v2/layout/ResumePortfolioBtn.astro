@@ -8,7 +8,7 @@ interface Props {
 
 const { page, class: className } = Astro.props;
 const isPortfolio = page === "portfolio";
-const href = isPortfolio ? "/v2" : "/v2/resume";
+const href = isPortfolio ? "/" : "/resume";
 const label = isPortfolio ? "PORTFOLIO" : "RESUME";
 const iconClass = isPortfolio
   ? "bg-white/15 text-white group-hover/cta:bg-slate-950"

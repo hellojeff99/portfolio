@@ -12,15 +12,15 @@ import {
   render,
   type CollectionEntry,
 } from "astro:content";
-import ProjectContent from "../../components/project-detail/ProjectContent.astro";
-import ProjectTableOfContents from "../../components/project-detail/ProjectTableOfContents.astro";
-import SkillItem from "../../components/SkillItem.astro";
+import ProjectContent from "../../../components/v1/project-detail/ProjectContent.astro";
+import ProjectTableOfContents from "../../../components/v1/project-detail/ProjectTableOfContents.astro";
+import SkillItem from "../../../components/v1/SkillItem.astro";
 import {
   getProjectCategoryMeta,
   getProjectSlug,
-} from "../../content/collections/projects";
-import SiteLayout from "../../layouts/SiteLayout.astro";
-import "../../styles/project-detail.css";
+} from "../../../content/v1/collections/projects";
+import SiteLayout from "../../../layouts/v1/SiteLayout.astro";
+import "../../../styles/v1/project-detail.css";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
@@ -288,7 +288,7 @@ const textFlowDefinitions = Array.from(
         </a>
         <a
           class="font-semibold transition-colors hover:text-slate-900"
-          href="/resume"
+          href="/v1/resume"
         >
           Resume
         </a>

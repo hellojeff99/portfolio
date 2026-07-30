@@ -15,8 +15,8 @@ const { textFlowDefinitions } = Astro.props;
 </div>
 
 <script>
-  import { initializeProjectMermaid } from "../../scripts/project-detail/mermaid";
-  import { initializeProjectTextFlows } from "../../scripts/project-detail/text-flow";
+  import { initializeProjectMermaid } from "../../../scripts/v1/project-detail/mermaid";
+  import { initializeProjectTextFlows } from "../../../scripts/v1/project-detail/text-flow";
 
   document
     .querySelectorAll<HTMLElement>("[data-project-content]")

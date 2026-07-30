@@ -3,7 +3,7 @@ import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 export const skills = defineCollection({
-  loader: glob({ pattern: "skills.md", base: "./src/content" }),
+  loader: glob({ pattern: "skills.md", base: "./src/content/v1" }),
   schema: z.object({
     skills: z.array(
       z.object({

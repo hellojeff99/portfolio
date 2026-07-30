@@ -3,7 +3,7 @@ import { z } from "astro/zod";
 import { defineCollection } from "astro:content";
 
 export const profile = defineCollection({
-  loader: glob({ pattern: "profile.md", base: "./src/content" }),
+  loader: glob({ pattern: "profile.md", base: "./src/content/v1" }),
   schema: z.object({
     name: z.string(),
     role: z.string(),
