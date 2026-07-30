@@ -47,8 +47,8 @@ const skillGroups = Object.entries(skills).map(([category, items]) => ({
   <div class="mt-4 rounded-2xl bg-white/90 px-3 py-2 shadow-sm">
     {
       skillGroups.map(({ category, items, icon, accent }) => (
-        <section class="grid gap-4 px-5 py-2 sm:grid-cols-[16rem_1fr] sm:items-center sm:gap-4 sm:px-8">
-          <h3 class="inline-flex w-fit items-center gap-3 whitespace-nowrap">
+        <section class="grid gap-4 px-5 py-2 sm:grid-cols-4 sm:items-center sm:gap-4 sm:px-8">
+          <h3 class="inline-flex w-fit items-center gap-3 whitespace-nowrap sm:col-span-1">
             <span
               class:list={[
                 "grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-white shadow-md",
@@ -57,7 +57,7 @@ const skillGroups = Object.entries(skills).map(([category, items]) => ({
             >
               <Icon name={icon} class="size-4" aria-hidden="true" />
             </span>
-            <span class="font-sans text-sm leading-tight font-black uppercase tracking-[0.08em] text-base-content">
+            <span class="text-sm leading-tight font-black uppercase tracking-[0.08em] text-base-content">
               {category.includes(" & ") ? (
                 <>
                   {category.split(" & ")[0]}
@@ -68,7 +68,10 @@ const skillGroups = Object.entries(skills).map(([category, items]) => ({
               )}
             </span>
           </h3>
-          <ul class="flex flex-wrap gap-2" aria-label={`${category} skills`}>
+          <ul
+            class="flex flex-wrap gap-2 sm:col-span-3"
+            aria-label={`${category} skills`}
+          >
             {items.map((item) => (
               <SkillItem name={item} />
             ))}
