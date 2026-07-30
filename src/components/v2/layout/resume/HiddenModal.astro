@@ -32,6 +32,17 @@
         />
       </label>
 
+      <label class="grid gap-1.5 text-sm font-semibold text-slate-700">
+        직무
+        <input
+          class="h-11 rounded-xl border border-slate-300 bg-white px-3 text-base font-medium text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-600 focus:ring-2 focus:ring-sky-100"
+          name="role"
+          type="text"
+          autocomplete="organization-title"
+          data-resume-role-input
+        />
+      </label>
+
       <fieldset class="grid grid-cols-2 gap-3">
         <legend class="col-span-2 mb-1 text-sm font-bold text-slate-950">
           인쇄 옵션
@@ -149,11 +160,13 @@
   type TreatmentValues = Record<string, string>;
   interface TreatmentPrintInput {
     phone: string;
+    role: string;
     treatmentValues: TreatmentValues;
   }
   interface TreatmentPrintRequest {
     includeTreatment: boolean;
     phone: string;
+    role: string;
     treatmentValues: TreatmentValues;
     useKoreanSectionTitles: boolean;
   }
@@ -173,6 +186,9 @@
   const phoneInput = document.querySelector<HTMLInputElement>(
     "[data-resume-phone-input]",
   );
+  const roleInput = document.querySelector<HTMLInputElement>(
+    "[data-resume-role-input]",
+  );
   const sectionTitleKoreanInput = document.querySelector<HTMLInputElement>(
     "[data-section-title-korean]",
   );
@@ -185,7 +201,7 @@
   };
 
   document.addEventListener("resume-treatment-print:open", (event) => {
-    const { phone, treatmentValues } = (
+    const { phone, role, treatmentValues } = (
       event as CustomEvent<TreatmentPrintInput>
     ).detail;
 
@@ -193,6 +209,7 @@
       input.value = treatmentValues[input.name] ?? "";
     });
     if (phoneInput) phoneInput.value = phone;
+    if (roleInput) roleInput.value = role;
     if (treatmentPrintInclude) treatmentPrintInclude.checked = true;
     if (sectionTitleKoreanInput) sectionTitleKoreanInput.checked = false;
     toggleTreatmentInputs(true);
@@ -212,6 +229,7 @@
         detail: {
           includeTreatment: treatmentPrintInclude?.checked ?? true,
           phone: phoneInput?.value.trim() ?? "",
+          role: roleInput?.value.trim() ?? "",
           treatmentValues,
           useKoreanSectionTitles: sectionTitleKoreanInput?.checked ?? false,
         },

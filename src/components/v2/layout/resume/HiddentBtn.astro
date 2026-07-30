@@ -1,5 +1,5 @@
 ---
-import TreatmentPrintModal from "./TreatmentPrintModal.astro";
+import HiddenModal from "./HiddenModal.astro";
 
 interface Props {
   name: string;
@@ -18,17 +18,19 @@ const { name } = Astro.props;
   {name}
 </button>
 
-<TreatmentPrintModal />
+<HiddenModal />
 
 <script>
   type TreatmentValues = Record<string, string>;
   interface TreatmentPrintInput {
     phone: string;
+    role: string;
     treatmentValues: TreatmentValues;
   }
   interface TreatmentPrintRequest {
     includeTreatment: boolean;
     phone: string;
+    role: string;
     treatmentValues: TreatmentValues;
     useKoreanSectionTitles: boolean;
   }
@@ -42,6 +44,7 @@ const { name } = Astro.props;
   const phone = document.querySelector<HTMLAnchorElement>(
     "[data-resume-phone]",
   );
+  const role = document.querySelector<HTMLElement>("[data-resume-role]");
   const sectionTitles = document.querySelectorAll<HTMLElement>(
     "[data-resume-section-title]",
   );
@@ -90,6 +93,10 @@ const { name } = Astro.props;
 
     phone.textContent = phoneNumber;
     phone.href = `tel:${phoneNumber}`;
+  };
+
+  const applyRole = (roleValue: string) => {
+    if (role) role.textContent = roleValue;
   };
 
   const applySectionTitleLanguage = (useKorean: boolean) => {
@@ -151,6 +158,7 @@ const { name } = Astro.props;
       new CustomEvent<TreatmentPrintInput>("resume-treatment-print:open", {
         detail: {
           phone: phone?.textContent?.trim() ?? "",
+          role: role?.textContent?.trim() ?? "",
           treatmentValues: getTreatmentValues(),
         },
       }),
@@ -161,11 +169,13 @@ const { name } = Astro.props;
     const {
       includeTreatment,
       phone: phoneNumber,
+      role: roleValue,
       treatmentValues,
       useKoreanSectionTitles,
     } = (event as CustomEvent<TreatmentPrintRequest>).detail;
 
     applyPhone(phoneNumber);
+    applyRole(roleValue);
     if (includeTreatment) applyTreatmentValues(treatmentValues);
     void printResume(includeTreatment, useKoreanSectionTitles);
   });
