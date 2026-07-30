@@ -23,12 +23,14 @@ const { name } = Astro.props;
 <script>
   type TreatmentValues = Record<string, string>;
   interface TreatmentPrintInput {
+    location: string;
     phone: string;
     role: string;
     treatmentValues: TreatmentValues;
   }
   interface TreatmentPrintRequest {
     includeTreatment: boolean;
+    location: string;
     phone: string;
     role: string;
     treatmentValues: TreatmentValues;
@@ -45,6 +47,9 @@ const { name } = Astro.props;
     "[data-resume-phone]",
   );
   const role = document.querySelector<HTMLElement>("[data-resume-role]");
+  const resumeLocation = document.querySelector<HTMLElement>(
+    "[data-resume-location]",
+  );
   const sectionTitles = document.querySelectorAll<HTMLElement>(
     "[data-resume-section-title]",
   );
@@ -97,6 +102,10 @@ const { name } = Astro.props;
 
   const applyRole = (roleValue: string) => {
     if (role) role.textContent = roleValue;
+  };
+
+  const applyLocation = (locationValue: string) => {
+    if (resumeLocation) resumeLocation.textContent = locationValue;
   };
 
   const applySectionTitleLanguage = (useKorean: boolean) => {
@@ -157,6 +166,7 @@ const { name } = Astro.props;
     document.dispatchEvent(
       new CustomEvent<TreatmentPrintInput>("resume-treatment-print:open", {
         detail: {
+          location: resumeLocation?.textContent?.trim() ?? "",
           phone: phone?.textContent?.trim() ?? "",
           role: role?.textContent?.trim() ?? "",
           treatmentValues: getTreatmentValues(),
@@ -168,6 +178,7 @@ const { name } = Astro.props;
   document.addEventListener("resume-treatment-print:submit", (event) => {
     const {
       includeTreatment,
+      location: locationValue,
       phone: phoneNumber,
       role: roleValue,
       treatmentValues,
@@ -176,6 +187,7 @@ const { name } = Astro.props;
 
     applyPhone(phoneNumber);
     applyRole(roleValue);
+    applyLocation(locationValue);
     if (includeTreatment) applyTreatmentValues(treatmentValues);
     void printResume(includeTreatment, useKoreanSectionTitles);
   });
