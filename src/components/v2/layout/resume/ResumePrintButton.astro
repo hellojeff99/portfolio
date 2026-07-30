@@ -1,0 +1,42 @@
+---
+import { Printer } from "@lucide/astro";
+---
+
+<button
+  class="group/print inline-flex h-10 cursor-pointer items-center gap-2.5 rounded-full border border-slate-300 bg-white px-3.5 text-sm font-bold tracking-[0.12em] text-slate-950 shadow-sm shadow-slate-950/5 transition-[background-color,border-color,box-shadow,color,transform] duration-300 ease-out hover:-translate-y-1 hover:border-slate-950 hover:bg-slate-950 hover:text-white hover:shadow-lg hover:shadow-slate-950/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:border-slate-300 disabled:hover:bg-white disabled:hover:text-slate-950 disabled:hover:shadow-sm motion-reduce:transition-none"
+  type="button"
+  data-resume-print
+  aria-label="이력서 인쇄"
+>
+  <span
+    class="grid size-6 place-items-center rounded-full bg-slate-950 text-white transition-[background-color,color,transform] duration-300 ease-out group-hover/print:scale-110 group-hover/print:-rotate-6 group-hover/print:bg-white group-hover/print:text-slate-950 group-disabled/print:scale-100 motion-reduce:transition-none"
+    aria-hidden="true"
+  >
+    <Printer class="size-3.5" stroke-width={2.2} aria-hidden="true" />
+  </span>
+  <span>PRINT</span>
+</button>
+
+<script>
+  const printButton = document.querySelector<HTMLButtonElement>(
+    "[data-resume-print]",
+  );
+
+  printButton?.addEventListener("click", async () => {
+    printButton.disabled = true;
+    printButton.setAttribute("aria-busy", "true");
+
+    try {
+      await document.fonts.ready;
+      await Promise.all(
+        Array.from(document.images, (image) =>
+          image.complete ? Promise.resolve() : image.decode().catch(() => {}),
+        ),
+      );
+      window.print();
+    } finally {
+      printButton.disabled = false;
+      printButton.removeAttribute("aria-busy");
+    }
+  });
+</script>

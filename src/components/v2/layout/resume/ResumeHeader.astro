@@ -1,5 +1,7 @@
 ---
-import { Code2, FileText, Printer } from "@lucide/astro";
+import { FileText } from "@lucide/astro";
+import ResumePortfolioBtn from "../ResumePortfolioBtn.astro";
+import ResumePrintButton from "./ResumePrintButton.astro";
 ---
 
 <header
@@ -25,47 +27,12 @@ import { Code2, FileText, Printer } from "@lucide/astro";
     </a>
 
     <div class="ml-auto flex items-center gap-3">
-      <button
-        class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-base font-bold text-slate-950 transition-colors duration-300 ease-out hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60 motion-reduce:transition-none"
-        type="button"
-        data-resume-print
-        aria-label="이력서 인쇄"
-      >
-        <Printer class="size-4" stroke-width={2} aria-hidden="true" />
-        PRINT
-      </button>
+      <ResumePrintButton />
 
-      <a
-        class="hidden items-center gap-2 rounded-full border border-slate-950 bg-slate-950 px-4 py-2 text-base font-bold text-white transition-colors duration-300 ease-out hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2 motion-reduce:transition-none sm:inline-flex"
-        href="/v2"
-      >
-        <Code2 class="size-4" stroke-width={2} aria-hidden="true" />
-        PORTFOLIO
-      </a>
+      <ResumePortfolioBtn
+        page="portfolio"
+        class="hidden h-10 cursor-pointer items-center gap-2 rounded-full border border-slate-950 bg-slate-950 px-3.5 text-sm font-bold tracking-[0.12em] text-white shadow-sm shadow-slate-950/15 transition-[background-color,border-color,box-shadow,color,transform] duration-300 ease-out hover:-translate-y-1 hover:border-sky-400 hover:bg-sky-400 hover:text-slate-950 hover:shadow-lg hover:shadow-sky-400/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2 motion-reduce:transition-none sm:inline-flex"
+      />
     </div>
   </div>
 </header>
-
-<script>
-  const printButton = document.querySelector<HTMLButtonElement>(
-    "[data-resume-print]",
-  );
-
-  printButton?.addEventListener("click", async () => {
-    printButton.disabled = true;
-    printButton.setAttribute("aria-busy", "true");
-
-    try {
-      await document.fonts.ready;
-      await Promise.all(
-        Array.from(document.images, (image) =>
-          image.complete ? Promise.resolve() : image.decode().catch(() => {}),
-        ),
-      );
-      window.print();
-    } finally {
-      printButton.disabled = false;
-      printButton.removeAttribute("aria-busy");
-    }
-  });
-</script>
