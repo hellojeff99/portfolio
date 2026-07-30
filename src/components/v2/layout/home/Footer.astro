@@ -1,64 +1,20 @@
 ---
-import { ArrowUpRight } from "@lucide/astro";
 import { getEntry } from "astro:content";
-import { siGithub } from "simple-icons";
+import TopButton from "../TopButton.astro";
 
 const resumeEntry = await getEntry("v2Resume", "resume");
-const profile = resumeEntry?.data.info;
-const email = profile?.email ?? "ysw991106@gmail.com";
-const githubUrl = profile?.links.github ?? "https://github.com/hellojeff99";
-const name = profile?.name ?? "Yang Seongwon";
+const name = resumeEntry?.data.info.name ?? "Yang Seongwon";
 ---
 
 <footer
-  id="contact"
   class="bg-gray-950 px-5 py-4 text-white sm:px-8 sm:py-5 lg:px-12"
-  aria-label="연락처"
+  aria-label="사이트 정보"
 >
-  <div
-    class="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
-  >
-    <a
-      class="group inline-flex items-center gap-1.5 text-sm font-semibold tracking-tight text-white/65 transition-colors hover:text-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
-      href={`mailto:${email}`}
-    >
-      <span class="text-xs font-semibold tracking-[0.16em] text-white/40"
-        >CONTACT</span
-      >
-      {email}
-      <ArrowUpRight
-        class="size-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none"
-        aria-hidden="true"
-      />
-    </a>
-
-    <div class="flex items-center gap-4 text-xs font-medium text-white/55">
-      <a
-        class="inline-flex items-center gap-2 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
-        href={githubUrl}
-        target="_blank"
-        rel="noreferrer"
-      >
-        <svg
-          class="size-3.5 fill-current"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path d={siGithub.path}></path>
-        </svg>
-        GitHub
-      </a>
-      <a
-        class="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
-        href="#top"
-      >
-        Top
-      </a>
-      <span class="h-3 w-px bg-white/15" aria-hidden="true"></span>
-      <p class="text-xs text-white/35">
-        © {new Date().getFullYear()}
-        {name}
-      </p>
-    </div>
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4">
+    <p class="text-xs text-white/35">
+      © {new Date().getFullYear()}
+      {name}
+    </p>
+    <TopButton />
   </div>
 </footer>

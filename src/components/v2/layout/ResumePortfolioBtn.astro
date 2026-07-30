@@ -1,0 +1,43 @@
+---
+import { ArrowUpRight, Code2, FileText } from "@lucide/astro";
+
+interface Props {
+  page: "portfolio" | "resume";
+  class?: string;
+}
+
+const { page, class: className } = Astro.props;
+const isPortfolio = page === "portfolio";
+const href = isPortfolio ? "/v2" : "/v2/resume";
+const label = isPortfolio ? "PORTFOLIO" : "RESUME";
+const iconClass = isPortfolio
+  ? "bg-white/15 text-white group-hover/cta:bg-slate-950"
+  : "bg-slate-950 text-white group-data-[scrolled=true]/header:bg-white/15 group-hover/cta:bg-slate-950";
+---
+
+<a
+  class={`group/cta relative isolate overflow-hidden ${className ?? ""}`}
+  {href}
+>
+  <span
+    class={`grid size-6 shrink-0 place-items-center rounded-full transition-[background-color,color,transform] duration-300 ease-out group-hover/cta:scale-110 group-hover/cta:rotate-6 motion-reduce:transition-none ${iconClass}`}
+    aria-hidden="true"
+  >
+    {
+      isPortfolio ? (
+        <Code2 class="size-3.5" stroke-width={2.2} aria-hidden="true" />
+      ) : (
+        <FileText class="size-3.5" stroke-width={2.2} aria-hidden="true" />
+      )
+    }
+  </span>
+  <span>{label}</span>
+  <ArrowUpRight
+    class="size-3.5 -translate-x-1 opacity-0 transition-[transform,opacity] duration-300 ease-out group-hover/cta:translate-x-0 group-hover/cta:scale-110 group-hover/cta:opacity-100 motion-reduce:transition-none"
+    stroke-width={2.2}
+    aria-hidden="true"
+  />
+  <span
+    class="pointer-events-none absolute inset-x-4 bottom-1 h-0.5 origin-left scale-x-0 bg-current/50 transition-transform duration-300 ease-out group-hover/cta:scale-x-100 motion-reduce:transition-none"
+    aria-hidden="true"></span>
+</a>

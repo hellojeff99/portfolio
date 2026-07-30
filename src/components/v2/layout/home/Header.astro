@@ -1,5 +1,6 @@
 ---
 import { ArrowUpRight, Code2, FileText, Menu, X } from "@lucide/astro";
+import ResumePortfolioBtn from "../ResumePortfolioBtn.astro";
 
 const navigationItems = [
   { label: "ABOUT", href: "#about" },
@@ -50,13 +51,10 @@ const navigationItems = [
         }
       </nav>
 
-      <a
-        class="hidden items-center gap-2 rounded-full border border-white bg-white px-4 py-2 text-base font-bold text-slate-950 transition-colors duration-300 ease-out hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 group-data-[scrolled=true]/header:border-slate-950 group-data-[scrolled=true]/header:bg-slate-950 group-data-[scrolled=true]/header:text-white group-data-[scrolled=true]/header:hover:bg-slate-800 group-data-[scrolled=true]/header:focus-visible:ring-sky-600 motion-reduce:transition-none sm:inline-flex"
-        href="/v2/resume"
-      >
-        <FileText class="size-4" stroke-width={2} aria-hidden="true" />
-        RESUME
-      </a>
+      <ResumePortfolioBtn
+        page="resume"
+        class="hidden h-10 cursor-pointer items-center gap-2 rounded-full border border-white bg-white px-3.5 text-sm font-bold tracking-[0.12em] text-slate-950 shadow-sm shadow-slate-950/10 transition-[background-color,border-color,box-shadow,color,transform] duration-300 ease-out hover:-translate-y-1 hover:border-sky-400 hover:bg-sky-400 hover:shadow-lg hover:shadow-sky-400/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 group-data-[scrolled=true]/header:border-slate-950 group-data-[scrolled=true]/header:bg-slate-950 group-data-[scrolled=true]/header:text-white group-data-[scrolled=true]/header:shadow-slate-950/20 group-data-[scrolled=true]/header:hover:border-sky-400 group-data-[scrolled=true]/header:hover:bg-sky-400 group-data-[scrolled=true]/header:hover:text-slate-950 group-data-[scrolled=true]/header:hover:shadow-sky-400/30 group-data-[scrolled=true]/header:focus-visible:ring-sky-600 motion-reduce:transition-none sm:inline-flex"
+      />
 
       <details class="group/menu relative lg:hidden">
         <summary

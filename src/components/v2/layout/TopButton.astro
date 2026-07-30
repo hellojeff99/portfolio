@@ -1,0 +1,17 @@
+---
+import { ArrowUp } from "@lucide/astro";
+---
+
+<a
+  class="group inline-flex h-8 items-center gap-1.5 rounded-full border border-white/30 bg-white/10 py-1 pl-3 pr-1 text-[10px] font-bold tracking-[0.16em] text-white/90 shadow-sm transition-colors hover:border-white/60 hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
+  href="#top"
+  aria-label="페이지 상단으로 이동"
+>
+  <span>TOP</span>
+  <span
+    class="flex size-6 items-center justify-center rounded-full bg-white/15 transition-transform group-hover:-translate-y-0.5 motion-reduce:transform-none"
+    aria-hidden="true"
+  >
+    <ArrowUp class="size-3.5" stroke-width={2.5} />
+  </span>
+</a>
