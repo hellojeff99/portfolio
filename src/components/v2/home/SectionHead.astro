@@ -1,12 +1,12 @@
 ---
-import { BriefcaseBusiness, Code2, UserRound } from "@lucide/astro";
+import { BriefcaseBusiness, Code2, Link2, UserRound } from "@lucide/astro";
 
 interface Props {
   eyebrow?: string;
   title: string;
   description?: string;
   id?: string;
-  icon?: "about" | "skills" | "experience";
+  icon?: "about" | "skills" | "experience" | "links";
 }
 
 const { eyebrow, title, description, id, icon } = Astro.props;
@@ -14,16 +14,17 @@ const icons = {
   about: UserRound,
   skills: Code2,
   experience: BriefcaseBusiness,
+  links: Link2,
 };
 const Icon = icon && icons[icon];
 ---
 
-<header class="mx-auto max-w-3xl text-center font-sans font-bold">
+<header class="mx-auto max-w-3xl text-center font-bold">
   {
     eyebrow && (
       <div class="flex items-center justify-center gap-3">
         <span class="h-px w-8 bg-slate-800/35" aria-hidden="true" />
-        <p class="rounded-full border border-slate-800/15 bg-slate-800/5 px-3 py-1 text-[0.65rem] uppercase tracking-[0.18em] text-slate-800">
+        <p class="rounded-full border border-slate-800/15 bg-slate-800/5 px-3 py-1 text-xs uppercase tracking-[0.18em] text-slate-800">
           {eyebrow}
         </p>
         <span class="h-px w-8 bg-slate-800/35" aria-hidden="true" />
