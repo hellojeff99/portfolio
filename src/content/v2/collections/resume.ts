@@ -20,6 +20,13 @@ export const v2Resume = defineCollection({
         github: z.url(),
       }),
     }),
+    desiredTreatment: z.object({
+      finalSalary: z.string(),
+      desiredSalary: z.string(),
+      desiredPosition: z.string(),
+      desiredRole: z.string(),
+      availableStartDate: z.string(),
+    }),
     educations: z.array(
       z.object({
         school: z.string(),
