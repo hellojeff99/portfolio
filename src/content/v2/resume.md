@@ -3,6 +3,7 @@
 info:
   name: 양성원
   engName: Jeffrey
+  romanName: SEONGWON YANG
   role: Software Engineer
   birthDate: "1999.11.06"
   email: ysw991106@gmail.com
@@ -11,6 +12,7 @@ info:
   photo: /images/profile.jpg
   links:
     github: https://github.com/hellojeff99
+    portfolio: hellojeff99-archive.vercel.app/
   summary: 데이터 정합성과 시스템 성능을 함께 고려하는 개발을 지향합니다.
   bio:
     - 데이터 흐름을 끝까지 추적해 정합성과 성능 문제를 해결하는 소프트웨어 엔지니어입니다.

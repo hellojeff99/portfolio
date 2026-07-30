@@ -1,0 +1,55 @@
+---
+import { getEntry } from "astro:content";
+import InfoTable from "./InfoTable.astro";
+
+const resumeEntry = await getEntry("v2Resume", "resume");
+
+if (!resumeEntry) {
+  throw new Error("v2 Resume Info에 필요한 이력서 데이터를 찾을 수 없습니다.");
+}
+
+const { info } = resumeEntry.data;
+---
+
+<section class="px-16 py-4 print:break-inside-avoid print:px-12 print:py-2">
+  <div
+    class="grid grid-cols-4 items-start gap-x-8 print:grid-cols-[auto_minmax(0,1fr)] print:gap-x-6"
+  >
+    <figure class="m-0 self-start print:w-36">
+      <div
+        class="aspect-[4/5] overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 print:rounded-lg"
+      >
+        <img
+          src={info.photo}
+          alt={`${info.name} 프로필 사진`}
+          width="352"
+          height="440"
+          class="size-full object-cover object-top"
+        />
+      </div>
+    </figure>
+
+    <div class="col-span-3 min-w-0 print:col-span-1">
+      <header>
+        <h1
+          class="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-3xl font-extrabold leading-none tracking-[-0.04em] text-black print:mt-4 print:text-2xl"
+        >
+          {info.name}
+          <span
+            class="text-lg font-bold tracking-[0.08em] text-slate-900 print:text-md"
+          >
+            {info.romanName}
+          </span>
+        </h1>
+        <p
+          class="mt-1.5 text-2xl font-semibold text-slate-600 leading-tight tracking-tight print:text-xl"
+          data-resume-role
+        >
+          {info.role}
+        </p>
+      </header>
+
+      <InfoTable info={info} />
+    </div>
+  </div>
+</section>

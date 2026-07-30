@@ -1,6 +1,6 @@
-import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { defineCollection } from "astro:content";
 
 export const v2Resume = defineCollection({
   loader: glob({ pattern: "resume.md", base: "./src/content/v2" }),
@@ -8,6 +8,7 @@ export const v2Resume = defineCollection({
     info: z.object({
       name: z.string(),
       engName: z.string(),
+      romanName: z.string(),
       birthDate: z.string().optional(),
       role: z.string(),
       summary: z.string(),
@@ -18,6 +19,7 @@ export const v2Resume = defineCollection({
       photo: z.string(),
       links: z.object({
         github: z.url(),
+        portfolio: z.string(),
       }),
     }),
     desiredTreatment: z.object({
