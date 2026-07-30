@@ -14,6 +14,8 @@ const { title, id } = Astro.props;
   <h2
     class="-mb-px inline-block border-b-2 border-slate-950 pb-2 text-xl font-bold uppercase leading-none tracking-[0.06em] text-slate-950 print:pb-1.5 print:text-lg"
     id={id}
+    data-resume-section-title={id}
+    data-resume-section-title-default={title}
   >
     {title}
   </h2>

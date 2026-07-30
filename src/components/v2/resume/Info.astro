@@ -48,7 +48,11 @@ const { info } = resumeEntry.data;
         {
           info.birthDate && (
             <div class="min-w-0">
-              <dt class="text-xs font-bold tracking-[0.14em] text-slate-400">
+              <dt
+                class="text-xs font-bold tracking-[0.14em] text-slate-400"
+                data-resume-info-label="birthDate"
+                data-resume-info-label-default="BIRTH"
+              >
                 BIRTH
               </dt>
               <dd class="mt-0.5 text-xs font-semibold leading-snug tracking-tight text-slate-700">
@@ -58,7 +62,11 @@ const { info } = resumeEntry.data;
           )
         }
         <div class="min-w-0">
-          <dt class="text-xs font-bold tracking-[0.14em] text-slate-400">
+          <dt
+            class="text-xs font-bold tracking-[0.14em] text-slate-400"
+            data-resume-info-label="email"
+            data-resume-info-label-default="EMAIL"
+          >
             EMAIL
           </dt>
           <dd
@@ -68,17 +76,25 @@ const { info } = resumeEntry.data;
           </dd>
         </div>
         <div class="min-w-0">
-          <dt class="text-xs font-bold tracking-[0.14em] text-slate-400">
+          <dt
+            class="text-xs font-bold tracking-[0.14em] text-slate-400"
+            data-resume-info-label="phone"
+            data-resume-info-label-default="PHONE"
+          >
             PHONE
           </dt>
           <dd
             class="mt-0.5 text-xs font-semibold leading-snug tracking-tight text-slate-700"
           >
-            <a href={`tel:${info.phone}`}>{info.phone}</a>
+            <a href={`tel:${info.phone}`} data-resume-phone>{info.phone}</a>
           </dd>
         </div>
         <div class="min-w-0">
-          <dt class="text-xs font-bold tracking-[0.14em] text-slate-400">
+          <dt
+            class="text-xs font-bold tracking-[0.14em] text-slate-400"
+            data-resume-info-label="location"
+            data-resume-info-label-default="LOCATION"
+          >
             LOCATION
           </dt>
           <dd
