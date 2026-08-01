@@ -5,8 +5,8 @@ info:
   engName: Jeffrey
   role: Software Engineer
   birthDate: "1999.11.06"
-  email: ysw991106@gmail.com
-  phone: 010-xxxx-4980
+  email: “@gmail.com” 
+  phone: 010-xxxx-xxxx
   location: 서울특별시 관악구
   photo: /images/profile.jpg
   links:
