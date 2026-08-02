@@ -45,6 +45,14 @@ export const v2Resume = defineCollection({
         date: z.string().regex(/^\d{4}\.\d{2}$/),
       }),
     ),
+    awards: z.array(
+      z.object({
+        name: z.string(),
+        issuer: z.string(),
+        result: z.string(),
+        date: z.string().regex(/^\d{4}\.\d{2}$/),
+      }),
+    ),
     languages: z.array(
       z.object({
         language: z.string(),
