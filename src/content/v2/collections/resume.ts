@@ -13,7 +13,7 @@ export const v2Resume = defineCollection({
       role: z.string(),
       summary: z.string(),
       bio: z.array(z.string().min(1)).min(1),
-      email: z.email(),
+      email: z.string(),
       phone: z.string(),
       location: z.string(),
       photo: z.string(),
