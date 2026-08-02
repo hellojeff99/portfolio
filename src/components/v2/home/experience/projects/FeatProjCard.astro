@@ -1,9 +1,9 @@
 ---
 import { FileText, Pin } from "@lucide/astro";
 import type {
-  ProjectEntry,
-  ProjectSummary,
-  ProjectTask,
+ProjectEntry,
+ProjectSummary,
+Task,
 } from "../../../../../content/v2/collections/projects";
 import SkillItem from "../../../SkillItem.astro";
 import ReadmeModal from "../readme/ReadmeModal.astro";
@@ -19,7 +19,7 @@ const hasDocument = Boolean(entry.body?.trim());
 const visibleSkills = project.stack?.slice(0, 5) ?? [];
 const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
 
-function getTaskTitle(task: ProjectTask): string {
+function getTaskTitle(task: Task): string {
   return typeof task === "string" ? task : task.title;
 }
 ---
