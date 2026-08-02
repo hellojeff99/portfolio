@@ -1,11 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import {
-  compareProjectIds,
-  type ProjectEntry,
+compareProjectIds,
+type ProjectEntry,
 } from "../../../../content/v2/collections/projects";
 import Divider from "../common/Divider.astro";
-import SectionLayout from "../common/SectionLayout.astro";
+import SectionLayout from "../common/section/SectionLayout.astro";
 import ProjEntry from "./ProjEntry.astro";
 
 const projEntries: ProjectEntry[] = (await getCollection("v2Projects"))
@@ -22,11 +22,11 @@ const projEntries: ProjectEntry[] = (await getCollection("v2Projects"))
   });
 ---
 
-<SectionLayout title="Projects" id="projects" icon="projects">
+<SectionLayout title="Projects" id="projects">
   <div class="grid">
     {
       projEntries.map((project, index) => (
-        <div class="pt-4 first:pt-0 print:break-inside-avoid print:pt-2 print:first:pt-0">
+        <div class="break-inside-avoid pt-2 first:pt-0">
           <ProjEntry {project} />
           {index < projEntries.length - 1 && <Divider />}
         </div>

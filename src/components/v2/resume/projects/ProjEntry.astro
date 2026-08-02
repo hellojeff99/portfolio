@@ -1,7 +1,7 @@
 ---
 import type {
-  ProjectEntry,
-  ProjectTask,
+ProjectEntry,
+Task,
 } from "../../../../content/v2/collections/projects";
 import BulletText from "../common/BulletText.astro";
 import SkillLabel from "../common/SkillLabel.astro";
@@ -14,24 +14,22 @@ interface Props {
 const { project } = Astro.props;
 const { data } = project;
 
-function getTaskTitle(task: ProjectTask): string {
+function getTaskTitle(task: Task): string {
   return typeof task === "string" ? task : task.title;
 }
 ---
 
-<article class="print:break-inside-avoid">
+<article class="break-inside-avoid">
   <header
     class="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-x-8"
   >
     <div class="min-w-0">
-      <h3
-        class="m-0 text-base font-bold tracking-tight text-slate-950 print:text-sm"
-      >
+      <h3 class="m-0 text-sm font-bold tracking-tight text-slate-950">
         {data.title}
       </h3>
       {
         data.subtitle && (
-          <p class="mt-1.5 text-xs leading-5 font-normal text-slate-600 print:mt-1 print:leading-4">
+          <p class="mt-1 text-xs leading-4 font-normal text-slate-600">
             {data.subtitle}
           </p>
         )
@@ -44,12 +42,9 @@ function getTaskTitle(task: ProjectTask): string {
     </div>
   </header>
 
-  <ul
-    class="mt-4 grid gap-2 print:mt-2 print:gap-1"
-    aria-label={`${data.title} 기여 내용`}
-  >
+  <ul class="mt-2 grid gap-1" aria-label={`${data.title} 기여 내용`}>
     {
-      data.contributions.map((contribution: ProjectTask) => (
+      data.contributions.map((contribution: Task) => (
         <BulletText text={getTaskTitle(contribution)} />
       ))
     }
@@ -58,7 +53,7 @@ function getTaskTitle(task: ProjectTask): string {
   {
     data.stack && data.stack.length > 0 && (
       <ul
-        class="mt-4 flex flex-wrap gap-2 print:mt-2 print:gap-1.5"
+        class="mt-2 flex flex-wrap gap-1.5"
         aria-label={`${data.title} 기술 스택`}
       >
         {data.stack.map((stack: string) => (

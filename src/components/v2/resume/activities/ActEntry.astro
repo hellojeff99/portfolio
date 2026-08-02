@@ -1,7 +1,7 @@
 ---
 import type {
-  ProjectEntry,
-  ProjectTask,
+ProjectEntry,
+Task,
 } from "../../../../content/v2/collections/projects";
 import BulletText from "../common/BulletText.astro";
 import TextLabel from "../common/TextLabel.astro";
@@ -13,19 +13,17 @@ interface Props {
 const { activity } = Astro.props;
 const { data } = activity;
 
-function getTaskTitle(task: ProjectTask): string {
+function getTaskTitle(task: Task): string {
   return typeof task === "string" ? task : task.title;
 }
 ---
 
-<article class="print:break-inside-avoid">
+<article class="break-inside-avoid">
   <header
     class="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-x-8"
   >
     <div class="min-w-0">
-      <h3
-        class="m-0 text-sm font-bold tracking-tight text-slate-950 print:text-xs"
-      >
+      <h3 class="m-0 text-xs font-bold tracking-tight text-slate-950">
         {data.title}
       </h3>
       {
@@ -41,12 +39,9 @@ function getTaskTitle(task: ProjectTask): string {
     </div>
   </header>
 
-  <ul
-    class="mt-4 grid gap-2 print:mt-2 print:gap-1"
-    aria-label={`${data.title} 활동 내용`}
-  >
+  <ul class="mt-2 grid gap-1" aria-label={`${data.title} 활동 내용`}>
     {
-      data.contributions.map((contribution: ProjectTask) => (
+      data.contributions.map((contribution: Task) => (
         <BulletText text={getTaskTitle(contribution)} />
       ))
     }

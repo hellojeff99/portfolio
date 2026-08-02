@@ -1,6 +1,7 @@
 ---
 import About from "../components/v2/resume/About.astro";
 import Activities from "../components/v2/resume/activities/Activities.astro";
+import Awards from "../components/v2/resume/Awards.astro";
 import Career from "../components/v2/resume/career/Career.astro";
 import Certifications from "../components/v2/resume/Certifications.astro";
 import Education from "../components/v2/resume/Education.astro";
@@ -19,10 +20,9 @@ const title = "Jeffrey's Resume";
   <About />
   <Education />
   <Certifications />
+  <Awards />
   <Languages />
   <Career />
-  <div class="print:break-before-page print:[zoom:95%]">
-    <Projects />
-    <Activities />
-  </div>
+  <Projects />
+  <Activities />
 </ResumeLayout>

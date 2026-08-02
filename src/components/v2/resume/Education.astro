@@ -1,58 +1,39 @@
 ---
 import { getEntry } from "astro:content";
+import EntryMainText from "./common/EntryMainText.astro";
+import EntrySubText from "./common/EntrySubText.astro";
 import GradeLabel from "./common/GradeLabel.astro";
-import SectionLayout from "./common/SectionLayout.astro";
+import SectionLayout from "./common/section/SectionLayout.astro";
 import TextLabel from "./common/TextLabel.astro";
 
 const resumeEntry = await getEntry("v2Resume", "resume");
 
 if (!resumeEntry) {
-  throw new Error(
-    "v2 Resume Education에 필요한 이력서 데이터를 찾을 수 없습니다.",
-  );
+throw new Error(
+  "v2 Resume Education에 필요한 이력서 데이터를 찾을 수 없습니다.",
+);
 }
 
 const { educations } = resumeEntry.data;
 ---
-
-<SectionLayout title="Education" id="education" icon="education">
-  <div class="relative ml-1.5 border-l border-slate-200" aria-label="학력 목록">
-    {
-      educations.map((education) => (
-        <article class="relative ml-6 pb-4 last:pb-0 print:ml-5 print:break-inside-avoid print:pb-2">
-          <span
-            class="absolute -left-6 top-1.5 size-3 -translate-x-1/2 rounded-full border-2 border-slate-400 bg-white ring-4 ring-white print:-left-5 print:size-2.5"
-            aria-hidden="true"
-          />
-
-          <header class="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-x-8">
-            <h3 class="m-0 text-base font-bold tracking-tight print:text-sm">
-              {education.school}
-            </h3>
-
-            <div>
-              <TextLabel text={education.period} />
-            </div>
-          </header>
-
-          {(education.major || education.gpa) && (
-            <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
-              {education.major && (
-                <p class="m-0 text-xs font-semibold">{education.major}</p>
-              )}
-              {education.gpa && <GradeLabel grade={`GPA ${education.gpa}`} />}
-            </div>
-          )}
-
-          <div>
-            {education.sub && (
-              <p class="mt-2 text-xs font-normal leading-relaxed">
-                {education.sub}
-              </p>
-            )}
+<SectionLayout title="Education" id="education">
+  {
+    educations.map((education) => (
+      <article class="grid break-inside-avoid grid-cols-4 items-start gap-x-4 py-1 first:pt-0 last:pb-0">
+        <div class="col-span-2 flex min-w-0 items-start gap-x-2">
+          <EntryMainText text={education.school} />
+        </div>
+        <div class="grid justify-self-start">
+          <div class="flex min-w-0 items-start gap-x-2">
+            {education.major && <EntryMainText text={education.major} />}
+            {education.gpa && <GradeLabel grade={education.gpa} />}
           </div>
-        </article>
-      ))
-    }
-  </div>
+          {education.sub && <EntrySubText text={education.sub} />}
+        </div>
+        <div class="justify-self-end">
+          <TextLabel text={education.period} />
+        </div>
+      </article>
+    ))
+  }
 </SectionLayout>

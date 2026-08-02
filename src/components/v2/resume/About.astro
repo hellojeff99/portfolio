@@ -1,7 +1,7 @@
 ---
 import { getEntry } from "astro:content";
 import BulletText from "./common/BulletText.astro";
-import SectionLayout from "./common/SectionLayout.astro";
+import SectionLayout from "./common/section/SectionLayout.astro";
 
 const resumeEntry = await getEntry("v2Resume", "resume");
 
@@ -18,8 +18,8 @@ function normalizeBio(bio: string[] | string): string[] {
 const bioSentences = normalizeBio(resumeEntry.data.info.bio);
 ---
 
-<SectionLayout title="About" id="about" icon="about">
-  <ul class="grid gap-2 print:gap-1" aria-label="소개">
+<SectionLayout title="About" id="about">
+  <ul class="grid gap-1" aria-label="소개">
     {bioSentences.map((sentence) => <BulletText text={sentence} />)}
   </ul>
 </SectionLayout>

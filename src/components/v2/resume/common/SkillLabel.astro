@@ -1,22 +1,12 @@
 ---
 interface Props {
   skill: string;
-  variant?: "default" | "compact";
 }
 
-const { skill, variant = "default" } = Astro.props;
+const { skill } = Astro.props;
 
-const variantClasses = {
-  default: "text-xs font-semibold text-slate-600",
-  compact: "font-mono text-xs font-semibold tracking-tight text-slate-700",
-} satisfies Record<NonNullable<Props["variant"]>, string>;
 ---
 
-<li
-  class:list={[
-    "rounded-md bg-slate-200/70 px-2.5 py-1 print:px-2 print:py-0.5",
-    variantClasses[variant],
-  ]}
->
+<li class="rounded-md bg-slate-200/70 px-2 py-0.5 text-xs font-semibold text-slate-600">
   {skill}
 </li>

@@ -11,13 +11,11 @@ if (!resumeEntry) {
 const { info } = resumeEntry.data;
 ---
 
-<section class="px-16 py-4 print:break-inside-avoid print:px-12 print:py-2">
-  <div
-    class="grid grid-cols-4 items-start gap-x-8 print:grid-cols-[auto_minmax(0,1fr)] print:gap-x-6"
-  >
-    <figure class="m-0 self-start print:w-36">
+<section class="break-inside-avoid px-12 py-2">
+  <div class="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-6">
+    <figure class="m-0 w-36 self-start">
       <div
-        class="aspect-[4/5] overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 print:rounded-lg"
+        class="aspect-[4/5] overflow-hidden rounded-lg border border-slate-200 bg-slate-100"
       >
         <img
           src={info.photo}
@@ -29,20 +27,18 @@ const { info } = resumeEntry.data;
       </div>
     </figure>
 
-    <div class="col-span-3 min-w-0 print:col-span-1">
+    <div class="min-w-0">
       <header>
         <h1
-          class="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-3xl font-extrabold leading-none tracking-[-0.04em] text-black print:mt-4 print:text-2xl"
+          class="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-2xl leading-none font-extrabold tracking-[-0.04em] text-black"
         >
           {info.name}
-          <span
-            class="text-lg font-bold tracking-[0.08em] text-slate-900 print:text-md"
-          >
+          <span class="text-base font-bold tracking-[0.08em] text-slate-900">
             {info.romanName}
           </span>
         </h1>
         <p
-          class="mt-1.5 text-2xl font-semibold text-slate-600 leading-tight tracking-tight print:text-xl"
+          class="mt-1.5 text-xl leading-tight font-semibold tracking-tight text-slate-600"
           data-resume-role
         >
           {info.role}

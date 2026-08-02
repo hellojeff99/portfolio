@@ -19,13 +19,9 @@ const treatments = [
 ] as const;
 ---
 
-<section
-  class="hidden px-16 py-4 print:px-12 print:py-2"
-  aria-label="희망 처우"
-  data-resume-treatment
->
+<section class="hidden px-12 py-2" aria-label="희망 처우" data-resume-treatment>
   <dl
-    class="grid grid-cols-2 gap-x-8 gap-y-2 border-t border-slate-200 pt-3 text-xs print:gap-y-1 print:pt-2"
+    class="grid grid-cols-2 gap-x-8 gap-y-1 border-t border-slate-200 pt-2 text-xs"
   >
     {
       treatments.map(([key, label, value]) => (

@@ -7,11 +7,9 @@ const { text } = Astro.props;
 ---
 
 <li
-  class="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2 text-xs font-normal leading-relaxed text-slate-700 print:leading-normal"
+  class="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2 text-xs leading-normal font-normal text-slate-700"
 >
-  <span
-    class="mt-2 size-1.5 rounded-full bg-black print:mt-1.5 print:size-1"
-    aria-hidden="true"></span>
+  <span class="mt-1.5 size-1 rounded-full bg-black" aria-hidden="true"></span>
   <div>
     <span>{text}</span>
   </div>

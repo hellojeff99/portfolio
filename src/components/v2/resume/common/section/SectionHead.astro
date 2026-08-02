@@ -1,0 +1,19 @@
+---
+interface Props {
+  title: string;
+  id: string;
+}
+
+const { title, id } = Astro.props;
+---
+
+<header class="mb-2 break-after-avoid border-b border-slate-400">
+  <h2
+    class="-mb-px inline-block border-b-2 border-slate-950 pb-1.5 text-lg leading-none font-bold tracking-[0.06em] text-slate-950 uppercase"
+    id={id}
+    data-resume-section-title={id}
+    data-resume-section-title-default={title}
+  >
+    {title}
+  </h2>
+</header>

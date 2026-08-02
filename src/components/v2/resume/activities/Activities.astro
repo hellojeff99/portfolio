@@ -1,11 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import {
-  compareProjectIds,
-  type ProjectEntry,
+compareProjectIds,
+type ProjectEntry,
 } from "../../../../content/v2/collections/projects";
 import Divider from "../common/Divider.astro";
-import SectionLayout from "../common/SectionLayout.astro";
+import SectionLayout from "../common/section/SectionLayout.astro";
 import ActEntry from "./ActEntry.astro";
 
 const activityEntries: ProjectEntry[] = (await getCollection("v2Projects"))
@@ -13,11 +13,11 @@ const activityEntries: ProjectEntry[] = (await getCollection("v2Projects"))
   .sort((first, second) => compareProjectIds(first.id, second.id));
 ---
 
-<SectionLayout title="Activities" id="activities" icon="activities">
+<SectionLayout title="Activities" id="activities">
   <div class="grid">
     {
       activityEntries.map((activity, index) => (
-        <div class="pt-4 first:pt-0 print:break-inside-avoid print:pt-2 print:first:pt-0">
+        <div class="break-inside-avoid pt-2 first:pt-0">
           <ActEntry {activity} />
           {index < activityEntries.length - 1 && <Divider />}
         </div>

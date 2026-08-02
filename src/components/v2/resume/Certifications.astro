@@ -1,7 +1,8 @@
 ---
-import { BadgeCheck } from "@lucide/astro";
 import { getEntry } from "astro:content";
-import SectionLayout from "./common/SectionLayout.astro";
+import EntryMainText from "./common/EntryMainText.astro";
+import EntrySubText from "./common/EntrySubText.astro";
+import SectionLayout from "./common/section/SectionLayout.astro";
 import TextLabel from "./common/TextLabel.astro";
 
 const resumeEntry = await getEntry("v2Resume", "resume");
@@ -15,22 +16,14 @@ if (!resumeEntry) {
 const { certifications } = resumeEntry.data;
 ---
 
-<SectionLayout title="Certifications" id="certifications" icon="certifications">
+<SectionLayout title="Certifications" id="certifications">
   {
     certifications.map((certification) => (
-      <article class="grid grid-cols-[auto_minmax(0,1.2fr)_minmax(0,1fr)_auto] items-center gap-x-4 py-2 first:pt-0 last:pb-0 print:break-inside-avoid print:py-1">
-        <span
-          class="grid size-8 shrink-0 place-items-center print:size-7"
-          aria-hidden="true"
-        >
-          <BadgeCheck class="size-4.5 print:size-4" stroke-width={2.25} />
-        </span>
-        <h3 class="min-w-0 truncate text-sm font-semibold tracking-tight text-slate-900 print:text-xs">
-          {certification.name}
-        </h3>
-        <p class="min-w-0 truncate text-xs font-medium text-slate-500">
-          {certification.issuer}
-        </p>
+      <article class="grid break-inside-avoid grid-cols-4 items-center gap-x-4 py-1 first:pt-0 last:pb-0">
+        <div class="col-span-2 flex min-w-0 items-center gap-x-2">
+          <EntryMainText text={certification.name} />
+        </div>
+        <EntrySubText text={certification.issuer} />
         <div class="justify-self-end">
           <TextLabel text={certification.date} />
         </div>

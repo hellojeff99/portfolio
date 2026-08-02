@@ -14,7 +14,7 @@ const { title = "Jeffrey's Resume" } = Astro.props;
 <html
   lang="ko"
   data-theme="light"
-  class="scroll-smooth motion-reduce:scroll-auto print:[-webkit-print-color-adjust:exact] print:[print-color-adjust:exact]"
+  class="scroll-smooth [-webkit-print-color-adjust:exact] [print-color-adjust:exact] motion-reduce:scroll-auto"
 >
   <head>
     <meta charset="utf-8" />
@@ -26,14 +26,12 @@ const { title = "Jeffrey's Resume" } = Astro.props;
   </head>
   <body
     id="top"
-    class="min-h-screen min-w-80 bg-base-100 text-base-content antialiased print:min-w-0 print:bg-white"
+    class="min-h-screen min-w-80 bg-base-100 text-base-content antialiased"
   >
     <ResumeHeader />
-    <main
-      class="overflow-x-auto bg-slate-100 pb-[10mm] pt-16 print:overflow-visible print:bg-white print:p-0 print:[orphans:3] print:[widows:3]"
-    >
+    <main class="bg-slate-100 py-[10mm]">
       <div
-        class="font-noto-sans-kr mx-auto mt-[10mm] min-h-[210mm] w-[270mm] border border-slate-200 bg-white py-8 shadow-sm print:mt-0 print:min-h-0 print:w-[90%] print:border-0 print:py-4 print:shadow-none print:[zoom:90%]"
+        class="font-noto-sans-kr mx-auto min-h-[277mm] w-[90%] max-w-[210mm] border border-slate-200 bg-white py-4 shadow-sm"
         data-resume-sheet
       >
         <slot />
@@ -42,10 +40,3 @@ const { title = "Jeffrey's Resume" } = Astro.props;
     <ResumeFooter />
   </body>
 </html>
-
-<style is:global>
-  @page {
-    size: A4 portrait;
-    margin: 5mm 0;
-  }
-</style>
