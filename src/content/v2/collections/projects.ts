@@ -1,8 +1,17 @@
-import { defineCollection, type CollectionEntry } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { defineCollection, type CollectionEntry } from "astro:content";
 
-const projectTaskSchema = z.union([
+const PROJECT_CATEGORIES = [
+  "work",
+  "featured",
+  "project",
+  "experience",
+] as const;
+
+export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
+
+const taskSchema = z.union([
   z.string(),
   z.object({
     title: z.string(),
@@ -10,47 +19,55 @@ const projectTaskSchema = z.union([
   }),
 ]);
 
-export type ProjectTask = z.infer<typeof projectTaskSchema>;
+export type Task = z.infer<typeof taskSchema>;
 
-const optionalUrl = z.preprocess(
-  (value) =>
-    value == null || (typeof value === "string" && value.trim() === "")
-      ? undefined
-      : value,
+const optionalUrlSchema = z.preprocess(
+  (value) => {
+    if (value == null) {
+      return undefined;
+    }
+
+    if (typeof value === "string" && value.trim() === "") {
+      return undefined;
+    }
+
+    return value;
+  },
   z.string().trim().url().optional(),
 );
 
-const projectFields = {
+const projectSchema = z.object({
   title: z.string(),
   subtitle: z.string().optional(),
   role: z.string(),
-  type: z.enum(["개인프로젝트", "팀프로젝트"]).optional(),
+  type: z.string(),
   "team-size": z.string(),
   meta: z.string().optional(),
   period: z.string(),
-  github: optionalUrl,
-  contributions: z.array(projectTaskSchema).min(1),
-  highlights: z.array(projectTaskSchema).min(1),
+  github: optionalUrlSchema,
+  contributions: z.array(taskSchema).min(1),
+  highlights: z.array(taskSchema).min(1),
   stack: z.array(z.string()).optional(),
-};
+});
 
 export const v2Projects = defineCollection({
   loader: glob({
     pattern: "**/[0-9][0-9]-*.md",
     base: "./src/content/v2/experience",
   }),
-  schema: z.object(projectFields),
+  schema: projectSchema,
 });
 
-export type ProjectCategory = "work" | "featured" | "project" | "experience";
 export type ProjectEntry = CollectionEntry<"v2Projects">;
+
 export type ProjectGroups = Record<ProjectCategory, ProjectEntry[]>;
+
 export type ProjectSummary = ProjectEntry["data"] & {
   id: string;
   detailHref: string | undefined;
 };
 
-type ProjectCategoryMeta = {
+export type ProjectCategoryMeta = {
   label: string;
   backHref: string;
   backLabel: string;
@@ -79,49 +96,74 @@ export const PROJECT_CATEGORY_META = {
   },
 } satisfies Record<ProjectCategory, ProjectCategoryMeta>;
 
-export function getProjectCategory(id: string): ProjectCategory {
-  const [section, subsection] = id.split("/");
-
-  if (section === "career") return "work";
-  if (section === "activity") return "experience";
-  if (section === "project" && subsection === "featured") return "featured";
-  if (section === "project") return "project";
-
-  throw new Error(`Unknown project category: ${id}`);
-}
-
-export function getProjectSlug(id: string): string {
-  return id.startsWith("project/") ? id.slice("project/".length) : id;
-}
-
-export function getProjectCategoryMeta(id: string): ProjectCategoryMeta {
-  return PROJECT_CATEGORY_META[getProjectCategory(id)];
-}
-
-export function compareProjectIds(firstId: string, secondId: string): number {
-  const firstFilename = firstId.split("/").at(-1) ?? firstId;
-  const secondFilename = secondId.split("/").at(-1) ?? secondId;
-
-  return secondFilename.localeCompare(firstFilename, undefined, {
-    numeric: true,
-  });
-}
-
-export function groupProjectEntries(entries: ProjectEntry[]): ProjectGroups {
-  const groups: ProjectGroups = {
+function createEmptyProjectGroups(): ProjectGroups {
+  return {
     work: [],
     featured: [],
     project: [],
     experience: [],
   };
+}
 
-  [...entries]
+function getProjectFilename(id: string): string {
+  return id.split("/").at(-1) ?? id;
+}
+
+export function getProjectCategory(id: string): ProjectCategory {
+  const [section, subsection] = id.split("/");
+
+  switch (section) {
+    case "career":
+      return "work";
+
+    case "activity":
+      return "experience";
+
+    case "project":
+      return subsection === "featured" ? "featured" : "project";
+
+    default:
+      throw new Error(`Unknown project category: ${id}`);
+  }
+}
+
+export function getProjectSlug(id: string): string {
+  const projectPrefix = "project/";
+
+  return id.startsWith(projectPrefix)
+    ? id.slice(projectPrefix.length)
+    : id;
+}
+
+export function getProjectCategoryMeta(
+  id: string,
+): ProjectCategoryMeta {
+  return PROJECT_CATEGORY_META[getProjectCategory(id)];
+}
+
+export function compareProjectIds(
+  firstId: string,
+  secondId: string,
+): number {
+  return getProjectFilename(secondId).localeCompare(
+    getProjectFilename(firstId),
+    undefined,
+    { numeric: true },
+  );
+}
+
+export function groupProjectEntries(
+  entries: ProjectEntry[],
+): ProjectGroups {
+  return [...entries]
     .sort((first, second) => compareProjectIds(first.id, second.id))
-    .forEach((entry) => {
-      groups[getProjectCategory(entry.id)].push(entry);
-    });
+    .reduce<ProjectGroups>((groups, entry) => {
+      const category = getProjectCategory(entry.id);
 
-  return groups;
+      groups[category].push(entry);
+
+      return groups;
+    }, createEmptyProjectGroups());
 }
 
 export function toProjectSummary({
@@ -129,9 +171,13 @@ export function toProjectSummary({
   data,
   body,
 }: ProjectEntry): ProjectSummary {
+  const hasDetailContent = Boolean(body?.trim());
+
   return {
     id,
     ...data,
-    detailHref: body?.trim() ? `/projects/${getProjectSlug(id)}` : undefined,
+    detailHref: hasDetailContent
+      ? `/projects/${getProjectSlug(id)}`
+      : undefined,
   };
 }

@@ -33,12 +33,12 @@ educations:
   - school: 제주대학교
     major: 컴퓨터공학과
     sub: "연계전공: 빅데이터융합전공"
-    gpa: 3.9 / 4.5
-    period: 2018.03 — 2026.02
+    gpa: GPA 3.9 / 4.5
+    period: 2018.03 ~ 2026.02
   - school: 제주대학교사범대학부설고등학교
     major: null
     gpa: null
-    period: 2015.03 — 2018.02
+    period: 2015.03 ~ 2018.02
 
 # 자격사항 ------------------------------------------------------------------------
 certifications:
@@ -70,7 +70,7 @@ awards:
 # 어학사항 ------------------------------------------------------------------------
 languages:
   - language: 영어
-    test: TOEIC Speaking
+    name: TOEIC Speaking
     issuer: 한국TOEIC위원회
     score: IM1
     date: "2025.10"

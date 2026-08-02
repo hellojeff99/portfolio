@@ -1,9 +1,9 @@
 ---
 title: 제주은행 차세대 프로젝트 - 여신 파트
 subtitle: ㈜인포마인드
-role: ""
+role: "SI 개발 · 프리랜서"
 team-size: ""
-meta: SI 개발 · 프리랜서
+meta:
 period: 2021.03 ~ 2021.12
 github:
 contributions:
