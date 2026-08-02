@@ -40,7 +40,7 @@ const projectSchema = z.object({
   title: z.string(),
   subtitle: z.string().optional(),
   role: z.string(),
-  type: z.string(),
+  type: z.enum(["개인프로젝트", "팀프로젝트"]).optional(),
   "team-size": z.string(),
   meta: z.string().optional(),
   period: z.string(),
