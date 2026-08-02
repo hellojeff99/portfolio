@@ -3,7 +3,7 @@ import { ArrowUpRight } from "@lucide/astro";
 import { getEntry } from "astro:content";
 import { siGithub } from "simple-icons";
 import TopButton from "../TopButton.astro";
-import HiddentBtn from "./HiddentBtn.astro";
+import HiddentBtn from "./HiddenBtn.astro";
 
 const resumeEntry = await getEntry("v2Resume", "resume");
 const profile = resumeEntry?.data.info;
@@ -14,7 +14,7 @@ const name = profile?.name ?? "Yang Seongwon";
 
 <footer
   id="contact"
-  class="bg-gray-950 px-5 py-4 text-white print:hidden sm:px-8 sm:py-5 lg:px-12"
+  class="bg-gray-950 px-5 py-4 text-white sm:px-8 sm:py-5 lg:px-12"
   aria-label="연락처"
 >
   <div

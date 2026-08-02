@@ -141,7 +141,7 @@ const { name } = Astro.props;
 
     hiddenPrintButton.disabled = true;
     hiddenPrintButton.setAttribute("aria-busy", "true");
-    treatment?.classList.toggle("print:block", includeTreatment);
+    treatment?.classList.toggle("hidden", !includeTreatment);
     applySectionTitleLanguage(useKoreanSectionTitles);
     applyInfoLabelLanguage(useKoreanSectionTitles);
 
@@ -154,7 +154,7 @@ const { name } = Astro.props;
       );
       window.print();
     } finally {
-      treatment?.classList.remove("print:block");
+      treatment?.classList.add("hidden");
       applySectionTitleLanguage(false);
       applyInfoLabelLanguage(false);
       hiddenPrintButton.disabled = false;
