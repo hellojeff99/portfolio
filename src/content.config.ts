@@ -1,5 +1,7 @@
-import { v2Collections } from "./content/content.config";
+import {v2Projects} from "./content/collections/projects.ts";
+import {info} from "./content/collections/info.ts";
 
 export const collections = {
-  ...v2Collections,
+  v2Projects,
+  info,
 };

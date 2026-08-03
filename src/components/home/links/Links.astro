@@ -5,13 +5,13 @@ import SectionHead from "../SectionHead.astro";
 import SectionLayout from "../SectionLayout.astro";
 import LinkCard from "./LinkCard.astro";
 
-const resumeEntry = await getEntry("v2Resume", "resume");
+const infoEntry = await getEntry("info", "info");
 
-if (!resumeEntry) {
+if (!infoEntry) {
   throw new Error("v2 Links에 필요한 이력서 데이터를 찾을 수 없습니다.");
 }
 
-const { github } = resumeEntry.data.info.links;
+const { github } = infoEntry.data.info.links;
 const githubLabel = github.replace(/^https?:\/\//, "").replace(/\/$/, "");
 ---
 

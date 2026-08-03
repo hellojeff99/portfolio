@@ -5,18 +5,13 @@ import SectionHead from "../../home/SectionHead.astro";
 import SectionLayout from "../../home/SectionLayout.astro";
 import AboutCard from "./AboutCard.astro";
 
-const resumeEntry = await getEntry("v2Resume", "resume");
+const infoEntry = await getEntry("info", "info");
 
-if (!resumeEntry) {
+if (!infoEntry) {
   throw new Error("v2 About Me에 필요한 이력서 데이터를 찾을 수 없습니다.");
 }
 
-const { name, birthDate, location, phone, email } = resumeEntry.data.info;
-const { educations } = resumeEntry.data;
-const latestEducation = educations[0];
-const education = [latestEducation.school, latestEducation.major]
-  .filter(Boolean)
-  .join(" · ");
+const { name, birthDate, location, email , education } = infoEntry.data.info;
 
 const infoItems = [
   {
@@ -36,19 +31,17 @@ const infoItems = [
   },
   {
     label: "연락처",
-    value: phone,
+    value: "1111",
     icon: "ph:phone-fill",
-    href: `tel:${phone}`,
   },
   {
     label: "이메일",
     value: email,
     icon: "ph:envelope-simple-fill",
-    href: `mailto:${email}`,
   },
   {
     label: "학력",
-    value: education,
+    value: education.school + " " + education.major,
     icon: "ph:graduation-cap-fill",
   },
 ];
@@ -59,8 +52,8 @@ const infoItems = [
 
   <ul class="mt-4 grid gap-3 sm:grid-cols-3">
     {
-      infoItems.map(({ label, value, icon, href }) => (
-        <AboutCard label={label} href={href}>
+      infoItems.map(({ label, value, icon}) => (
+        <AboutCard label={label}>
           <Icon slot="icon" name={icon} class="size-10" aria-hidden="true" />
           {value}
         </AboutCard>

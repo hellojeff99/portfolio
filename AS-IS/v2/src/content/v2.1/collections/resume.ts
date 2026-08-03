@@ -3,7 +3,7 @@ import { z } from "astro/zod";
 import { defineCollection } from "astro:content";
 
 export const v2Resume = defineCollection({
-  loader: glob({ pattern: "resume.md", base: "./src/content/v2" }),
+  loader: glob({ pattern: "info.md", base: "./src/content/v2" }),
   schema: z.object({
     info: z.object({
       name: z.string(),

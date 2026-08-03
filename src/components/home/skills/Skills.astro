@@ -5,7 +5,7 @@ import SectionHead from "../../home/SectionHead.astro";
 import SectionLayout from "../../home/SectionLayout.astro";
 import SkillItem from "../../SkillItem.astro";
 
-const resumeEntry = await getEntry("v2Resume", "resume");
+const resumeEntry = await getEntry("info", "info");
 
 if (!resumeEntry) {
   throw new Error("v2 Skills에 필요한 기술 데이터를 찾을 수 없습니다.");
@@ -14,19 +14,19 @@ if (!resumeEntry) {
 const { skills } = resumeEntry.data;
 
 const categoryIcons = {
-  Languages: "ph:brackets-curly-bold",
-  "Frameworks & Libraries": "ph:stack-bold",
-  "DB & Cache": "ph:database-bold",
-  "Test & Performance": "ph:gauge-bold",
-  "Infra & Tools": "ph:toolbox-bold",
+  "languages": "ph:brackets-curly-bold",
+  "frameworks&libraries": "ph:stack-bold",
+  "DB&cache": "ph:database-bold",
+  "test&performance": "ph:gauge-bold",
+  "infra&tools": "ph:toolbox-bold",
 };
 
 const categoryAccents = {
-  Languages: "from-amber-400 to-orange-500",
-  "Frameworks & Libraries": "from-violet-500 to-fuchsia-500",
-  "DB & Cache": "from-cyan-400 to-blue-500",
-  "Test & Performance": "from-emerald-400 to-teal-500",
-  "Infra & Tools": "from-slate-500 to-indigo-500",
+  "languages": "from-amber-400 to-orange-500",
+  "frameworks&libraries": "from-violet-500 to-fuchsia-500",
+  "DB&cache": "from-cyan-400 to-blue-500",
+  "test&performance": "from-emerald-400 to-teal-500",
+  "infra&tools": "from-slate-500 to-indigo-500",
 };
 
 const skillGroups = Object.entries(skills).map(([category, items]) => ({

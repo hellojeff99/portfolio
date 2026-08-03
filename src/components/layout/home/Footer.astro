@@ -2,8 +2,8 @@
 import { getEntry } from "astro:content";
 import TopButton from "../TopButton.astro";
 
-const resumeEntry = await getEntry("v2Resume", "resume");
-const name = resumeEntry?.data.info.name ?? "Yang Seongwon";
+const infoEntry = await getEntry("info", "resume");
+const name = infoEntry?.data.info.romanName ?? "Seongwon";
 ---
 
 <footer

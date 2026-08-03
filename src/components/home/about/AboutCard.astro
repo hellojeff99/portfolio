@@ -1,10 +1,9 @@
 ---
 interface Props {
   label: string;
-  href?: string;
 }
 
-const { label, href } = Astro.props;
+const { label} = Astro.props;
 ---
 
 <li
@@ -26,18 +25,7 @@ const { label, href } = Astro.props;
         {label}
       </span>
       <div class="text-base font-semibold text-base-content sm:text-lg">
-        {
-          href ? (
-            <a
-              class="break-all underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2"
-              href={href}
-            >
-              <slot />
-            </a>
-          ) : (
-            <slot />
-          )
-        }
+        <slot />
       </div>
     </div>
   </div>
