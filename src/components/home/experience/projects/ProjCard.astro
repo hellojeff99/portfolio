@@ -3,10 +3,10 @@ import { FileText } from "@lucide/astro";
 import type {
 ProjectEntry,
 ProjectSummary,
-Task,
-} from "../../../../../content/v2/collections/projects";
+} from "../../../../content/collections/projects";
 import SkillItem from "../../../SkillItem.astro";
 import ReadmeModal from "../readme/ReadmeModal.astro";
+import type {Task} from "../../../../content/collections/taskScheam.ts";
 
 interface Props {
   project: ProjectSummary;
@@ -64,7 +64,7 @@ function getTaskTitle(task: Task): string {
     </div>
     <ul class="space-y-1.5">
       {
-        project.highlights.slice(0, 3).map((highlight) => (
+        project.highlights.slice(0, 3).map((highlight: string | Task) => (
           <li class="flex items-start gap-2 text-xs leading-4 font-medium text-slate-900">
             <span
               class="mt-2 size-1 shrink-0 rounded-full bg-slate-400"

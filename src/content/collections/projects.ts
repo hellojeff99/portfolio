@@ -41,7 +41,7 @@ const projectSchema = z.object({
   stack: z.array(z.string()).optional(),
 });
 
-export const v2Projects = defineCollection({
+export const projects = defineCollection({
   loader: glob({
     pattern: "**/[0-9][0-9]-*.md",
     base: "./src/content/experience",
@@ -49,7 +49,7 @@ export const v2Projects = defineCollection({
   schema: projectSchema,
 });
 
-export type ProjectEntry = CollectionEntry<"v2Projects">;
+export type ProjectEntry = CollectionEntry<"projects">;
 
 export type ProjectGroups = Record<ProjectCategory, ProjectEntry[]>;
 
@@ -124,12 +124,6 @@ export function getProjectSlug(id: string): string {
   return id.startsWith(projectPrefix)
     ? id.slice(projectPrefix.length)
     : id;
-}
-
-export function getProjectCategoryMeta(
-  id: string,
-): ProjectCategoryMeta {
-  return PROJECT_CATEGORY_META[getProjectCategory(id)];
 }
 
 export function compareProjectIds(

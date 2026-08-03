@@ -2,7 +2,7 @@
 import { getEntry } from "astro:content";
 import TopButton from "../TopButton.astro";
 
-const infoEntry = await getEntry("info", "resume");
+const infoEntry = await getEntry("info", "info");
 const name = infoEntry?.data.info.romanName ?? "Seongwon";
 ---
 

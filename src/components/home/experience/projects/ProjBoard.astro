@@ -15,7 +15,7 @@ interface Props {
 const { class: className } = Astro.props;
 
 const projectGroups = groupProjectEntries(
-  (await getCollection("v2Projects")).filter((entry) =>
+  (await getCollection("projects")).filter((entry) =>
     entry.id.startsWith("project/"),
   ),
 );

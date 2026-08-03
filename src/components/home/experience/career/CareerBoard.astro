@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { class: className } = Astro.props;
-const careers = (await getCollection("v2Projects"))
+const careers = (await getCollection("projects"))
   .filter((entry) => entry.id.startsWith("career/"))
   .sort((first, second) =>
     second.id.localeCompare(first.id, undefined, { numeric: true }),
