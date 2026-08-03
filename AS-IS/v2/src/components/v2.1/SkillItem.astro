@@ -1,0 +1,129 @@
+---
+import { Icon } from "astro-icon/components";
+import {
+  siArduino,
+  siC,
+  siCplusplus,
+  siDocker,
+  siGit,
+  siGithub,
+  siJavascript,
+  siJira,
+  siJsonwebtokens,
+  siK6,
+  siNestjs,
+  siNextdotjs,
+  siOpenjdk,
+  siPostgresql,
+  siPrisma,
+  siPython,
+  siReact,
+  siRedis,
+  siSocketdotio,
+  siSpringboot,
+  siTailwindcss,
+  siTypeorm,
+  siTypescript,
+  siVercel,
+} from "simple-icons";
+
+interface Props {
+  name: string;
+  compact?: boolean;
+  truncate?: boolean;
+  showName?: boolean;
+}
+
+const {
+  name,
+  compact = false,
+  truncate = false,
+  showName = true,
+} = Astro.props;
+
+const brandIcons = {
+  Arduino: siArduino,
+  C: siC,
+  "C++": siCplusplus,
+  Docker: siDocker,
+  Git: siGit,
+  Github: siGithub,
+  "GitHub Wiki": siGithub,
+  Java: siOpenjdk,
+  JavaScript: siJavascript,
+  Jira: siJira,
+  JWT: siJsonwebtokens,
+  k6: siK6,
+  NestJS: siNestjs,
+  "Next.js": siNextdotjs,
+  PostgreSQL: siPostgresql,
+  Prisma: siPrisma,
+  Python: siPython,
+  React: siReact,
+  Redis: siRedis,
+  "Socket.IO": siSocketdotio,
+  "Spring Boot": siSpringboot,
+  "Spring Boot (Java)": siSpringboot,
+  "Tailwind CSS": siTailwindcss,
+  TypeORM: siTypeorm,
+  TypeScript: siTypescript,
+  Vercel: siVercel,
+};
+
+const fallbackColors = {
+  Entry: "#00b3b8",
+  JPA: "#59666c",
+  "MS Automate": "#0066ff",
+  Oracle: "#f80000",
+  xFrame: "#2563eb",
+};
+
+const icon = brandIcons[name as keyof typeof brandIcons] ?? null;
+const color = icon?.hex
+  ? `#${icon.hex}`
+  : (fallbackColors[name as keyof typeof fallbackColors] ?? "#64748b");
+const fallbackIcon =
+  name === "JPA" || name === "Oracle"
+    ? "ph:database-bold"
+    : "ph:brackets-curly-bold";
+---
+
+<li
+  class:list={[
+    "inline-flex items-center gap-2.5 px-1.5 py-1.5 text-[0.9375rem] font-bold text-base-content",
+    compact && "gap-0 px-1 py-1",
+    truncate && "min-w-0",
+  ]}
+  aria-label={showName ? undefined : name}
+>
+  <span
+    class:list={[
+      "grid place-items-center",
+      compact ? "size-3.5" : "size-[1.125rem]",
+    ]}
+    style={`color: ${color}`}
+    aria-hidden="true"
+  >
+    {
+      icon ? (
+        <svg
+          class:list={[
+            "fill-current",
+            compact ? "size-3.5" : "size-[1.125rem]",
+          ]}
+          viewBox="0 0 24 24"
+          focusable="false"
+        >
+          <path d={icon.path} />
+        </svg>
+      ) : (
+        <Icon
+          name={fallbackIcon}
+          class:list={[compact ? "size-3.5" : "size-[1.125rem]"]}
+          aria-hidden="true"
+        />
+      )
+    }
+  </span>
+  {showName && <span class:list={[truncate && "truncate"]}>{name}</span>}
+</li>

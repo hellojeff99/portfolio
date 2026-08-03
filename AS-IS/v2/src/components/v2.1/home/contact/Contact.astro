@@ -1,0 +1,54 @@
+---
+import { ArrowUpRight } from "@lucide/astro";
+import { Icon } from "astro-icon/components";
+import { getEntry } from "astro:content";
+import SectionHead from "../SectionHead.astro";
+import SectionLayout from "../SectionLayout.astro";
+
+const resumeEntry = await getEntry("v2Resume", "resume");
+
+if (!resumeEntry) {
+  throw new Error("v2 Contact에 필요한 이력서 데이터를 찾을 수 없습니다.");
+}
+
+const { email } = resumeEntry.data.info;
+---
+
+<SectionLayout id="contact" class="bg-sky-200/70">
+  <SectionHead title="Contact" icon="contact" />
+
+  <a
+    class="group mx-auto mt-5 flex max-w-3xl items-center gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-4 text-slate-950 shadow-sm transition-colors duration-200 hover:border-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2 motion-reduce:transition-none"
+    href={`mailto:${email}`}
+  >
+    <span
+      class="grid size-14 shrink-0 place-items-center rounded-2xl bg-sky-400 text-slate-950 sm:size-16"
+    >
+      <Icon
+        name="ph:envelope-simple-fill"
+        class="size-7 sm:size-8"
+        aria-hidden="true"
+      />
+    </span>
+
+    <span class="min-w-0 flex-1 py-2 text-left">
+      <span
+        class="block text-xs font-bold uppercase tracking-[0.16em] text-slate-500"
+      >
+        Email
+      </span>
+      <span
+        class="mt-1 block break-all text-lg font-bold tracking-tight text-slate-950 sm:text-2xl"
+      >
+        {email}
+      </span>
+    </span>
+
+    <span
+      class="inline-flex shrink-0 items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-xs font-black tracking-[0.1em] text-slate-600 transition-colors duration-200 group-hover:border-slate-950 group-hover:bg-slate-950 group-hover:text-white motion-reduce:transition-none"
+    >
+      <span class="hidden sm:inline">Send</span>
+      <ArrowUpRight class="size-4" aria-hidden="true" />
+    </span>
+  </a>
+</SectionLayout>

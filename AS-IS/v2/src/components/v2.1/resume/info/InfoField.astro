@@ -1,0 +1,43 @@
+---
+interface Props {
+  label: string;
+  labelKey: string;
+  value: string;
+  href?: string;
+  valueDataAttribute?: string;
+}
+
+const { label, labelKey, value, href, valueDataAttribute } = Astro.props;
+---
+
+<div class="min-w-0">
+  <dt
+    class="text-xs font-bold tracking-[0.14em] text-slate-400"
+    data-resume-info-label={labelKey}
+    data-resume-info-label-default={label}
+  >
+    {label}
+  </dt>
+  <dd
+    class="mt-0.5 text-xs font-semibold leading-snug tracking-tight text-slate-700"
+  >
+    {
+      href ? (
+        <a
+          href={href}
+          data-resume-phone={valueDataAttribute === "phone" ? true : undefined}
+        >
+          {value}
+        </a>
+      ) : (
+        <span
+          data-resume-location={
+            valueDataAttribute === "location" ? true : undefined
+          }
+        >
+          {value}
+        </span>
+      )
+    }
+  </dd>
+</div>

@@ -1,0 +1,20 @@
+---
+import AboutSection from "../components/v2.1/home/about/About.astro";
+import ContactSection from "../components/v2.1/home/contact/Contact.astro";
+import ExperienceSection from "../components/v2.1/home/experience/Experience.astro";
+import HeroSection from "../components/v2.1/home/hero/Hero.astro";
+import LinksSection from "../components/v2.1/home/links/Links.astro";
+import SkillsSection from "../components/v2.1/home/skills/Skills.astro";
+import Layout from "../layouts/v2.1/Layout.astro";
+---
+
+<Layout title="Portfolio v2">
+  <HeroSection />
+  <div>
+    <AboutSection />
+    <LinksSection />
+  </div>
+  <SkillsSection />
+  <ExperienceSection />
+  <ContactSection />
+</Layout>

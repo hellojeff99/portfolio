@@ -1,19 +1,17 @@
 ---
-import AboutSection from "../components/v2/home/about/About.astro";
-import ContactSection from "../components/v2/home/contact/Contact.astro";
-import ExperienceSection from "../components/v2/home/experience/Experience.astro";
-import HeroSection from "../components/v2/home/hero/Hero.astro";
-import LinksSection from "../components/v2/home/links/Links.astro";
-import SkillsSection from "../components/v2/home/skills/Skills.astro";
-import Layout from "../layouts/v2/Layout.astro";
+import AboutSection from "../components/home/about/About.astro";
+import ContactSection from "../components/home/contact/Contact.astro";
+import ExperienceSection from "../components/home/experience/Experience.astro";
+import HeroSection from "../components/home/hero/Hero.astro";
+import LinksSection from "../components/home/links/Links.astro";
+import SkillsSection from "../components/home/skills/Skills.astro";
+import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Portfolio v2">
+<Layout title="Portfolio">
   <HeroSection />
-  <div>
-    <AboutSection />
-    <LinksSection />
-  </div>
+  <AboutSection />
+  <LinksSection />
   <SkillsSection />
   <ExperienceSection />
   <ContactSection />

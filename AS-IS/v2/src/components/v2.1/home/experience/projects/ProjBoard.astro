@@ -1,0 +1,68 @@
+---
+import { PanelsTopLeft } from "@lucide/astro";
+import { getCollection } from "astro:content";
+import {
+  groupProjectEntries,
+  toProjectSummary,
+} from "../../../../../content/v2.1/collections/projects";
+import FeatProjCard from "./FeatProjCard.astro";
+import ProjCard from "./ProjCard.astro";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+const projectGroups = groupProjectEntries(
+  (await getCollection("v2Projects")).filter((entry) =>
+    entry.id.startsWith("project/"),
+  ),
+);
+const featuredProjects = projectGroups.featured.map((entry) => ({
+  entry,
+  summary: toProjectSummary(entry),
+}));
+const projects = projectGroups.project.map((entry) => ({
+  entry,
+  summary: toProjectSummary(entry),
+}));
+---
+
+<section class:list={["min-w-0", className]}>
+  <header class="py-2.5 sm:py-3">
+    <div class="flex min-w-0 items-center gap-3">
+      <span
+        class="grid size-8 shrink-0 place-items-center rounded-xl text-slate-800"
+      >
+        <PanelsTopLeft class="size-4.5" stroke-width={1.8} aria-hidden="true" />
+      </span>
+      <h3
+        class="truncate text-lg font-bold tracking-[-0.03em] text-base-content sm:text-xl"
+      >
+        Projects
+      </h3>
+    </div>
+  </header>
+  <div class="grid gap-4 pb-5 sm:pb-6">
+    <section class="min-w-0" aria-label="Featured Projects">
+      <div class="grid gap-3 md:grid-cols-2">
+        {
+          featuredProjects.map(({ entry, summary }) => (
+            <FeatProjCard project={summary} entry={entry} />
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="min-w-0" aria-label="Projects">
+      <div class="grid gap-2 md:grid-cols-3">
+        {
+          projects.map(({ entry, summary }) => (
+            <ProjCard project={summary} entry={entry} />
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</section>

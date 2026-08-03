@@ -1,0 +1,56 @@
+---
+import type { ProjectTask } from "../../../content/v2.0/collections/projects";
+
+interface Props {
+  tasks: ProjectTask[];
+  compact?: boolean;
+  variant?: "portfolio" | "resume";
+}
+
+const { tasks, compact = false, variant = "portfolio" } = Astro.props;
+const isResume = variant === "resume";
+const listClass = isResume
+  ? "mt-2 gap-1 pl-4"
+  : compact
+    ? "mt-1 gap-1 border-t border-slate-200 pl-4 pt-2.5"
+    : "mt-5 gap-2 border-t border-slate-200 pl-5 pt-4";
+const taskClass = isResume
+  ? "text-xs text-slate-700 marker:text-slate-500"
+  : compact
+    ? "break-keep text-sm text-slate-700 marker:text-blue-500"
+    : "break-keep text-sm text-slate-800 marker:text-blue-500";
+const taskTitleClass = isResume
+  ? "font-semibold text-slate-900"
+  : "font-semibold text-slate-800";
+const subtaskListClass = isResume || compact ? "mt-1 pl-4" : "mt-2 pl-5";
+const subtaskClass = isResume
+  ? "text-xs text-slate-600 marker:text-slate-500"
+  : compact
+    ? "text-sm text-slate-700 marker:text-slate-400"
+    : "text-xs text-slate-700 marker:text-slate-400";
+---
+
+<ul class:list={["grid list-disc", listClass]}>
+  {
+    tasks.map((task) => (
+      <li class:list={["leading-relaxed", taskClass]}>
+        {typeof task === "string" ? (
+          <span>{task}</span>
+        ) : (
+          <div>
+            <strong class={taskTitleClass}>{task.title}</strong>
+            {task.subtasks && (
+              <ul class:list={["grid list-disc gap-1", subtaskListClass]}>
+                {task.subtasks.map((subtask) => (
+                  <li class:list={["leading-relaxed", subtaskClass]}>
+                    {subtask}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </li>
+    ))
+  }
+</ul>

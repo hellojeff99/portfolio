@@ -1,0 +1,66 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import ReadmeModalHeader from "./ReadmeModalHeader.astro";
+import ReadmeContent from "./ReadmeContent.astro";
+import "../../../../styles/project-detail.css"
+
+interface Props {
+  modalId: string;
+  project: CollectionEntry<"v2Projects">;
+}
+
+const { modalId, project } = Astro.props;
+const { Content } = await render(project);
+const textFlowDefinitions = Array.from(
+  (project.body ?? "").matchAll(/```text-flow[^\n]*\n([\s\S]*?)```/g),
+  ([, definition]) => definition.trim(),
+);
+---
+
+<dialog
+  id={modalId}
+  class="m-auto h-[calc(100dvh-var(--spacing-4))] w-[calc(100dvw-var(--spacing-4))] max-w-none overflow-hidden rounded-2xl border border-slate-200 bg-white p-0 text-slate-900 shadow-2xl backdrop:bg-slate-950/60 md:h-[calc(100dvh-var(--spacing-8))] md:max-h-240 md:w-[calc(100dvw-var(--spacing-8))] md:max-w-6xl"
+  aria-labelledby={`${modalId}-title`}
+  data-readme-modal
+>
+  <div class="flex h-full flex-col">
+    <ReadmeModalHeader modalId={modalId} project={project} />
+
+    <div
+      class="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-slate-100/70 [scrollbar-gutter:stable]"
+      data-readme-scroll
+    >
+      <article
+        class="mx-auto min-h-full w-full max-w-5xl border-x border-slate-200 bg-white"
+      >
+        <ReadmeContent textFlowDefinitions={textFlowDefinitions}>
+          <Content />
+        </ReadmeContent>
+      </article>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  document.addEventListener("click", (event) => {
+    const trigger = (event.target as Element).closest<HTMLElement>(
+      "[data-readme-open]",
+    );
+    if (!trigger) return;
+
+    const modal = document.getElementById(trigger.dataset.readmeOpen ?? "");
+    if (!(modal instanceof HTMLDialogElement)) return;
+
+    const scrollArea = modal.querySelector<HTMLElement>("[data-readme-scroll]");
+    modal.showModal();
+    if (scrollArea) scrollArea.scrollTop = 0;
+  });
+
+  document
+    .querySelectorAll<HTMLDialogElement>("[data-readme-modal]")
+    .forEach((modal) => {
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) modal.close();
+      });
+    });
+</script>

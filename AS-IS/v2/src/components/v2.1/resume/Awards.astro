@@ -1,0 +1,35 @@
+---
+import { getEntry } from "astro:content";
+import EntryMainText from "./common/EntryMainText.astro";
+import EntrySubText from "./common/EntrySubText.astro";
+import GradeLabel from "./common/GradeLabel.astro";
+import SectionLayout from "./common/section/SectionLayout.astro";
+import TextLabel from "./common/TextLabel.astro";
+
+const resumeEntry = await getEntry("v2Resume", "resume");
+
+if (!resumeEntry) {
+  throw new Error(
+    "v2 Resume Awards에 필요한 이력서 데이터를 찾을 수 없습니다.",
+  );
+}
+
+const { awards } = resumeEntry.data;
+---
+
+<SectionLayout title="Awards" id="awards">
+  {
+    awards.map((award) => (
+      <article class="grid break-inside-avoid grid-cols-4 items-center gap-x-4 py-1 first:pt-0 last:pb-0">
+        <div class="col-span-2 flex min-w-0 items-center gap-x-2">
+          <EntryMainText text={award.name} />
+          <GradeLabel grade={award.result} />
+        </div>
+        <EntrySubText text={award.issuer} />
+        <div class="justify-self-end">
+          <TextLabel text={award.date} />
+        </div>
+      </article>
+    ))
+  }
+</SectionLayout>

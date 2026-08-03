@@ -1,0 +1,28 @@
+---
+import About from "../components/v2.1/resume/About.astro";
+import Activities from "../components/v2.1/resume/activities/Activities.astro";
+import Awards from "../components/v2.1/resume/Awards.astro";
+import Career from "../components/v2.1/resume/career/Career.astro";
+import Certifications from "../components/v2.1/resume/Certifications.astro";
+import Education from "../components/v2.1/resume/Education.astro";
+import Info from "../components/v2.1/resume/info/Info.astro";
+import Languages from "../components/v2.1/resume/Languages.astro";
+import Projects from "../components/v2.1/resume/projects/Projects.astro";
+import Treatment from "../components/v2.1/resume/Treatment.astro";
+import ResumeLayout from "../layouts/v2.1/ResumeLayout.astro";
+
+const title = "Jeffrey's Resume";
+---
+
+<ResumeLayout {title}>
+  <Info />
+  <Treatment />
+  <About />
+  <Education />
+  <Certifications />
+  <Awards />
+  <Languages />
+  <Career />
+  <Projects />
+  <Activities />
+</ResumeLayout>

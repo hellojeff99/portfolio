@@ -1,0 +1,70 @@
+---
+import { Icon } from "astro-icon/components";
+import { getEntry } from "astro:content";
+import SectionHead from "../../home/SectionHead.astro";
+import SectionLayout from "../../home/SectionLayout.astro";
+import AboutCard from "./AboutCard.astro";
+
+const resumeEntry = await getEntry("v2Resume", "resume");
+
+if (!resumeEntry) {
+  throw new Error("v2 About Me에 필요한 이력서 데이터를 찾을 수 없습니다.");
+}
+
+const { name, birthDate, location, phone, email } = resumeEntry.data.info;
+const { educations } = resumeEntry.data;
+const latestEducation = educations[0];
+const education = [latestEducation.school, latestEducation.major]
+  .filter(Boolean)
+  .join(" · ");
+
+const infoItems = [
+  {
+    label: "이름",
+    value: name,
+    icon: "ph:user-fill",
+  },
+  {
+    label: "생년월일",
+    value: birthDate,
+    icon: "ph:calendar-blank-fill",
+  },
+  {
+    label: "위치",
+    value: location,
+    icon: "ph:map-pin-fill",
+  },
+  {
+    label: "연락처",
+    value: phone,
+    icon: "ph:phone-fill",
+    href: `tel:${phone}`,
+  },
+  {
+    label: "이메일",
+    value: email,
+    icon: "ph:envelope-simple-fill",
+    href: `mailto:${email}`,
+  },
+  {
+    label: "학력",
+    value: education,
+    icon: "ph:graduation-cap-fill",
+  },
+];
+---
+
+<SectionLayout id="about" class="flex min-h-[50svh] items-center">
+  <SectionHead title="About Me" icon="about" />
+
+  <ul class="mt-4 grid gap-3 sm:grid-cols-3">
+    {
+      infoItems.map(({ label, value, icon, href }) => (
+        <AboutCard label={label} href={href}>
+          <Icon slot="icon" name={icon} class="size-10" aria-hidden="true" />
+          {value}
+        </AboutCard>
+      ))
+    }
+  </ul>
+</SectionLayout>

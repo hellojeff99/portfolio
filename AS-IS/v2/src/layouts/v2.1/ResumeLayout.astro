@@ -1,0 +1,42 @@
+---
+import ResumeHeader from "../../components/v2.1/layout/resume/ResumeHeader.astro";
+import ResumeFooter from "../../components/v2.1/layout/resume/ResumeFooter.astro";
+import "../../styles/v2.1/global.css";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Jeffrey's Resume" } = Astro.props;
+---
+
+<!doctype html>
+<html
+  lang="ko"
+  data-theme="light"
+  class="scroll-smooth [-webkit-print-color-adjust:exact] [print-color-adjust:exact] motion-reduce:scroll-auto"
+>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <slot name="head" />
+    <title>{title}</title>
+  </head>
+  <body
+    id="top"
+    class="min-h-screen min-w-80 bg-base-100 text-base-content antialiased"
+  >
+    <ResumeHeader />
+    <main class="bg-slate-100 py-[10mm]">
+      <div
+        class="font-noto-sans-kr mx-auto min-h-[277mm] w-[90%] max-w-[210mm] border border-slate-200 bg-white py-4 shadow-sm"
+        data-resume-sheet
+      >
+        <slot />
+      </div>
+    </main>
+    <ResumeFooter />
+  </body>
+</html>

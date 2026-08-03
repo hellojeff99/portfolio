@@ -1,0 +1,47 @@
+---
+import { BriefcaseBusiness } from "@lucide/astro";
+import { getCollection } from "astro:content";
+import CareerCard from "./CareerCard.astro";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const careers = (await getCollection("v2Projects"))
+  .filter((entry) => entry.id.startsWith("career/"))
+  .sort((first, second) =>
+    second.id.localeCompare(first.id, undefined, { numeric: true }),
+  );
+---
+
+<section class:list={["flex min-w-0 flex-col", className]} aria-label="Career">
+  <header class="py-2.5 sm:py-3">
+    <div class="flex min-w-0 items-center gap-3">
+      <span
+        class="grid size-8 shrink-0 place-items-center rounded-xl text-slate-800"
+      >
+        <BriefcaseBusiness
+          class="size-4.5"
+          stroke-width={1.8}
+          aria-hidden="true"
+        />
+      </span>
+      <h3
+        class="truncate text-lg font-bold tracking-[-0.03em] text-base-content sm:text-xl"
+      >
+        Career
+      </h3>
+    </div>
+  </header>
+
+  <div class="grid flex-1 auto-rows-fr pb-5 sm:pb-6">
+    {
+      careers.map((career) => (
+        <article class="last:pb-0">
+          <CareerCard career={career} />
+        </article>
+      ))
+    }
+  </div>
+</section>
