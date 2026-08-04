@@ -4,28 +4,13 @@ import { defineCollection, type CollectionEntry } from "astro:content";
 import {taskSchema} from "./taskScheam.ts";
 
 const PROJECT_CATEGORIES = [
-  "work",
+  "career",
   "featured",
   "project",
-  "experience",
+  "activity",
 ] as const;
 
 export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
-
-const optionalUrlSchema = z.preprocess(
-  (value) => {
-    if (value == null) {
-      return undefined;
-    }
-
-    if (typeof value === "string" && value.trim() === "") {
-      return undefined;
-    }
-
-    return value;
-  },
-  z.string().trim().url().optional(),
-);
 
 const projectSchema = z.object({
   title: z.string(),
@@ -35,7 +20,7 @@ const projectSchema = z.object({
   "team-size": z.string(),
   meta: z.string().optional(),
   period: z.string(),
-  github: optionalUrlSchema,
+  github: z.string().optional(),
   highlights: z.array(taskSchema).min(1),
   stack: z.array(z.string()).optional(),
 });
@@ -57,41 +42,12 @@ export type ProjectSummary = ProjectEntry["data"] & {
   detailHref: string | undefined;
 };
 
-export type ProjectCategoryMeta = {
-  label: string;
-  backHref: string;
-  backLabel: string;
-};
-
-export const PROJECT_CATEGORY_META = {
-  work: {
-    label: "Work Experience",
-    backHref: "/#work",
-    backLabel: "경력 목록으로 돌아가기",
-  },
-  featured: {
-    label: "Featured Project",
-    backHref: "/#projects",
-    backLabel: "프로젝트 목록으로 돌아가기",
-  },
-  project: {
-    label: "Project",
-    backHref: "/#projects",
-    backLabel: "프로젝트 목록으로 돌아가기",
-  },
-  experience: {
-    label: "Experience",
-    backHref: "/resume#experience",
-    backLabel: "경험 목록으로 돌아가기",
-  },
-} satisfies Record<ProjectCategory, ProjectCategoryMeta>;
-
 function createEmptyProjectGroups(): ProjectGroups {
   return {
-    work: [],
+    career: [],
     featured: [],
     project: [],
-    experience: [],
+    activity: [],
   };
 }
 
@@ -104,10 +60,10 @@ export function getProjectCategory(id: string): ProjectCategory {
 
   switch (section) {
     case "career":
-      return "work";
+      return "career";
 
     case "activity":
-      return "experience";
+      return "activity";
 
     case "project":
       return subsection === "featured" ? "featured" : "project";
