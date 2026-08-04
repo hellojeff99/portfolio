@@ -3,7 +3,6 @@ title: DevBrew
 subtitle: 멘토 탐색부터 커피챗 예약·승인·1:1 실시간 채팅까지 연결한 개발자 멘토링 플랫폼
 role: 풀스택 개발
 type: 개인프로젝트
-team-size: 1명
 period: 2026.05.14 ~ 2026.05.24
 github: https://github.com/hellojeff99/devbrew
 highlights:
@@ -37,13 +36,13 @@ stack:
 - **대화 보존** — 메시지는 저장된 뒤 전달되어 다시 접속해도 유지
 - **서비스 배포** — 프론트엔드, API, 데이터베이스를 분리
 
-<img src="/images/career/projects/featured/devbrew/live-chat.gif" alt="live-chat" style="zoom:20%;">
+<img src="/images/experience/projects/featured/devbrew/live-chat.gif" alt="live-chat" style="zoom:20%;">
 
 ## 구현 화면
 
 | 멘토 탐색                                                                  | 커피챗 예약                                                                | 커피챗 승인                                                                         | 실시간 채팅                                                          |
 | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| <img src="/images/career/projects/featured/devbrew/find-mento.png" alt=""> | <img src="/images/career/projects/featured/devbrew/metno-info.png" alt=""> | <img src="/images/career/projects/featured/devbrew/dashboard-for-mento.png" alt=""> | <img src="/images/career/projects/featured/devbrew/chat.png" alt=""> |
+| <img src="/images/experience/projects/featured/devbrew/find-mento.png" alt=""> | <img src="/images/experience/projects/featured/devbrew/metno-info.png" alt=""> | <img src="/images/experience/projects/featured/devbrew/dashboard-for-mento.png" alt=""> | <img src="/images/experience/projects/featured/devbrew/chat.png" alt=""> |
 
 ---
 
@@ -108,13 +107,13 @@ Vercel과 Railway로 분리된 환경에서도 양방향 채팅이 올바르게 
 
 ## 사용자 흐름
 
-<img src="/images/career/projects/featured/devbrew/image-20260721145558311.png" alt="image-20260721145558311">
+<img src="/images/experience/projects/featured/devbrew/image-20260721145558311.png" alt="image-20260721145558311">
 
 ---
 
 ## 시스템 아키텍처
 
-<img src="/images/career/projects/featured/devbrew/image-20260721145617162.png" alt="image-20260721145617162">
+<img src="/images/experience/projects/featured/devbrew/image-20260721145617162.png" alt="image-20260721145617162">
 
 REST API와 Socket.IO가 같은 도메인 서비스를 사용하고,
 모든 영속 데이터는 Prisma를 통해 PostgreSQL에 저장
@@ -123,7 +122,7 @@ REST API와 Socket.IO가 같은 도메인 서비스를 사용하고,
 
 ## ERD
 
-<img src="/images/career/projects/featured/devbrew/image-20260721145643724.png" alt="image-20260721145643724">
+<img src="/images/experience/projects/featured/devbrew/image-20260721145643724.png" alt="image-20260721145643724">
 
 `timeSlotId`와 `coffeeChatId`에 고유 제약을 적용해
 슬롯–커피챗과 커피챗–채팅방의 1:1 관계를 보장

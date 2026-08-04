@@ -3,7 +3,6 @@ title: TicketLab
 subtitle: 동시성 제어와 캐시 최적화를 통해 예약 정합성과 고동시성 조회 성능을 개선한 티켓 예매 시스템
 role: 백엔드 설계·구현 및 성능 테스트
 type: 개인프로젝트
-team-size: 1명
 period: 2026.06.19 ~ 2026.06.26
 github: https://github.com/hellojeff99/ticketlab
 highlights:
@@ -34,7 +33,7 @@ stack:
 
 모든 읽기와 쓰기가 PostgreSQL에 집중된 구조
 
-<img src="/images/career/projects/featured/ticketlab/image-20260721145349185.png" alt="image-20260721145349185" style="zoom:20%;">
+<img src="/images/experience/projects/featured/ticketlab/image-20260721145349185.png" alt="image-20260721145349185" style="zoom:20%;">
 
 | 문제                |                                     측정 결과 |
 | ------------------- | --------------------------------------------: |
@@ -70,7 +69,7 @@ stack:
 | **Redis**        | 고동시성 환경에서 평균 응답·p95 모두 최저        |
 | Indexing + Redis | Baseline보다 개선되었지만 Redis 단독보다 느림    |
 
-<img src="/images/career/projects/featured/ticketlab/image-20260721145412702.png" alt="image-20260721145412702">
+<img src="/images/experience/projects/featured/ticketlab/image-20260721145412702.png" alt="image-20260721145412702">
 
 ---
 
@@ -107,7 +106,7 @@ stack:
 
 ## 4. 최종 설계
 
-<img src="/images/career/projects/featured/ticketlab/image-20260721145423556.png" alt="image-20260721145423556">
+<img src="/images/experience/projects/featured/ticketlab/image-20260721145423556.png" alt="image-20260721145423556">
 
 | 경로      | 설계 목표               | 결과                  |
 | --------- | ----------------------- | --------------------- |
