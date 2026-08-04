@@ -58,10 +58,10 @@ const skillGroups = Object.entries(skills).map(([category, items]) => ({
               <Icon name={icon} class="size-4" aria-hidden="true" />
             </span>
             <span class="text-sm leading-tight font-black uppercase tracking-[0.08em] text-base-content">
-              {category.includes(" & ") ? (
+              {category.includes("&") ? (
                 <>
-                  {category.split(" & ")[0]}
-                  <span class="block">&amp; {category.split(" & ")[1]}</span>
+                  {category.split("&")[0]}
+                  <span class="block">&amp; {category.split("&")[1]}</span>
                 </>
               ) : (
                 category
