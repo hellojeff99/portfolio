@@ -6,12 +6,6 @@ type: 개인프로젝트
 team-size: 1명
 period: 2026.05.14 ~ 2026.05.24
 github: https://github.com/hellojeff99/devbrew
-contributions:
-  - Next.js·NestJS 기반 멘토링 서비스 설계 및 풀스택 구현
-  - Prisma 트랜잭션과 고유 제약을 활용한 예약 데이터 일관성 확보
-  - 커피챗 승인 연계 채팅방 생성 및 JWT 기반 실시간 채팅 구현
-  - 메시지 선저장 후 브로드캐스트를 통한 실시간 데이터와 대화 기록 일치
-  - Vercel·Railway·Neon 기반 프론트엔드·서버·데이터베이스 분리 배포
 highlights:
   - title: 예약 데이터 일관성 확보
   - title: 예약과 채팅 흐름 연결

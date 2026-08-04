@@ -36,7 +36,6 @@ const projectSchema = z.object({
   meta: z.string().optional(),
   period: z.string(),
   github: optionalUrlSchema,
-  contributions: z.array(taskSchema).min(1),
   highlights: z.array(taskSchema).min(1),
   stack: z.array(z.string()).optional(),
 });

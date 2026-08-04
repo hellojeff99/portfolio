@@ -6,17 +6,10 @@ type: 팀프로젝트
 team-size: 5명
 period: "2023.01.03 ~ 2023.01.30"
 github: https://github.com/kakaoDreamy/jnu-eat
-
-contributions:
-  - Kakao Maps SDK 초기 연동과 지도·마커 객체화, 다중 마커 렌더링 원형 구현
-  - 식당 48개·교내 건물 74개의 초기 JSON 데이터셋 구축
-  - Jira Kanban·Agit Daily Scrum 기반 협업 운영과 GitHub Wiki 문서화
-
 highlights:
   - title: 지도 SDK·다중 마커 기반 위치 탐색
   - title: 공통 JSON 기반 무서버 추천 데이터 구축
   - title: Jira·Agit·GitHub 기반 협업 및 지식 관리
-
 stack:
   - React
   - JavaScript

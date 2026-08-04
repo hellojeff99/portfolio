@@ -6,11 +6,6 @@ team-size: ""
 meta: "SI 개발 · 프리랜서"
 period: 2021.03 ~ 2021.12
 github:
-contributions:
-  - 약 1,000개 규모의 여신 UI 정보계 → 계정계 이관 및 차세대 표준 기반 화면 레이아웃·JavaScript 로직 재구성
-  - 화면별 송수신 데이터 포맷 MCI 등록 및 연동 완료 여부에 따른 실제 데이터·DB 임시 데이터 기반 검증
-  - AS-IS와 TO-BE 조회 결과 비교를 통한 데이터 정합성 검증 및 JavaScript, MCI, C 서버 로직, Oracle SQL 추적 기반 불일치 원인 분석
-  - 서버 로그, C 로직 분기, 원장 조회 SQL 조건 및 데이터 처리 과정 분석을 통한 오류 수정
 highlights:
   - title: 약 1,000개 여신 UI를 차세대 계정계 환경으로 전환
     subtasks:

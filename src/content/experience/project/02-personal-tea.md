@@ -6,16 +6,9 @@ type: 팀프로젝트
 team-size: "5명: Design 1, Front 2, Back 2"
 period: "2023.06.27 ~ 2023.06.30"
 github: https://github.com/sw-hackathon-team-41/client
-
-contributions:
-  - React 프로젝트 초기 구성과 홈·공통 UI 컴포넌트 설계
-  - React Router 기반 7개 화면 라우팅과 공통 내비게이션 구현
-  - 5단계 허브 취향 테스트 구현
-
 highlights:
   - title: 선택지 기반 5단계 허브 추천 흐름 설계
   - title: 7개 화면 라우팅 및 공통 UI 컴포넌트 구조화
-
 stack:
   - React
   - JavaScript

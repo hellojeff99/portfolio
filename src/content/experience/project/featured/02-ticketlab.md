@@ -6,12 +6,6 @@ type: 개인프로젝트
 team-size: 1명
 period: 2026.06.19 ~ 2026.06.26
 github: https://github.com/hellojeff99/ticketlab
-contributions:
-  - 동시성 테스트를 통한 동일 좌석 중복 예약 9건 재현 및 Pessimistic Lock 적용을 통한 중복 예약 제거
-  - 1,000 VU 환경에서 Optimistic Lock 대비 평균 응답 시간 32.3%, p95 22.9% 단축
-  - Redis Cache-Aside와 트랜잭션 커밋 후 캐시 무효화를 통한 좌석 조회 p95 51.0% 단축
-  - Redis 장애 시 DB Fallback 구현을 통한 조회 가용성 확보
-  - k6와 EXPLAIN ANALYZE를 활용한 Baseline·Indexing·Redis 성능 비교
 highlights:
   - title: 동일 좌석 중복 예약 9건 → 0건
   - title: 좌석 조회 p95 51.0% 단축

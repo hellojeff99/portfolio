@@ -6,17 +6,10 @@ type: 팀프로젝트
 team-size: "4명: Design 1, Front 3"
 period: "2023.07.21 ~ 2023.11.03"
 github: https://github.com/SignaHand/SignaHand
-
-contributions:
-  - PDF.js 기반 로컬 PDF 파싱과 페이지별 Canvas 렌더링
-  - PageContext 기반 페이지별 편집 결과 저장·미리보기 연동·초기화
-  - Canvas 출력과 팀 서명 데이터 연동 및 jsPDF 기반 다중 페이지 PDF 내보내기
-
 highlights:
   - title: 브라우저 기반 PDF 전 페이지 편집
   - title: 페이지 전환 간 편집 상태 동기화
   - title: 다중 페이지 PDF 재구성 및 다운로드
-
 stack:
   - React
   - TypeScript
