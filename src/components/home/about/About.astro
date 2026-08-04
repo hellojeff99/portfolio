@@ -12,6 +12,8 @@ if (!infoEntry) {
 }
 
 const { name, birthDate, location, email, education, role } = infoEntry.data.info;
+
+const iconSize = "size-12";
 ---
 
 <SectionLayout id="about" class="flex min-h-[50svh] items-center">
@@ -19,14 +21,14 @@ const { name, birthDate, location, email, education, role } = infoEntry.data.inf
 
   <ul class="mt-4 grid gap-3 sm:grid-cols-3">
     <AboutCard label="이름">
-      <Icon slot="icon" name="ph:user-fill" class="size-10" aria-hidden="true" />
+      <Icon slot="icon" name="material-symbols:person-rounded" class={iconSize} aria-hidden="true" />
       {name}
     </AboutCard>
     <AboutCard label="생년월일">
       <Icon
           slot="icon"
-          name="ph:calendar-blank-fill"
-          class="size-10"
+          name="material-symbols:calendar-month-rounded"
+          class={iconSize}
           aria-hidden="true"
       />
       {birthDate}
@@ -34,8 +36,9 @@ const { name, birthDate, location, email, education, role } = infoEntry.data.inf
     <AboutCard label="학력">
       <Icon
           slot="icon"
-          name="ph:graduation-cap-fill"
-          class="size-10"
+          name="material-symbols:school-rounded"
+          class={iconSize}
+          aria-hidden="true"
       />
       <span class="block">{education.school} {education.major}</span>
       <span
@@ -47,8 +50,8 @@ const { name, birthDate, location, email, education, role } = infoEntry.data.inf
     <AboutCard label="위치">
       <Icon
           slot="icon"
-          name="ph:map-pin-fill"
-          class="size-10"
+          name="material-symbols:location-on-rounded"
+          class={iconSize}
           aria-hidden="true"
       />
       {location}
@@ -57,8 +60,8 @@ const { name, birthDate, location, email, education, role } = infoEntry.data.inf
     <AboutCard label="직무">
       <Icon
           slot="icon"
-          name="ph:code-fill"
-          class="size-10"
+          name= "material-symbols:code-rounded"
+          class={iconSize}
           aria-hidden="true"
       />
       {role}
@@ -67,8 +70,8 @@ const { name, birthDate, location, email, education, role } = infoEntry.data.inf
     <AboutCard label="이메일">
       <Icon
           slot="icon"
-          name="ph:envelope-simple-fill"
-          class="size-10"
+          name="material-symbols:mail-rounded"
+          class={iconSize}
           aria-hidden="true"
       />
       {email}
