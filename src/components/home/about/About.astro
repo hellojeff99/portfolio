@@ -11,53 +11,67 @@ if (!infoEntry) {
   throw new Error("v2 About Me에 필요한 이력서 데이터를 찾을 수 없습니다.");
 }
 
-const { name, birthDate, location, email , education } = infoEntry.data.info;
-
-const infoItems = [
-  {
-    label: "이름",
-    value: name,
-    icon: "ph:user-fill",
-  },
-  {
-    label: "생년월일",
-    value: birthDate,
-    icon: "ph:calendar-blank-fill",
-  },
-  {
-    label: "위치",
-    value: location,
-    icon: "ph:map-pin-fill",
-  },
-  {
-    label: "연락처",
-    value: "1111",
-    icon: "ph:phone-fill",
-  },
-  {
-    label: "이메일",
-    value: email,
-    icon: "ph:envelope-simple-fill",
-  },
-  {
-    label: "학력",
-    value: education.school + " " + education.major,
-    icon: "ph:graduation-cap-fill",
-  },
-];
+const { name, birthDate, location, email, education, role } = infoEntry.data.info;
 ---
 
 <SectionLayout id="about" class="flex min-h-[50svh] items-center">
   <SectionHead title="About Me" icon="about" />
 
   <ul class="mt-4 grid gap-3 sm:grid-cols-3">
-    {
-      infoItems.map(({ label, value, icon}) => (
-        <AboutCard label={label}>
-          <Icon slot="icon" name={icon} class="size-10" aria-hidden="true" />
-          {value}
-        </AboutCard>
-      ))
-    }
+    <AboutCard label="이름">
+      <Icon slot="icon" name="ph:user-fill" class="size-10" aria-hidden="true" />
+      {name}
+    </AboutCard>
+    <AboutCard label="생년월일">
+      <Icon
+          slot="icon"
+          name="ph:calendar-blank-fill"
+          class="size-10"
+          aria-hidden="true"
+      />
+      {birthDate}
+    </AboutCard>
+    <AboutCard label="학력">
+      <Icon
+          slot="icon"
+          name="ph:graduation-cap-fill"
+          class="size-10"
+      />
+      <span class="block">{education.school} {education.major}</span>
+      <span
+          class="block text-sm font-medium text-base-content/65 sm:text-base"
+      >
+        {education.sub}
+      </span>
+    </AboutCard>
+    <AboutCard label="위치">
+      <Icon
+          slot="icon"
+          name="ph:map-pin-fill"
+          class="size-10"
+          aria-hidden="true"
+      />
+      {location}
+    </AboutCard>
+
+    <AboutCard label="직무">
+      <Icon
+          slot="icon"
+          name="ph:code-fill"
+          class="size-10"
+          aria-hidden="true"
+      />
+      {role}
+    </AboutCard>
+
+    <AboutCard label="이메일">
+      <Icon
+          slot="icon"
+          name="ph:envelope-simple-fill"
+          class="size-10"
+          aria-hidden="true"
+      />
+      {email}
+    </AboutCard>
   </ul>
 </SectionLayout>

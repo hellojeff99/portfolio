@@ -6,7 +6,7 @@ info:
   romanName: SEONGWON YANG
   role: Software Engineer
   birthDate: "1999.11.06"
-  email: xxxx@gmail.com
+  email: 'null'
   location: Seoul, South Korea
   links:
     github: https://github.com/hellojeff99

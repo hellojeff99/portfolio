@@ -3,28 +3,49 @@ interface Props {
   label: string;
 }
 
-const { label} = Astro.props;
+const { label } = Astro.props;
 ---
 
 <li
-  class="min-w-0 overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-sm"
+    class="min-w-0 overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-sm"
 >
   <div
-    class="flex items-center gap-1.5 border-b border-base-300 bg-base-200/70 px-4 py-2"
+      class="flex items-center gap-1.5 border-b border-base-300 bg-base-200/70 px-4 py-2"
   >
-    <span class="size-2.5 rounded-full bg-error/75" aria-hidden="true"></span>
-    <span class="size-2.5 rounded-full bg-warning/75" aria-hidden="true"></span>
-    <span class="size-2.5 rounded-full bg-success/75" aria-hidden="true"></span>
+    <span
+        class="size-2.5 rounded-full bg-error/75"
+        aria-hidden="true"
+    ></span>
+    <span
+        class="size-2.5 rounded-full bg-warning/75"
+        aria-hidden="true"
+    ></span>
+    <span
+        class="size-2.5 rounded-full bg-success/75"
+        aria-hidden="true"
+    ></span>
   </div>
-  <div class="flex min-w-0 items-center justify-between gap-4 px-8 py-2">
-    <span class="grid size-14 shrink-0 place-items-center text-base-content">
+
+  <div
+      class="flex min-h-24 min-w-0 items-center justify-between gap-4 px-6 py-4 sm:px-8"
+  >
+    <span
+        class="grid size-14 shrink-0 place-items-center text-base-content"
+        aria-hidden="true"
+    >
       <slot name="icon" />
     </span>
-    <div class="min-w-0 text-right">
-      <span class="block truncate text-sm font-semibold text-base-content/70">
+
+    <div class="min-w-0 flex-1 text-right">
+      <span
+          class="block text-sm font-semibold text-base-content/70"
+      >
         {label}
       </span>
-      <div class="text-base font-semibold text-base-content sm:text-lg">
+
+      <div
+          class="mt-0.5 break-words text-base font-semibold leading-snug text-base-content sm:text-lg"
+      >
         <slot />
       </div>
     </div>

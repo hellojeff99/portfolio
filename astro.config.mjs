@@ -31,6 +31,7 @@ export default defineConfig({
           "phone-fill",
           "envelope-simple-fill",
           "graduation-cap-fill",
+          "code-fill"
         ],
       },
     }),

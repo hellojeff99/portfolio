@@ -9,7 +9,7 @@ export const info = defineCollection({
       name: z.string(),
       engName: z.string(),
       romanName: z.string(),
-      birthDate: z.string().optional(),
+      birthDate: z.string(),
       role: z.string(),
       summary: z.string(),
       email: z.string(),
