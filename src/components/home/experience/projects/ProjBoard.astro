@@ -16,7 +16,7 @@ const { class: className } = Astro.props;
 
 const projectGroups = groupProjectEntries(
   (await getCollection("projects")).filter((entry) =>
-    entry.id.startsWith("project/"),
+    entry.id.startsWith(""),
   ),
 );
 const featuredProjects = projectGroups.featured.map((entry) => ({

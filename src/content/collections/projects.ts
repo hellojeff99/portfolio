@@ -4,10 +4,8 @@ import { defineCollection, type CollectionEntry } from "astro:content";
 import {taskSchema} from "./taskScheam.ts";
 
 const PROJECT_CATEGORIES = [
-  "career",
   "featured",
   "project",
-  "activity",
 ] as const;
 
 export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
@@ -16,9 +14,7 @@ const projectSchema = z.object({
   title: z.string(),
   subtitle: z.string().optional(),
   role: z.string(),
-  type: z.enum(["개인프로젝트", "팀프로젝트"]).optional(),
-  "team-size": z.string(),
-  meta: z.string().optional(),
+  type: z.string(),
   period: z.string(),
   github: z.string().optional(),
   highlights: z.array(taskSchema).min(1),
@@ -28,7 +24,7 @@ const projectSchema = z.object({
 export const projects = defineCollection({
   loader: glob({
     pattern: "**/[0-9][0-9]-*.md",
-    base: "./src/content/experience",
+    base: "./src/content/experience/projects",
   }),
   schema: projectSchema,
 });
@@ -44,10 +40,8 @@ export type ProjectSummary = ProjectEntry["data"] & {
 
 function createEmptyProjectGroups(): ProjectGroups {
   return {
-    career: [],
     featured: [],
     project: [],
-    activity: [],
   };
 }
 
@@ -56,25 +50,12 @@ function getProjectFilename(id: string): string {
 }
 
 export function getProjectCategory(id: string): ProjectCategory {
-  const [section, subsection] = id.split("/");
-
-  switch (section) {
-    case "career":
-      return "career";
-
-    case "activity":
-      return "activity";
-
-    case "project":
-      return subsection === "featured" ? "featured" : "project";
-
-    default:
-      throw new Error(`Unknown project category: ${id}`);
-  }
+  const subsection = id.split("/")[0];
+  return subsection === "featured" ? "featured" : "project";
 }
 
 export function getProjectSlug(id: string): string {
-  const projectPrefix = "project/";
+  const projectPrefix = "/";
 
   return id.startsWith(projectPrefix)
     ? id.slice(projectPrefix.length)
@@ -117,7 +98,7 @@ export function toProjectSummary({
     id,
     ...data,
     detailHref: hasDetailContent
-      ? `/projects/${getProjectSlug(id)}`
+      ? `/${getProjectSlug(id)}`
       : undefined,
   };
 }
