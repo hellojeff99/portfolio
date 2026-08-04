@@ -33,6 +33,24 @@ export default defineConfig({
           "graduation-cap-fill",
           "code-fill"
         ],
+        lucide: [
+          "user-round",
+          "calendar-days",
+          "graduation-cap",
+          "map-pin",
+          "briefcase",
+          "mail",
+          "code-xml"
+        ],
+        "material-symbols": [
+          "person-rounded",
+          "calendar-month-rounded",
+          "school-rounded",
+          "location-on-rounded",
+          "work-rounded",
+          "mail-rounded",
+          "code-rounded"
+        ]
       },
     }),
   ],
