@@ -7,7 +7,7 @@ info:
   role: Software Engineer
   birthDate: "1999.11.06"
   email: 'null'
-  location: Seoul, South Korea
+  location: 서울, 대한민국
   links:
     github: https://github.com/hellojeff99
   summary: 데이터 정합성과 시스템 성능을 함께 고려하는 개발을 지향합니다.
