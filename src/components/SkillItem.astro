@@ -25,6 +25,7 @@ import {
   siTypeorm,
   siTypescript,
   siVercel,
+  siAstro
 } from "simple-icons";
 
 interface Props {
@@ -68,6 +69,7 @@ const brandIcons = {
   TypeORM: siTypeorm,
   TypeScript: siTypescript,
   Vercel: siVercel,
+    Astro: siAstro
 };
 
 const fallbackColors = {
@@ -90,7 +92,7 @@ const fallbackIcon =
 
 <li
   class:list={[
-    "inline-flex items-center gap-2.5 px-1.5 py-1.5 text-[0.9375rem] font-bold text-base-content",
+    "inline-flex items-center gap-2 px-1 py-1 text-[0.9375rem] font-bold text-base-content",
     compact && "gap-0 px-1 py-1",
     truncate && "min-w-0",
   ]}

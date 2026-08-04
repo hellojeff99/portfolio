@@ -20,7 +20,7 @@ info:
 skills:
   languages: [Java, TypeScript]
   frameworks&libraries:
-    [Spring Boot, JPA, NestJS, Prisma, Next.js, React, Tailwind CSS]
+    [Spring Boot, JPA, NestJS, Prisma, Next.js, React, Tailwind CSS, Astro]
   DB&cache: [PostgreSQL, Oracle, Redis]
   test&performance: [JUnit, k6]
   infra&tools: [Docker, Git, Github, Jira]
