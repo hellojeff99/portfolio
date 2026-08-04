@@ -10,24 +10,21 @@ const { label } = Astro.props;
     class="min-w-0 overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-sm"
 >
   <div
-      class="flex items-center gap-1.5 border-b border-base-300 bg-base-200/70 px-4 py-2"
+      class="flex items-center justify-between gap-4 border-b border-base-300 bg-base-200/70 px-4 py-2"
   >
-    <span
-        class="size-2.5 rounded-full bg-error/75"
-        aria-hidden="true"
-    ></span>
-    <span
-        class="size-2.5 rounded-full bg-warning/75"
-        aria-hidden="true"
-    ></span>
-    <span
-        class="size-2.5 rounded-full bg-success/75"
-        aria-hidden="true"
-    ></span>
+    <div class="flex shrink-0 items-center gap-1.5" aria-hidden="true">
+      <span class="size-3 rounded-full bg-error"></span>
+      <span class="size-3 rounded-full bg-warning"></span>
+      <span class="size-3 rounded-full bg-success"></span>
+    </div>
+
+    <span class="truncate text-sm font-semibold text-base-content/70">
+      {label}
+    </span>
   </div>
 
   <div
-      class="flex min-h-24 min-w-0 items-center justify-between gap-4 px-6 py-4 sm:px-8"
+      class="flex min-h-24 min-w-0 items-center justify-between gap-4 px-6 sm:px-8"
   >
     <span
         class="grid size-14 shrink-0 place-items-center text-base-content"
@@ -36,18 +33,10 @@ const { label } = Astro.props;
       <slot name="icon" />
     </span>
 
-    <div class="min-w-0 flex-1 text-right">
-      <span
-          class="block text-sm font-semibold text-base-content/70"
-      >
-        {label}
-      </span>
-
-      <div
-          class="mt-0.5 break-words text-base font-semibold leading-snug text-base-content sm:text-lg"
-      >
-        <slot />
-      </div>
+    <div
+        class="min-w-0 flex-1 break-words text-right text-base font-semibold leading-snug text-base-content sm:text-lg"
+    >
+      <slot />
     </div>
   </div>
 </li>
