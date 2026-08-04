@@ -2,17 +2,18 @@
 import { BriefcaseBusiness } from "@lucide/astro";
 import { getCollection } from "astro:content";
 import CareerCard from "./CareerCard.astro";
+import {groupProjectEntries} from "../../../../content/collections/career.ts";
 
 interface Props {
   class?: string;
 }
 
 const { class: className } = Astro.props;
-const careers = (await getCollection("projects"))
-  .filter((entry) => entry.id.startsWith("career/"))
-  .sort((first, second) =>
-    second.id.localeCompare(first.id, undefined, { numeric: true }),
-  );
+const career = groupProjectEntries(
+  (await getCollection("career")).filter((entry) =>
+    entry.id.startsWith(""),
+  ),
+);
 ---
 
 <section class:list={["flex min-w-0 flex-col", className]} aria-label="Career">
@@ -37,7 +38,7 @@ const careers = (await getCollection("projects"))
 
   <div class="grid flex-1 auto-rows-fr pb-5 sm:pb-6">
     {
-      careers.map((career) => (
+      career.map((career) => (
         <article class="last:pb-0">
           <CareerCard career={career} />
         </article>

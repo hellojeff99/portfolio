@@ -1,11 +1,8 @@
 ---
 title: 제주은행 차세대 프로젝트 - 여신 파트
 subtitle: ㈜인포마인드
-role: ""
-team-size: ""
 meta: "SI 개발 · 프리랜서"
 period: 2021.03 ~ 2021.12
-github:
 highlights:
   - title: 약 1,000개 여신 UI를 차세대 계정계 환경으로 전환
     subtasks:
