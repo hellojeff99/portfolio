@@ -5,8 +5,8 @@ ProjectEntry,
 ProjectSummary,
 } from "../../../../content/collections/projects";
 import SkillItem from "../../../SkillItem.astro";
+import HL from "../HL.astro";
 import ReadmeModal from "../readme/ReadmeModal.astro";
-import {getHighlightTitle, type Highlight} from "../../../../content/collections/highlightScheam.ts";
 
 interface Props {
   project: ProjectSummary;
@@ -71,20 +71,14 @@ const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
     </header>
 
     <div
-      class="my-2 h-px from-slate-300 via-slate-200 to-transparent"
+      class="my-1 h-px from-slate-300 via-slate-200 to-transparent"
       aria-hidden="true"
     >
     </div>
     <ul class="space-y-1.5">
       {
-        project.highlights.slice(0, 3).map((highlight) => (
-          <li class="flex items-start gap-2 text-xs leading-5 font-medium text-slate-900 sm:text-sm">
-            <span
-              class="mt-2 size-1 shrink-0 rounded-full bg-slate-400"
-              aria-hidden="true"
-            />
-            <span>{getHighlightTitle(highlight)}</span>
-          </li>
+        project.highlights.map((highlight) => (
+          <HL highlight={highlight}/>
         ))
       }
     </ul>

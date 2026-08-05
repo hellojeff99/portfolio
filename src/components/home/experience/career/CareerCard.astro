@@ -2,8 +2,8 @@
 import { FileText } from "@lucide/astro";
 import type { CollectionEntry } from "astro:content";
 import SkillItem from "../../../SkillItem.astro";
+import HL from "../HL.astro";
 import ReadmeModal from "../readme/ReadmeModal.astro";
-import {getHighlightTitle} from "../../../../content/collections/highlightScheam.ts";
 
 interface Props {
   career: CollectionEntry<"career">;
@@ -65,23 +65,15 @@ const hasDocument = Boolean(career.body?.trim());
   </div>
 
   <div
-    class="my-5 h-px from-slate-300 via-slate-200 to-transparent"
+    class="my-2 h-px from-slate-300 via-slate-200 to-transparent"
     aria-hidden="true"
   >
   </div>
 
   <ul class="space-y-3" aria-label="주요 성과">
     {
-      career.data.highlights.slice(0, 2).map((highlight) => (
-        <li class="flex items-start gap-3">
-          <span
-            class="mt-2.5 size-1.5 shrink-0 rounded-full bg-slate-800"
-            aria-hidden="true"
-          />
-          <span class="text-sm font-medium leading-6 text-base-content/90">
-            {getHighlightTitle(highlight)}
-          </span>
-        </li>
+      career.data.highlights.map((highlight) => (
+        <HL highlight={highlight} />
       ))
     }
   </ul>

@@ -1,0 +1,33 @@
+---
+import { type Highlight } from "../../../content/collections/highlightScheam.ts";
+
+interface Props {
+  highlight: Highlight;
+}
+
+const { highlight } = Astro.props;
+
+const title = typeof highlight === "string" ? highlight : highlight.title;
+const sub = typeof highlight === "string" ? [] : (highlight.sub ?? []);
+---
+
+<li class="flex items-start gap-2 text-xs leading-4 text-slate-900">
+  <span
+    class="mt-1.5 size-1 shrink-0 rounded-full bg-slate-400"
+    aria-hidden="true"
+  />
+
+  <div class="min-w-0">
+    <p class="font-semibold">{title}</p>
+
+    {
+      sub.length > 0 && (
+        <ul class="mt-1.5 space-y-1 border-l border-slate-300 pl-3 text-slate-800">
+          {sub.map((item) => (
+            <li class="font-normal">{item}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</li>

@@ -1,9 +1,9 @@
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { defineCollection, type CollectionEntry } from "astro:content";
-import {highlightSchema} from "./highlightScheam.ts";
+import { highlightSchema } from "./highlightScheam.ts";
 
-const projectSchema = z.object({
+const careerSchema = z.object({
   title: z.string(),
   subtitle: z.string().optional(),
   meta: z.string(),
@@ -17,52 +17,40 @@ export const career = defineCollection({
     pattern: "**/[0-9][0-9]-*.md",
     base: "./src/content/experience/career",
   }),
-  schema: projectSchema,
+  schema: careerSchema,
 });
 
-export type ProjectEntry = CollectionEntry<"career">;
+export type CareerEntry = CollectionEntry<"career">;
 
-export type ProjectGroups = ProjectEntry[];
+export type CareerGroups = CareerEntry[];
 
-export type ProjectSummary = ProjectEntry["data"] & {
-  id: string;
-  detailHref: string | undefined;
-};
 
-function createEmptyProjectGroups(): ProjectGroups {
+function createEmptyCareerGroups(): CareerGroups {
   return [];
 }
 
-function getProjectFilename(id: string): string {
+function getCareerFilename(id: string): string {
   return id.split("/").at(-1) ?? id;
 }
 
-export function getProjectSlug(id: string): string {
-  const projectPrefix = "/";
-
-  return id.startsWith(projectPrefix)
-    ? id.slice(projectPrefix.length)
-    : id;
-}
-
-export function compareProjectIds(
+export function compareCareerIds(
   firstId: string,
   secondId: string,
 ): number {
-  return getProjectFilename(secondId).localeCompare(
-    getProjectFilename(firstId),
+  return getCareerFilename(secondId).localeCompare(
+    getCareerFilename(firstId),
     undefined,
     { numeric: true },
   );
 }
 
 export function groupProjectEntries(
-  entries: ProjectEntry[],
-): ProjectGroups {
+  entries: CareerEntry[],
+): CareerGroups {
   return [...entries]
-    .sort((first, second) => compareProjectIds(first.id, second.id))
-    .reduce<ProjectGroups>((groups, entry) => {
+    .sort((first, second) => compareCareerIds(first.id, second.id))
+    .reduce<CareerGroups>((groups, entry) => {
       groups.push(entry);
       return groups;
-    }, createEmptyProjectGroups());
+    }, createEmptyCareerGroups());
 }

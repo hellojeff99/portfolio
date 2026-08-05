@@ -5,13 +5,13 @@ meta: "SI 개발 · 프리랜서"
 period: 2021.03 ~ 2021.12
 highlights:
   - title: 약 1,000개 여신 UI를 차세대 계정계 환경으로 전환
-    subtasks:
+    sub:
       - 기존 정보계 화면의 레이아웃과 JavaScript 로직을 차세대 표준에 맞게 재구성하고 오류·중복 코드를 개선해 기존 기능의 동일 동작 검증
   - title: 연동 진행 상황과 무관한 전체 화면 검증 환경 구성
-    subtasks:
+    sub:
       - 화면별 송수신 데이터 포맷을 MCI에 등록하고 실제 연동 데이터와 DB 임시 데이터를 활용해 전체 화면의 데이터 흐름과 이관 결과 검증
   - title: 화면부터 SQL까지 추적해 데이터 정합성 확보
-    subtasks:
+    sub:
       - AS-IS·TO-BE 조회 결과를 비교하고 JavaScript, MCI, C 서버 로직, Oracle SQL을 단계적으로 추적해 조회 조건과 데이터 처리 오류 수정
 stack:
   - JavaScript

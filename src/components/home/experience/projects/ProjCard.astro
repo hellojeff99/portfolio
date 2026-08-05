@@ -1,12 +1,13 @@
 ---
 import { FileText } from "@lucide/astro";
+import { type Highlight } from "../../../../content/collections/highlightScheam.ts";
 import type {
 ProjectEntry,
 ProjectSummary,
 } from "../../../../content/collections/projects";
 import SkillItem from "../../../SkillItem.astro";
+import HL from "../HL.astro";
 import ReadmeModal from "../readme/ReadmeModal.astro";
-import {getHighlightTitle, type Highlight} from "../../../../content/collections/highlightScheam.ts";
 
 interface Props {
   project: ProjectSummary;
@@ -55,25 +56,19 @@ const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
     </header>
 
     <div
-      class="my-2 h-px from-slate-300 via-slate-200 to-transparent"
+      class="my-1 h-px from-slate-300 via-slate-200 to-transparent"
       aria-hidden="true"
     >
     </div>
-    <ul class="space-y-1.5">
+    <ul class="space-y-1">
       {
-        project.highlights.slice(0, 3).map((highlight: string | Highlight) => (
-          <li class="flex items-start gap-2 text-xs leading-4 font-medium text-slate-900">
-            <span
-              class="mt-2 size-1 shrink-0 rounded-full bg-slate-400"
-              aria-hidden="true"
-            />
-            <span>{getHighlightTitle(highlight)}</span>
-          </li>
+        project.highlights.map((highlight: string | Highlight) => (
+          <HL highlight={highlight} />
         ))
       }
     </ul>
 
-    <div class="mt-auto flex flex-nowrap items-center justify-between gap-3">
+    <div class="mt-auto flex flex-nowrap items-center justify-between gap-3 pt-2">
       {
         visibleSkills.length > 0 && (
           <div class="inline-flex shrink-0 px-2 py-1.5">
