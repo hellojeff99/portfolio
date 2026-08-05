@@ -6,7 +6,7 @@ ProjectSummary,
 } from "../../../../content/collections/projects";
 import SkillItem from "../../../SkillItem.astro";
 import ReadmeModal from "../readme/ReadmeModal.astro";
-import type {Task} from "../../../../content/collections/taskScheam.ts";
+import {getHighlightTitle, type Highlight} from "../../../../content/collections/highlightScheam.ts";
 
 interface Props {
   project: ProjectSummary;
@@ -19,9 +19,6 @@ const hasDocument = Boolean(entry.body?.trim());
 const visibleSkills = project.stack?.slice(0, 3) ?? [];
 const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
 
-function getTaskTitle(task: Task): string {
-  return typeof task === "string" ? task : task.title;
-}
 ---
 
 <article
@@ -58,19 +55,19 @@ function getTaskTitle(task: Task): string {
     </header>
 
     <div
-      class="my-2 h-px bg-gradient-to-r from-slate-300 via-slate-200 to-transparent"
+      class="my-2 h-px from-slate-300 via-slate-200 to-transparent"
       aria-hidden="true"
     >
     </div>
     <ul class="space-y-1.5">
       {
-        project.highlights.slice(0, 3).map((highlight: string | Task) => (
+        project.highlights.slice(0, 3).map((highlight: string | Highlight) => (
           <li class="flex items-start gap-2 text-xs leading-4 font-medium text-slate-900">
             <span
               class="mt-2 size-1 shrink-0 rounded-full bg-slate-400"
               aria-hidden="true"
             />
-            <span>{getTaskTitle(highlight)}</span>
+            <span>{getHighlightTitle(highlight)}</span>
           </li>
         ))
       }

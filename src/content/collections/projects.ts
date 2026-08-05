@@ -1,7 +1,7 @@
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { defineCollection, type CollectionEntry } from "astro:content";
-import {taskSchema} from "./taskScheam.ts";
+import {highlightSchema} from "./highlightScheam.ts";
 
 const PROJECT_CATEGORIES = [
   "featured",
@@ -17,7 +17,7 @@ const projectSchema = z.object({
   type: z.string(),
   period: z.string(),
   github: z.string().optional(),
-  highlights: z.array(taskSchema).min(1),
+  highlights: z.array(highlightSchema).min(1),
   stack: z.array(z.string()).optional(),
 });
 

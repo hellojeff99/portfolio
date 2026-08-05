@@ -1,14 +1,14 @@
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { defineCollection, type CollectionEntry } from "astro:content";
-import {taskSchema} from "./taskScheam.ts";
+import {highlightSchema} from "./highlightScheam.ts";
 
 const projectSchema = z.object({
   title: z.string(),
   subtitle: z.string().optional(),
   meta: z.string(),
   period: z.string(),
-  highlights: z.array(taskSchema).min(1),
+  highlights: z.array(highlightSchema).min(1),
   stack: z.array(z.string()).optional(),
 });
 

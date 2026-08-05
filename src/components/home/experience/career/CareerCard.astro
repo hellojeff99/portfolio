@@ -1,9 +1,9 @@
 ---
 import { FileText } from "@lucide/astro";
 import type { CollectionEntry } from "astro:content";
-import type { Task } from "../../../../content/collections/taskScheam.ts";
 import SkillItem from "../../../SkillItem.astro";
 import ReadmeModal from "../readme/ReadmeModal.astro";
+import {getHighlightTitle} from "../../../../content/collections/highlightScheam.ts";
 
 interface Props {
   career: CollectionEntry<"career">;
@@ -13,9 +13,6 @@ const { career } = Astro.props;
 const readmeModalId = `readme-${career.id.replaceAll("/", "-")}`;
 const hasDocument = Boolean(career.body?.trim());
 
-function getTaskTitle(task: Task): string {
-  return typeof task === "string" ? task : task.title;
-}
 ---
 
 <div
@@ -68,7 +65,7 @@ function getTaskTitle(task: Task): string {
   </div>
 
   <div
-    class="my-5 h-px bg-gradient-to-r from-slate-300 via-slate-200 to-transparent"
+    class="my-5 h-px from-slate-300 via-slate-200 to-transparent"
     aria-hidden="true"
   >
   </div>
@@ -82,7 +79,7 @@ function getTaskTitle(task: Task): string {
             aria-hidden="true"
           />
           <span class="text-sm font-medium leading-6 text-base-content/90">
-            {getTaskTitle(highlight)}
+            {getHighlightTitle(highlight)}
           </span>
         </li>
       ))
