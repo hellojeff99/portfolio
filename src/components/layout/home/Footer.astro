@@ -11,10 +11,14 @@ const name = infoEntry?.data.info.romanName ?? "Seongwon";
   aria-label="사이트 정보"
 >
   <div class="mx-auto flex max-w-6xl items-center justify-between gap-4">
-    <p class="text-xs text-white/35">
-      © {new Date().getFullYear()}
-      {name}
-    </p>
+    <div>
+      <p class="text-xs text-white/35">
+        © {new Date().getFullYear()}
+      </p>
+      <p class="text-xs text-white/35">
+        {name}
+      </p>
+    </div>
     <TopButton />
   </div>
 </footer>
