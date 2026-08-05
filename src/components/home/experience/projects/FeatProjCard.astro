@@ -18,13 +18,13 @@ const readmeModalId = `readme-${project.id.replaceAll("/", "-")}`;
 const hasDocument = Boolean(entry.body?.trim());
 const visibleSkills = project.stack?.slice(0, 5) ?? [];
 const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
-
 ---
 
 <article
   class:list={[
-    "relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white transition-colors duration-200 motion-reduce:transition-none",
-    hasDocument && "group/project-card cursor-pointer hover:border-slate-400",
+    "relative flex h-[300px] flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white transition-colors duration-200 motion-reduce:transition-none sm:h-[300px]",
+    hasDocument &&
+      "group/project-card cursor-pointer hover:border-slate-400",
   ]}
 >
   {
@@ -40,8 +40,8 @@ const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
     )
   }
 
-  <div class="flex flex-1 flex-col px-4 py-3 sm:px-5 sm:py-4">
-    <header class="min-w-0">
+  <div class="flex min-h-0 flex-1 flex-col px-4 py-4 sm:px-5 sm:py-4">
+    <header class="shrink-0 min-w-0">
       <div class="flex items-center justify-between gap-3">
         <h3
           class="flex min-w-0 items-center gap-1.5 text-lg font-bold tracking-[-0.03em] text-slate-950 sm:text-xl"
@@ -55,15 +55,17 @@ const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
           />
           <span class="min-w-0 break-keep">{project.title}</span>
         </h3>
+
         <time
           class="shrink-0 text-xs font-semibold tracking-[0.04em] text-slate-600"
         >
           {project.period}
         </time>
       </div>
+
       {
         project.subtitle && (
-          <p class="text-xs leading-5 text-slate-600 sm:text-sm">
+          <p class="text-xs leading-5 text-slate-600 sm:text-sm font-medium">
             {project.subtitle}
           </p>
         )
@@ -71,19 +73,26 @@ const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
     </header>
 
     <div
-      class="my-1 h-px from-slate-300 via-slate-200 to-transparent"
+      class="my-4 h-px shrink-0 bg-gradient-to-r from-slate-300 via-slate-200 to-transparent"
       aria-hidden="true"
-    >
-    </div>
-    <ul class="space-y-1.5">
-      {
-        project.highlights.map((highlight) => (
-          <HL highlight={highlight}/>
-        ))
-      }
-    </ul>
+    />
 
-    <div class="mt-auto flex flex-wrap items-center justify-between gap-3 pt-3">
+    <div
+      class="relative z-20 min-h-0 flex-1 overflow-y-auto overscroll-contain pr-2"
+      data-project-card-scroll
+    >
+      <ul class="space-y-3">
+        {
+          project.highlights.map((highlight) => (
+            <HL highlight={highlight} />
+          ))
+        }
+      </ul>
+    </div>
+
+    <div
+      class="relative z-20 flex shrink-0 flex-wrap items-center justify-between gap-3 pt-3"
+    >
       {
         visibleSkills.length > 0 && (
           <div class="inline-flex max-w-full px-2 py-1.5">
@@ -94,18 +103,22 @@ const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
               {visibleSkills.map((skill) => (
                 <SkillItem name={skill} showName={false} />
               ))}
-              {hasHiddenSkills && (
-                <li
-                  class="px-0.5 py-0.5 text-xs font-semibold text-slate-500"
-                  aria-label="기술 스택 더 있음"
-                >
-                  …
-                </li>
-              )}
+
+              {
+                hasHiddenSkills && (
+                  <li
+                    class="px-0.5 py-0.5 text-xs font-semibold text-slate-500"
+                    aria-label="기술 스택 더 있음"
+                  >
+                    …
+                  </li>
+                )
+              }
             </ul>
           </div>
         )
       }
+
       {
         hasDocument && (
           <span

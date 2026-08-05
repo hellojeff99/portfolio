@@ -11,7 +11,7 @@ const title = typeof highlight === "string" ? highlight : highlight.title;
 const sub = typeof highlight === "string" ? [] : (highlight.sub ?? []);
 ---
 
-<li class="flex items-start gap-2 text-xs leading-4 text-slate-900">
+<li class="flex items-start gap-2 text-sm leading-4 text-slate-900">
   <span
     class="mt-1.5 size-1 shrink-0 rounded-full bg-slate-400"
     aria-hidden="true"
@@ -22,7 +22,7 @@ const sub = typeof highlight === "string" ? [] : (highlight.sub ?? []);
 
     {
       sub.length > 0 && (
-        <ul class="mt-1.5 space-y-1 border-l border-slate-300 pl-3 text-slate-800">
+        <ul class="mt-2 space-y-2 border-l border-slate-300 pl-3 text-slate-800">
           {sub.map((item) => (
             <li class="font-normal">{item}</li>
           ))}

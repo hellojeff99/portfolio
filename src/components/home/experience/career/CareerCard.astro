@@ -51,7 +51,7 @@ const hasDocument = Boolean(career.body?.trim());
 
       {
         career.data.subtitle && (
-          <p class="mt-1.5 text-sm leading-6 text-base-content/60">
+          <p class="mt-1.5 text-sm leading-6 text-base-content/60 font-bold">
             {career.data.subtitle}
           </p>
         )
@@ -65,12 +65,12 @@ const hasDocument = Boolean(career.body?.trim());
   </div>
 
   <div
-    class="my-2 h-px from-slate-300 via-slate-200 to-transparent"
+    class="my-4 h-px from-slate-300 via-slate-200 to-transparent"
     aria-hidden="true"
   >
   </div>
 
-  <ul class="space-y-3" aria-label="주요 성과">
+  <ul class="space-y-5" aria-label="주요 성과">
     {
       career.data.highlights.map((highlight) => (
         <HL highlight={highlight} />
