@@ -1,12 +1,9 @@
-import { glob } from "astro/loaders";
-import { z } from "astro/zod";
-import { defineCollection, type CollectionEntry } from "astro:content";
-import {highlightSchema} from "./highlightScheam.ts";
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
+import { defineCollection, type CollectionEntry } from 'astro:content';
+import { highlightSchema } from './highlightScheam.ts';
 
-const PROJECT_CATEGORIES = [
-  "featured",
-  "project",
-] as const;
+const PROJECT_CATEGORIES = ['featured', 'project'] as const;
 
 export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
 
@@ -23,20 +20,15 @@ const projectSchema = z.object({
 
 export const projects = defineCollection({
   loader: glob({
-    pattern: "**/[0-9][0-9]-*.md",
-    base: "./src/content/experience/projects",
+    pattern: '**/[0-9][0-9]-*.md',
+    base: './src/content/experience/projects',
   }),
   schema: projectSchema,
 });
 
-export type ProjectEntry = CollectionEntry<"projects">;
+export type ProjectEntry = CollectionEntry<'projects'>;
 
 export type ProjectGroups = Record<ProjectCategory, ProjectEntry[]>;
-
-export type ProjectSummary = ProjectEntry["data"] & {
-  id: string;
-  detailHref: string | undefined;
-};
 
 function createEmptyProjectGroups(): ProjectGroups {
   return {
@@ -46,26 +38,21 @@ function createEmptyProjectGroups(): ProjectGroups {
 }
 
 function getProjectFilename(id: string): string {
-  return id.split("/").at(-1) ?? id;
+  return id.split('/').at(-1) ?? id;
 }
 
 export function getProjectCategory(id: string): ProjectCategory {
-  const subsection = id.split("/")[0];
-  return subsection === "featured" ? "featured" : "project";
+  const subsection = id.split('/')[0];
+  return subsection === 'featured' ? 'featured' : 'project';
 }
 
 export function getProjectSlug(id: string): string {
-  const projectPrefix = "/";
+  const projectPrefix = '/';
 
-  return id.startsWith(projectPrefix)
-    ? id.slice(projectPrefix.length)
-    : id;
+  return id.startsWith(projectPrefix) ? id.slice(projectPrefix.length) : id;
 }
 
-export function compareProjectIds(
-  firstId: string,
-  secondId: string,
-): number {
+export function compareProjectIds(firstId: string, secondId: string): number {
   return getProjectFilename(secondId).localeCompare(
     getProjectFilename(firstId),
     undefined,
@@ -73,9 +60,7 @@ export function compareProjectIds(
   );
 }
 
-export function groupProjectEntries(
-  entries: ProjectEntry[],
-): ProjectGroups {
+export function groupProjectEntries(entries: ProjectEntry[]): ProjectGroups {
   return [...entries]
     .sort((first, second) => compareProjectIds(first.id, second.id))
     .reduce<ProjectGroups>((groups, entry) => {
@@ -85,20 +70,4 @@ export function groupProjectEntries(
 
       return groups;
     }, createEmptyProjectGroups());
-}
-
-export function toProjectSummary({
-  id,
-  data,
-  body,
-}: ProjectEntry): ProjectSummary {
-  const hasDetailContent = Boolean(body?.trim());
-
-  return {
-    id,
-    ...data,
-    detailHref: hasDetailContent
-      ? `/${getProjectSlug(id)}`
-      : undefined,
-  };
 }

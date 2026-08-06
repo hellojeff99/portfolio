@@ -1,16 +1,17 @@
 ---
-import type { ProjectSummary } from '../../../../content/collections/projects';
+import { type ProjectEntry } from '../../../../content/collections/projects';
 import SkillItem from '../../../SkillItem.astro';
 import HL from '../HL.astro';
 import ReadmeBtn from '../ReadmeBtn.astro';
 interface Props {
-  project: ProjectSummary;
+  entry: ProjectEntry;
 }
 
-const { project } = Astro.props;
-const visibleSkills = project.stack?.slice(0, 3) ?? [];
-const hasHiddenSkills = (project.stack?.length ?? 0) > visibleSkills.length;
-const hasDoc = Boolean(project.detailHref);
+const { entry: project } = Astro.props;
+const visibleSkills = project.data.stack?.slice(0, 3) ?? [];
+const hasHiddenSkills =
+  (project.data.stack?.length ?? 0) > visibleSkills.length;
+const hasDoc = Boolean(project.body);
 ---
 
 <article
@@ -20,11 +21,11 @@ const hasDoc = Boolean(project.detailHref);
   <header class="min-w-0 shrink-0">
     <h3
       class="text-sm font-bold tracking-[-0.03em] text-slate-950 sm:text-base">
-      {project.title}
+      {project.data.title}
     </h3>
 
     <time class="text-xs font-semibold tracking-[0.06em] text-slate-500">
-      {project.period}
+      {project.data.period}
     </time>
   </header>
 
@@ -36,7 +37,7 @@ const hasDoc = Boolean(project.detailHref);
     class="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-2"
     data-project-card-scroll>
     <ul class="space-y-2" aria-label="주요 성과">
-      {project.highlights.map((highlight) => <HL highlight={highlight} />)}
+      {project.data.highlights.map((highlight) => <HL highlight={highlight} />)}
     </ul>
   </div>
   <!-- Bottom -->
@@ -45,7 +46,7 @@ const hasDoc = Boolean(project.detailHref);
       visibleSkills.length > 0 && (
         <ul
           class="flex min-w-0 shrink-0 flex-nowrap gap-1.5 overflow-hidden pt-2 [&>li]:shrink-0"
-          aria-label={`${project.title} 기술 스택`}>
+          aria-label={`${project.data.title} 기술 스택`}>
           {visibleSkills.map((skill) => (
             <SkillItem name={skill} showName={false} compact />
           ))}
@@ -60,6 +61,6 @@ const hasDoc = Boolean(project.detailHref);
         </ul>
       )
     }
-    {hasDoc && <ReadmeBtn label={project.title} />}
+    {hasDoc && <ReadmeBtn label={project.data.title} />}
   </footer>
 </article>
