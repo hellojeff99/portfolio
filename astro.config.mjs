@@ -41,6 +41,10 @@ export default defineConfig({
           'briefcase',
           'mail',
           'code-xml',
+          'building-2',
+          'github',
+          'package-2',
+          'folder',
         ],
         'material-symbols': [
           'person-rounded',
