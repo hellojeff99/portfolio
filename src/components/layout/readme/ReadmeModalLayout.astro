@@ -4,24 +4,47 @@ const { id } = Astro.props;
 
 <dialog
   id={`readme-modal-${id}`}
-  class="modal modal-bottom sm:modal-middle"
-  aria-labelledby={`readme-modal-${id}`}
-  -title
-  aria-describedby={`readme-modal-${id}`}
-  -description>
-  <div class="modal-box">
-    <form method="dialog">
-      <button
-        type="submit"
-        class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2"
-        aria-label="모달 닫기">
-        ✕
-      </button>
-    </form>
-    <slot />
+  class="modal modal-bottom bg-slate-950/60 sm:modal-middle"
+  aria-label="README 내용">
+  <div
+    class="modal-box relative flex max-h-[92dvh] w-full max-w-none flex-col overflow-hidden rounded-t-2xl border border-base-300 bg-base-100 p-0 shadow-2xl sm:max-h-[85dvh] sm:max-w-5xl sm:rounded-2xl">
+    <div
+      class="flex shrink-0 items-center justify-between border-b border-base-300 bg-base-100/95 px-5 py-4 backdrop-blur sm:px-7">
+      <div>
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-base-content/50">
+          Documentation
+        </p>
+        <h2 class="mt-0.5 text-lg font-bold text-base-content">README</h2>
+      </div>
+
+      <form method="dialog">
+        <button
+          type="submit"
+          class="btn btn-circle btn-ghost btn-sm text-base-content/60 transition-colors hover:bg-base-200 hover:text-base-content"
+          aria-label="모달 닫기">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true">
+            <path stroke-linecap="round" d="M6 6l12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <div
+      class="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-6 sm:px-8 sm:py-8">
+      <slot />
+    </div>
   </div>
+
   <form method="dialog" class="modal-backdrop">
-    <button type="submit" aria-label="모달 닫기"> close </button>
+    <button type="submit" aria-label="모달 닫기">close</button>
   </form>
 </dialog>
 
