@@ -20,8 +20,9 @@ const projectSchema = z.object({
 
 export const projects = defineCollection({
   loader: glob({
-    pattern: '**/[0-9][0-9]-*.md',
+    pattern: '**/[0-9][0-9]-*/index.md',
     base: './src/content/experience/projects',
+    generateId: ({ entry }) => entry.replace(/\/index\.md$/, ''),
   }),
   schema: projectSchema,
 });
@@ -37,24 +38,22 @@ function createEmptyProjectGroups(): ProjectGroups {
   };
 }
 
-function getProjectFilename(id: string): string {
+function getProjectDirName(id: string): string {
   return id.split('/').at(-1) ?? id;
 }
 
 export function getProjectCategory(id: string): ProjectCategory {
-  const subsection = id.split('/')[0];
-  return subsection === 'featured' ? 'featured' : 'project';
+  const category = id.split('/')[0];
+  return category === 'featured' ? 'featured' : 'project';
 }
 
 export function getProjectSlug(id: string): string {
-  const projectPrefix = '/';
-
-  return id.startsWith(projectPrefix) ? id.slice(projectPrefix.length) : id;
+  return getProjectDirName(id);
 }
 
 export function compareProjectIds(firstId: string, secondId: string): number {
-  return getProjectFilename(secondId).localeCompare(
-    getProjectFilename(firstId),
+  return getProjectDirName(secondId).localeCompare(
+    getProjectDirName(firstId),
     undefined,
     { numeric: true },
   );
@@ -65,9 +64,7 @@ export function groupProjectEntries(entries: ProjectEntry[]): ProjectGroups {
     .sort((first, second) => compareProjectIds(first.id, second.id))
     .reduce<ProjectGroups>((groups, entry) => {
       const category = getProjectCategory(entry.id);
-
       groups[category].push(entry);
-
       return groups;
     }, createEmptyProjectGroups());
 }

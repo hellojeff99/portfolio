@@ -14,8 +14,9 @@ const careerSchema = z.object({
 
 export const career = defineCollection({
   loader: glob({
-    pattern: '**/[0-9][0-9]-*.md',
+    pattern: '**/[0-9][0-9]-*/index.md',
     base: './src/content/experience/career',
+    generateId: ({ entry }) => entry.replace(/\/index\.md$/, ''),
   }),
   schema: careerSchema,
 });
@@ -28,13 +29,13 @@ function createEmptyCareerGroups(): CareerGroups {
   return [];
 }
 
-function getCareerFilename(id: string): string {
+function getCareerDirName(id: string): string {
   return id.split('/').at(-1) ?? id;
 }
 
 export function compareCareerIds(firstId: string, secondId: string): number {
-  return getCareerFilename(secondId).localeCompare(
-    getCareerFilename(firstId),
+  return getCareerDirName(secondId).localeCompare(
+    getCareerDirName(firstId),
     undefined,
     { numeric: true },
   );

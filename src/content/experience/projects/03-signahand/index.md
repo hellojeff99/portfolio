@@ -1,9 +1,9 @@
 ---
 title: SignaHand
 subtitle: 손동작으로 만든 서명을 PDF 페이지에 적용하고 다중 페이지 PDF로 내려받는 브라우저 기반 서명 프로토타입
-role: "Front: PDF 업로드·렌더링, 페이지 상태 관리, Canvas 출력·서명 데이터 연동, 다중 페이지 PDF 내보내기"
-type: "팀프로젝트(4명: Design 1, Front 3)"
-period: "2023.07.21 ~ 2023.11.03"
+role: 'Front: PDF 업로드·렌더링, 페이지 상태 관리, Canvas 출력·서명 데이터 연동, 다중 페이지 PDF 내보내기'
+type: '팀프로젝트(4명: Design 1, Front 3)'
+period: '2023.07.21 ~ 2023.11.03'
 github: https://github.com/SignaHand/SignaHand
 highlights:
   - title: 브라우저 기반 PDF 전 페이지 편집
@@ -17,17 +17,17 @@ stack:
 
 ## 구현 화면
 
-| 홈                                                                                  | PDF 업로드                                                                          | 손동작 가이드(팀 기능)                                                                        |
-| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| <img src="/images/experience/projects/signahand/signahand-home.png" alt="SignaHand 홈"> | <img src="/images/experience/projects/signahand/signahand-upload.png" alt="PDF 업로드"> | <img src="/images/experience/projects/signahand/signahand-gesture-guide.png" alt="손동작 가이드"> |
+| 홈                                    | PDF 업로드                            | 손동작 가이드(팀 기능)                          |
+| ------------------------------------- | ------------------------------------- | ----------------------------------------------- |
+| ![SignaHand 홈](./signahand-home.png) | ![PDF 업로드](./signahand-upload.png) | ![손동작 가이드](./signahand-gesture-guide.png) |
 
-| 서명 생성(팀 기능)                                                                               | PDF 편집                                                                               | 서명 적용                                                                                            |
-| ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| <img src="/images/experience/projects/signahand/signahand-signature-modal.png" alt="서명 생성 모달"> | <img src="/images/experience/projects/signahand/signahand-editor.png" alt="PDF 편집 화면"> | <img src="/images/experience/projects/signahand/signahand-signed-document.png" alt="서명이 적용된 문서"> |
+| 서명 생성(팀 기능)                                 | PDF 편집                                 | 서명 적용                                              |
+| -------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------ |
+| ![서명 생성 모달](./signahand-signature-modal.png) | ![PDF 편집 화면](./signahand-editor.png) | ![서명이 적용된 문서](./signahand-signed-document.png) |
 
 <details>
 <summary>웹캠을 활용한 손동작 서명 시연</summary>
-<img src="/images/experience/projects/signahand/signahand-hand-demo.png" alt="웹캠을 활용한 손동작 서명 시연" style="zoom:10%;" />
+![웹캠을 활용한 손동작 서명 시연](./signahand-hand-demo.png)
 </details>
 
 ---
@@ -51,13 +51,13 @@ stack:
 
 ### 주요 데이터 흐름
 
-<img src="/images/experience/projects/signahand/image-20260725151525333.png" alt="image-20260725151525333" style="zoom:80%;" />
+![image-20260725151525333](./image-20260725151525333.png)
 
 ---
 
 ## 4. 핵심 구현 1 — 로컬 PDF를 편집 가능한 페이지 데이터로 변환
 
-<img src="/images/experience/projects/signahand/signahand-upload.png" alt="로컬 PDF 선택 화면" style="zoom:50%;" />
+![로컬 PDF 선택 화면](./signahand-upload.png)
 
 ### 문제와 선택
 
@@ -80,7 +80,7 @@ stack:
 
 ## 5. 핵심 구현 2 — 페이지 이동 후에도 편집 결과 유지
 
-<img src="/images/experience/projects/signahand/signahand-editor.png" alt="페이지 편집 화면과 미리보기" style="zoom:50%;" />
+![페이지 편집 화면과 미리보기](./signahand-editor.png)
 
 ### 문제와 선택
 
@@ -103,7 +103,7 @@ stack:
 
 ## 6. 핵심 구현 3 — 단일 Canvas 저장을 다중 페이지 PDF 출력으로 확장
 
-<img src="/images/experience/projects/signahand/signahand-signed-document.png" alt="서명 적용 결과와 파일 저장 화면" style="zoom:50%;" />
+![서명 적용 결과와 파일 저장 화면](./signahand-signed-document.png)
 
 ### 문제와 선택
 

@@ -1,9 +1,9 @@
 ---
 title: 퍼스널TEA(SW공동해커톤)
 subtitle: 날씨 기반 반려식물 케어와 커뮤니티, 허브 취향 추천을 연결한 웹 서비스
-role: "Front: React 초기 구성, 화면 라우팅·공통 UI, 허브 취향 테스트 구현"
-type: "팀프로젝트(5명: Design 1, Front 2, Back 2)"
-period: "2023.06.27 ~ 2023.06.30"
+role: 'Front: React 초기 구성, 화면 라우팅·공통 UI, 허브 취향 테스트 구현'
+type: '팀프로젝트(5명: Design 1, Front 2, Back 2)'
+period: '2023.06.27 ~ 2023.06.30'
 github: https://github.com/sw-hackathon-team-41/client
 highlights:
   - title: 선택지 기반 5단계 허브 추천 흐름 설계
@@ -17,13 +17,13 @@ stack:
 
 ## 구현 화면
 
-| 홈                                                                           | 로그인                                                                  | 게시글 작성                                                                   |
-| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| <img src="/images/experience/projects/personal-tea/home.png" alt="퍼스널TEA 홈"> | <img src="/images/experience/projects/personal-tea/login.png" alt="로그인"> | <img src="/images/experience/projects/personal-tea/post-1.png" alt="게시글 작성"> |
+| 홈                        | 로그인               | 게시글 작성                |
+| ------------------------- | -------------------- | -------------------------- |
+| ![퍼스널TEA 홈](home.png) | ![로그인](login.png) | ![게시글 작성](post-1.png) |
 
-| 허브 취향 테스트 시작                                                                        | 허브 취향 선택                                                                        | 추천 결과                                                                             |
-| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| <img src="/images/experience/projects/personal-tea/recommand-1.png" alt="허브 취향 테스트 시작"> | <img src="/images/experience/projects/personal-tea/recommand-2.png" alt="허브 취향 선택"> | <img src="/images/experience/projects/personal-tea/recommand-4.png" alt="허브 추천 결과"> |
+| 허브 취향 테스트 시작                     | 허브 취향 선택                     | 추천 결과                          |
+| ----------------------------------------- | ---------------------------------- | ---------------------------------- |
+| ![허브 취향 테스트 시작](recommand-1.png) | ![허브 취향 선택](recommand-2.png) | ![허브 추천 결과](recommand-4.png) |
 
 ---
 
@@ -46,7 +46,7 @@ stack:
 
 ### 주요 데이터 흐름
 
-<img src="/images/experience/projects/personal-tea/data-flow.png" alt="data-flow" style="zoom:20%;" />
+![data-flow](data-flow.png)
 
 - 프론트엔드는 사용자·게시글·날씨 API를 호출하고 React 상태에 따라 화면을 갱신
 - 백엔드는 사용자·게시글 도메인을 처리하고 PostgreSQL에 저장
@@ -56,7 +56,7 @@ stack:
 
 ## 4. 핵심 구현 1 — 질문·점수·결과를 연결한 5단계 허브 추천
 
-<img src="/images/experience/projects/personal-tea/recommand-2.png" alt="5단계 허브 취향 테스트" style="zoom:50%;" />
+![5단계 허브 취향 테스트](recommand-2.png)
 
 ### 문제와 선택
 
@@ -77,7 +77,7 @@ stack:
 
 ## 5. 핵심 구현 2 — 7개 화면을 연결한 라우팅·공통 UI 구조
 
-<img src="/images/experience/projects/personal-tea/home.png" alt="공통 배너와 게시판으로 구성한 홈 화면" style="zoom:50%;" />
+![공통 배너와 게시판으로 구성한 홈 화면](home.png)
 
 ### 문제와 선택
 

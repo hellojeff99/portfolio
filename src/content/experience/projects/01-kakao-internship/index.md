@@ -1,9 +1,9 @@
 ---
 title: 제대로 먹젠(카카오 현장실습)
 subtitle: 교내 위치와 이동 시간을 기준으로 음식 종류와 주변 식당을 추천하는 제주대학교 학생 대상 모바일 웹 서비스
-role: "Front: Kakao Maps SDK 연동·지도/마커 원형·초기 식당/건물 데이터 구축 / Management: Jira·Agit 협업 운영·GitHub Wiki 문서화"
+role: 'Front: Kakao Maps SDK 연동·지도/마커 원형·초기 식당/건물 데이터 구축 / Management: Jira·Agit 협업 운영·GitHub Wiki 문서화'
 type: 팀프로젝트(5명)
-period: "2023.01.03 ~ 2023.01.30"
+period: '2023.01.03 ~ 2023.01.30'
 github: https://github.com/kakaoDreamy/jnu-eat
 highlights:
   - title: 지도 SDK·다중 마커 기반 위치 탐색
@@ -21,13 +21,13 @@ stack:
 
 ## 구현 화면
 
-| 시작                                                                                      | 사용 방법                                                                                | 조건 선택                                                                                                  |
-| ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| <img src="/images/experience/projects/kakao-internship/home.png" alt="제대로 먹젠 시작 화면"> | <img src="/images/experience/projects/kakao-internship/how-to-use.png" alt="사용 방법 안내"> | <img src="/images/experience/projects/kakao-internship/select-condition.png" alt="교내 위치와 이동 시간 선택"> |
+| 시작                                  | 사용 방법                           | 조건 선택                                             |
+| ------------------------------------- | ----------------------------------- | ----------------------------------------------------- |
+| ![제대로 먹젠 시작 화면](./home.png)> | ![사용 방법 안내](./how-to-use.png) | ![교내 위치와 이동 시간 선택](./select-condition.png) |
 
-| 음식 추천                                                                                 | 추천 결과 선택                                                                                        | 식당 추천                                                                                 | 최종 결과                                                                                 |
-| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| <img src="/images/experience/projects/kakao-internship/rullet.png" alt="음식 종류 추천 룰렛"> | <img src="/images/experience/projects/kakao-internship/select-result.png" alt="룰렛 결과 수락 또는 제외"> | <img src="/images/experience/projects/kakao-internship/nest-rullet.png" alt="식당 추천 룰렛"> | <img src="/images/experience/projects/kakao-internship/result.png" alt="추천 식당 최종 결과"> |
+| 음식 추천                            | 추천 결과 선택                                   | 식당 추천                            | 최종 결과                            |
+| ------------------------------------ | ------------------------------------------------ | ------------------------------------ | ------------------------------------ |
+| ![음식 종류 추천 룰렛](./rullet.png) | ![룰렛 결과 수락 또는 제외](./select-result.png) | ![식당 추천 룰렛](./nest-rullet.png) | ![추천 식당 최종 결과](./result.png) |
 
 ---
 
@@ -52,7 +52,7 @@ stack:
 
 ### 주요 데이터 흐름
 
-<img src="/images/experience/projects/kakao-internship/data-flow.png" alt="data-flow" style="zoom:50%;" />
+![data-flow](./data-flow.png)
 
 - 별도 API 서버·DB 없이 건물·식당 JSON을 브라우저 번들에 포함
 - Kakao Maps JavaScript SDK로 지도·마커·인포윈도우 처리
@@ -62,7 +62,7 @@ stack:
 
 ## 4. 핵심 구현 1 — React에서 Kakao Maps와 다중 마커 제어
 
-<img src="/images/experience/projects/kakao-internship/select-condition.png" alt="Kakao Map과 조건 선택 화면" />
+![Kakao Map과 조건 선택 화면](./select-condition.png)
 
 ### 문제와 선택
 
@@ -87,7 +87,7 @@ stack:
 
 ## 5. 핵심 구현 2 — 서버·DB 없는 추천 데이터 기반 구축
 
-<img src="/images/experience/projects/kakao-internship/rullet.png" alt="JSON 데이터를 이용한 음식 분류 룰렛"/>
+![JSON 데이터를 이용한 음식 분류 룰렛](./rullet.png)
 
 ### 문제와 선택
 

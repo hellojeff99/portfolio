@@ -33,7 +33,7 @@ stack:
 
 모든 읽기와 쓰기가 PostgreSQL에 집중된 구조
 
-<img src="/images/experience/projects/featured/ticketlab/image-20260721145349185.png" alt="image-20260721145349185" style="zoom:20%;">
+![](./image-20260721145349185.png)image-20260721145349185" style="zoom:20%;">
 
 | 문제                |                                     측정 결과 |
 | ------------------- | --------------------------------------------: |
@@ -69,7 +69,7 @@ stack:
 | **Redis**        | 고동시성 환경에서 평균 응답·p95 모두 최저        |
 | Indexing + Redis | Baseline보다 개선되었지만 Redis 단독보다 느림    |
 
-<img src="/images/experience/projects/featured/ticketlab/image-20260721145412702.png" alt="image-20260721145412702">
+![](./image-20260721145412702.png)
 
 ---
 
@@ -106,7 +106,7 @@ stack:
 
 ## 4. 최종 설계
 
-<img src="/images/experience/projects/featured/ticketlab/image-20260721145423556.png" alt="image-20260721145423556">
+![](./image-20260721145423556.png)
 
 | 경로      | 설계 목표               | 결과                  |
 | --------- | ----------------------- | --------------------- |
