@@ -1,6 +1,7 @@
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { defineCollection, type CollectionEntry } from 'astro:content';
+import { compareIds } from './experience.ts';
 import { highlightSchema } from './highlightScheam.ts';
 
 const PROJECT_CATEGORIES = ['featured', 'project'] as const;
@@ -38,30 +39,14 @@ function createEmptyProjectGroups(): ProjectGroups {
   };
 }
 
-function getProjectDirName(id: string): string {
-  return id.split('/').at(-1) ?? id;
-}
-
 export function getProjectCategory(id: string): ProjectCategory {
   const category = id.split('/')[0];
   return category === 'featured' ? 'featured' : 'project';
 }
 
-export function getProjectSlug(id: string): string {
-  return getProjectDirName(id);
-}
-
-export function compareProjectIds(firstId: string, secondId: string): number {
-  return getProjectDirName(secondId).localeCompare(
-    getProjectDirName(firstId),
-    undefined,
-    { numeric: true },
-  );
-}
-
 export function groupProjectEntries(entries: ProjectEntry[]): ProjectGroups {
   return [...entries]
-    .sort((first, second) => compareProjectIds(first.id, second.id))
+    .sort((first, second) => compareIds(first.id, second.id))
     .reduce<ProjectGroups>((groups, entry) => {
       const category = getProjectCategory(entry.id);
       groups[category].push(entry);

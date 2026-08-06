@@ -1,6 +1,7 @@
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { defineCollection, type CollectionEntry } from 'astro:content';
+import { compareIds } from './experience.ts';
 import { highlightSchema } from './highlightScheam.ts';
 
 const careerSchema = z.object({
@@ -29,21 +30,9 @@ function createEmptyCareerGroups(): CareerGroups {
   return [];
 }
 
-function getCareerDirName(id: string): string {
-  return id.split('/').at(-1) ?? id;
-}
-
-export function compareCareerIds(firstId: string, secondId: string): number {
-  return getCareerDirName(secondId).localeCompare(
-    getCareerDirName(firstId),
-    undefined,
-    { numeric: true },
-  );
-}
-
 export function groupProjectEntries(entries: CareerEntry[]): CareerGroups {
   return [...entries]
-    .sort((first, second) => compareCareerIds(first.id, second.id))
+    .sort((first, second) => compareIds(first.id, second.id))
     .reduce<CareerGroups>((groups, entry) => {
       groups.push(entry);
       return groups;
