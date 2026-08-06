@@ -1,10 +1,17 @@
 ---
 import { Icon } from 'astro-icon/components';
+import type { CollectionEntry } from 'astro:content';
+import ReadmeModal from './ReadmeModal.astro';
 
-const { label } = Astro.props;
+interface Props {
+  entry: CollectionEntry<'career' | 'projects'>;
+}
+const { entry } = Astro.props;
 ---
 
-<a
+<button
+  type="button"
+  data-modal-open={`readme-modal-${entry.id}`}
   class="ml-auto inline-flex shrink-0 items-center justify-center gap-1.5
     rounded-lg border border-blue-600/20 bg-blue-600
     px-2 py-1
@@ -18,11 +25,12 @@ const { label } = Astro.props;
     focus-visible:ring-2 focus-visible:ring-blue-500
     focus-visible:ring-offset-2
     motion-reduce:transform-none motion-reduce:transition-none"
-  aria-label={`${label} README 보기`}>
+  aria-label={`${entry.data.title} README 보기`}>
   <Icon
     name="mdi:file-document-outline"
     class="size-4 shrink-0"
     aria-hidden="true"
   />
   <span>README</span>
-</a>
+</button>
+<ReadmeModal entry={entry} />

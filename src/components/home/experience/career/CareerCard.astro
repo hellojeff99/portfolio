@@ -5,12 +5,12 @@ import HL from '../HL.astro';
 import ReadmeBtn from '../ReadmeBtn.astro';
 
 interface Props {
-  career: CollectionEntry<'career'>;
+  entry: CollectionEntry<'career'>;
 }
 
-const { career } = Astro.props;
-const stack = career.data.stack?.slice(0, 4) ?? [];
-const hasDoc = Boolean(career.body);
+const { entry } = Astro.props;
+const stack = entry.data.stack?.slice(0, 4) ?? [];
+const hasDoc = Boolean(entry.body);
 ---
 
 <article
@@ -26,26 +26,22 @@ const hasDoc = Boolean(career.body);
   <header class="flex flex-wrap items-start justify-between gap-3">
     <div class="min-w-0">
       <p class="text-xs font-bold tracking-[0.12em] text-slate-500 uppercase">
-        {career.data.meta}
+        {entry.data.role}
       </p>
 
       <h3
         class="mt-2 text-xl font-bold tracking-[-0.04em] text-base-content sm:text-2xl">
-        {career.data.title}
+        {entry.data.title}
       </h3>
 
-      {
-        career.data.subtitle && (
-          <p class="mt-1.5 text-sm leading-6 font-bold text-base-content/60">
-            {career.data.subtitle}
-          </p>
-        )
-      }
+      <p class="mt-1.5 text-sm leading-6 font-bold text-base-content/60">
+        {entry.data.company}
+      </p>
     </div>
 
     <time
       class="shrink-0 rounded-full border border-base-300 bg-base-200/55 px-2.5 py-1 text-xs font-semibold text-base-content/60">
-      {career.data.period}
+      {entry.data.period}
     </time>
   </header>
 
@@ -55,7 +51,7 @@ const hasDoc = Boolean(career.body);
 
   <!-- Content -->
   <ul class="space-y-5" aria-label="주요 성과">
-    {career.data.highlights.map((highlight) => <HL highlight={highlight} />)}
+    {entry.data.highlights.map((highlight) => <HL highlight={highlight} />)}
   </ul>
 
   <!-- Bottom -->
@@ -64,13 +60,13 @@ const hasDoc = Boolean(career.body);
       stack.length > 0 && (
         <ul
           class="flex flex-wrap gap-x-3 gap-y-1.5"
-          aria-label={`${career.data.title} 기술 스택`}>
+          aria-label={`${entry.data.title} 기술 스택`}>
           {stack.map((skill) => (
             <SkillItem name={skill} showName={false} />
           ))}
         </ul>
       )
     }
-    {hasDoc && <ReadmeBtn label={career.data.title} />}
+    {hasDoc && <ReadmeBtn entry={entry} />}
   </footer>
 </article>

@@ -1,19 +1,18 @@
 ---
 import { Pin } from '@lucide/astro';
-import type { ProjectEntry } from '../../../../content/collections/projects';
+import type { CollectionEntry } from 'astro:content';
 import SkillItem from '../../../SkillItem.astro';
 import HL from '../HL.astro';
 import ReadmeBtn from '../ReadmeBtn.astro';
 
 interface Props {
-  entry: ProjectEntry;
+  entry: CollectionEntry<'projects'>;
 }
 
-const { entry: project } = Astro.props;
-const visibleSkills = project.data.stack?.slice(0, 5) ?? [];
-const hasHiddenSkills =
-  (project.data.stack?.length ?? 0) > visibleSkills.length;
-const hasDoc = Boolean(project.body);
+const { entry } = Astro.props;
+const visibleSkills = entry.data.stack?.slice(0, 5) ?? [];
+const hasHiddenSkills = (entry.data.stack?.length ?? 0) > visibleSkills.length;
+const hasDoc = Boolean(entry.body);
 ---
 
 <article
@@ -32,19 +31,19 @@ const hasDoc = Boolean(project.body);
           aria-hidden="true"
         />
 
-        <span class="min-w-0 break-keep">{project.data.title}</span>
+        <span class="min-w-0 break-keep">{entry.data.title}</span>
       </h3>
 
       <time
         class="shrink-0 text-xs font-semibold tracking-[0.04em] text-slate-600">
-        {project.data.period}
+        {entry.data.period}
       </time>
     </div>
 
     {
-      project.data.subtitle && (
+      entry.data.subtitle && (
         <p class="text-xs leading-5 font-medium text-slate-600 sm:text-sm">
-          {project.data.subtitle}
+          {entry.data.subtitle}
         </p>
       )
     }
@@ -58,7 +57,7 @@ const hasDoc = Boolean(project.body);
     class="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-2"
     data-project-card-scroll>
     <ul class="space-y-3" aria-label="주요 성과">
-      {project.data.highlights.map((highlight) => <HL highlight={highlight} />)}
+      {entry.data.highlights.map((highlight) => <HL highlight={highlight} />)}
     </ul>
   </div>
   <!-- Bottom -->
@@ -67,7 +66,7 @@ const hasDoc = Boolean(project.body);
       visibleSkills.length > 0 && (
         <ul
           class="flex max-w-full shrink-0 flex-nowrap gap-1.5 pt-3 [&>li]:shrink-0"
-          aria-label={`${project.data.title} 기술 스택`}>
+          aria-label={`${entry.data.title} 기술 스택`}>
           {visibleSkills.map((skill) => (
             <SkillItem name={skill} showName={false} />
           ))}
@@ -82,6 +81,6 @@ const hasDoc = Boolean(project.body);
         </ul>
       )
     }
-    {hasDoc && <ReadmeBtn label={project.data.title} />}
+    {hasDoc && <ReadmeBtn entry={entry} />}
   </footer>
 </article>

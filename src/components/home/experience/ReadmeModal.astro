@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ReadmeModalLayout from '../../layout/readme/ReadmeModalLayout.astro';
+interface Props {
+  entry: CollectionEntry<'career' | 'projects'>;
+}
+const { entry } = Astro.props;
+---
+
+<ReadmeModalLayout id={entry.id}>
+  <h2 id={`readme-modal-${entry.id}`} -title class="text-xl font-bold">
+    {entry.data.title}
+  </h2>
+
+  <div
+    id={`readme-modal-${entry.id}`}
+    -description
+    class="py-5 text-base-content/70">
+    <!-- <slot /> -->
+    asdfasdfs
+  </div>
+</ReadmeModalLayout>

@@ -1,8 +1,8 @@
 ---
-import { BriefcaseBusiness } from "@lucide/astro";
-import { getCollection } from "astro:content";
-import CareerCard from "./CareerCard.astro";
-import {groupProjectEntries} from "../../../../content/collections/career.ts";
+import { BriefcaseBusiness } from '@lucide/astro';
+import { getCollection } from 'astro:content';
+import { groupProjectEntries } from '../../../../content/collections/career.ts';
+import CareerCard from './CareerCard.astro';
 
 interface Props {
   class?: string;
@@ -10,18 +10,15 @@ interface Props {
 
 const { class: className } = Astro.props;
 const career = groupProjectEntries(
-  (await getCollection("career")).filter((entry) =>
-    entry.id.startsWith(""),
-  ),
+  (await getCollection('career')).filter((entry) => entry.id.startsWith('')),
 );
 ---
 
-<section class:list={["flex min-w-0 flex-col", className]} aria-label="Career">
+<section class:list={['flex min-w-0 flex-col', className]} aria-label="Career">
   <header class="py-2.5 sm:py-3">
     <div class="flex min-w-0 items-center gap-3">
       <span
-        class="grid size-8 shrink-0 place-items-center rounded-xl text-slate-800"
-      >
+        class="grid size-8 shrink-0 place-items-center rounded-xl text-slate-800">
         <BriefcaseBusiness
           class="size-4.5"
           stroke-width={1.8}
@@ -29,8 +26,7 @@ const career = groupProjectEntries(
         />
       </span>
       <h3
-        class="truncate text-lg font-bold tracking-[-0.03em] text-base-content sm:text-xl"
-      >
+        class="truncate text-lg font-bold tracking-[-0.03em] text-base-content sm:text-xl">
         Career
       </h3>
     </div>
@@ -40,7 +36,7 @@ const career = groupProjectEntries(
     {
       career.map((career) => (
         <article class="last:pb-0">
-          <CareerCard career={career} />
+          <CareerCard entry={career} />
         </article>
       ))
     }
