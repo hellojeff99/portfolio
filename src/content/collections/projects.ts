@@ -25,7 +25,9 @@ export const projects = defineCollection({
     base: './src/content/experience/projects',
     generateId: ({ entry }) => entry.replace(/\/index\.md$/, ''),
   }),
-  schema: projectSchema,
+  schema: projectSchema.extend({
+    category: z.enum(PROJECT_CATEGORIES),
+  }),
 });
 
 export type ProjectEntry = CollectionEntry<'projects'>;

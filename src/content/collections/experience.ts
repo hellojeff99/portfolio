@@ -1,23 +1,24 @@
 import type { ImageMetadata } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 
-type ExperienceEntry =
-  | CollectionEntry<'career'>
-  | CollectionEntry<'projects'>;
+type ExperienceEntry = CollectionEntry<'career'> | CollectionEntry<'projects'>;
 
 const demoImages = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/content/experience/*/*/demo/[0-9][0-9]*.{png,jpg,jpeg,webp,avif,gif}',
+  '/src/content/experience/**/demo/[0-9][0-9]*.{png,jpg,jpeg,webp,avif,gif}',
 );
 
-const getDemoPrefix = (entry: ExperienceEntry) =>
-  `/src/content/experience/${entry.collection}/${entry.id}/demo/`;
+function getDemoPrefix(entry: ExperienceEntry) {
+  if (entry.collection === 'projects' && entry.data.category === 'featured') {
+    return `/src/content/experience/${entry.collection}/${entry.data.category}/${entry.id}/demo/`;
+  }
+  return `/src/content/experience/${entry.collection}/${entry.id}/demo/`;
+}
 
 export function hasDemoImages(entry: ExperienceEntry): boolean {
   const prefix = getDemoPrefix(entry);
+  // console.log(prefix);
 
-  return Object.keys(demoImages).some((path) =>
-    path.startsWith(prefix),
-  );
+  return Object.keys(demoImages).some((path) => path.startsWith(prefix));
 }
 
 export async function getDemoImages(
@@ -33,7 +34,7 @@ export async function getDemoImages(
     entries.map(async ([, load]) => {
       const module = await load();
       return module.default;
-    })
+    }),
   );
 }
 function getDirName(id: string): string {
