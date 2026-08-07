@@ -4,23 +4,27 @@ import type { CollectionEntry } from 'astro:content';
 import SkillItem from '../../../SkillItem.astro';
 import HL from '../HL.astro';
 import ReadmeBtn from '../common/readme/ReadmeBtn.astro';
+import DemoBtn from '../common/demo/DemoBtn.astro';
+import { hasDemoImages } from '../../../../content/collections/experience.ts';
 
 interface Props {
   entry: CollectionEntry<'projects'>;
 }
 
 const { entry } = Astro.props;
+
 const visibleSkills = entry.data.stack?.slice(0, 5) ?? [];
 const hasHiddenSkills = (entry.data.stack?.length ?? 0) > visibleSkills.length;
+
 const hasDoc = Boolean(entry.body);
+const hasDemo = hasDemoImages(entry);
 ---
 
 <article
-  class:list={[
-    'flex h-[300px] min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white px-4 py-4 sm:px-5',
-  ]}>
-  <header class="shrink-0">
-    <div class="flex items-center justify-between gap-3">
+  class="grid h-80 min-h-0 grid-rows-[auto_auto_minmax(0,1fr)_auto] overflow-hidden rounded-2xl border border-slate-200/80 bg-white px-4 py-4 sm:px-5">
+  <!-- Header -->
+  <header class="min-w-0">
+    <div class="flex min-w-0 items-start justify-between gap-3">
       <h3
         class="flex min-w-0 items-center gap-1.5 text-lg font-bold tracking-[-0.03em] text-slate-950 sm:text-xl">
         <Pin
@@ -31,41 +35,48 @@ const hasDoc = Boolean(entry.body);
           aria-hidden="true"
         />
 
-        <span class="min-w-0 break-keep">{entry.data.title}</span>
+        <span class="min-w-0 break-keep">
+          {entry.data.title}
+        </span>
       </h3>
 
       <time
-        class="shrink-0 text-xs font-semibold tracking-[0.04em] text-slate-600">
+        class="shrink-0 pt-1 text-xs font-semibold tracking-[0.04em] text-slate-600">
         {entry.data.period}
       </time>
     </div>
 
     {
       entry.data.subtitle && (
-        <p class="text-xs leading-5 font-medium text-slate-600 sm:text-sm">
+        <p class="mt-1 text-xs leading-5 font-medium text-slate-600 sm:text-sm">
           {entry.data.subtitle}
         </p>
       )
     }
   </header>
 
-  <hr
-    class="my-4 h-px shrink-0 border-0 bg-gradient-to-r from-slate-300 via-slate-200 to-transparent"
-  />
-
-  <div
-    class="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-2"
-    data-project-card-scroll>
-    <ul class="space-y-3" aria-label="주요 성과">
-      {entry.data.highlights.map((highlight) => <HL highlight={highlight} />)}
-    </ul>
+  <!-- Divider -->
+  <div class="py-3">
+    <hr
+      class="h-px border-0 bg-linear-to-r from-slate-300 via-slate-200 to-transparent"
+    />
   </div>
-  <!-- Bottom -->
-  <footer class="mt-auto flex items-end justify-between gap-4 pt-6">
+
+  <!-- Content -->
+  <div class="grid min-h-0 grid-rows-[minmax(0,1fr)_32px] gap-3">
+    <div
+      class="min-h-0 overflow-y-auto overscroll-contain pr-2"
+      data-project-card-scroll>
+      <ul class="space-y-3" aria-label="주요 성과">
+        {entry.data.highlights.map((highlight) => <HL highlight={highlight} />)}
+      </ul>
+    </div>
+
+    <!-- Skills -->
     {
       visibleSkills.length > 0 && (
         <ul
-          class="flex max-w-full shrink-0 flex-nowrap gap-1.5 pt-3 [&>li]:shrink-0"
+          class="flex min-w-0 max-w-full flex-nowrap items-center gap-1.5 overflow-hidden [&>li]:shrink-0"
           aria-label={`${entry.data.title} 기술 스택`}>
           {visibleSkills.map((skill) => (
             <SkillItem name={skill} showName={false} />
@@ -81,6 +92,11 @@ const hasDoc = Boolean(entry.body);
         </ul>
       )
     }
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-3 flex w-full shrink-0 items-center justify-end gap-2">
+    {hasDemo && <DemoBtn entry={entry} />}
     {hasDoc && <ReadmeBtn entry={entry} />}
   </footer>
 </article>

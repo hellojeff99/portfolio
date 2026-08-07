@@ -22,7 +22,7 @@ const hasFooter = hasDemo || hasDoc;
 
 <article
   class:list={[
-    'grid h-87.5 min-h-0 overflow-hidden rounded-2xl',
+    'grid h-70 min-h-0 overflow-hidden rounded-2xl',
     'border border-slate-200/80 bg-white px-4 py-4 sm:px-4',
     hasFooter
       ? 'grid-rows-[52px_minmax(0,1fr)_40px]'
@@ -42,7 +42,7 @@ const hasFooter = hasDemo || hasDoc;
   </header>
 
   <!-- Contents -->
-  <div class="grid min-h-0 grid-rows-[minmax(0,1fr)_32px] gap-3 py-2">
+  <div class="grid min-h-0 grid-rows-[minmax(0,1fr)_32px] gap-3 pt-2">
     <!-- Highlights -->
     <div
       class="relative min-h-0 overflow-y-auto overscroll-contain pr-2
@@ -87,16 +87,16 @@ const hasFooter = hasDemo || hasDoc;
   {
     hasFooter && (
       <footer
-        class="flex min-w-0 items-center justify-end gap-2 border-t border-slate-200 pt-2"
+        class="flex min-w-0 items-center justify-end gap-2"
         aria-label={`${entry.data.title} 링크`}>
         {hasDemo && (
           <div>
-            <DemoBtn entry={entry} />
+            <DemoBtn entry={entry} isCompact />
           </div>
         )}
         {hasDoc && (
           <div>
-            <ReadmeBtn entry={entry} />
+            <ReadmeBtn entry={entry} isCompact />
           </div>
         )}
       </footer>
