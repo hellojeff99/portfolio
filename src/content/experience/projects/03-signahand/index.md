@@ -34,7 +34,9 @@ stack:
 
 ### 주요 데이터 흐름
 
-![image-20260725151525333](./image-20260725151525333.png)
+![](./user-flow.png)
+
+![](./feature-flow.png)
 
 ---
 
