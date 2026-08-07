@@ -1,21 +1,156 @@
 ---
-import { Image } from 'astro:assets'
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import { getDemoImages } from '../../../../../content/collections/experience';
 import DemoModalLayout from './DemoModalLayout.astro';
-import {getDemoImages} from "../../../../../content/collections/experience.ts";
 
 interface Props {
   entry: CollectionEntry<'career' | 'projects'>;
 }
-const {entry} = Astro.props;
+
+const { entry } = Astro.props;
 
 const images = await getDemoImages(entry);
 ---
 
 <DemoModalLayout id={entry.id}>
+  <!-- Image Viewer -->
+  <div
+    class="relative min-h-0 flex-1 overflow-hidden bg-base-200/30"
+    data-demo-viewer>
+    {
+      images.map((image, index) => (
+        <div
+          class:list={[
+            'absolute inset-4 items-center justify-center overflow-hidden sm:inset-5',
+            index === 0 ? 'flex' : 'hidden',
+          ]}
+          data-demo-page={index}>
+          <Image
+            src={image}
+            alt={`${entry.data.title} demo ${index + 1}`}
+            class="h-full w-full object-contain"
+            loading={index === 0 ? 'eager' : 'lazy'}
+          />
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Pagination -->
   {
-    images.map((image) => (
-            <Image src={image} alt="" />
-    ))
+    images.length > 1 && (
+      <footer
+        class="flex shrink-0 items-center justify-center
+                 border-t border-base-300 px-4 py-2.5">
+        <div class="flex items-center justify-center gap-2">
+          <button
+            type="button"
+            class="btn btn-ghost btn-sm gap-1.5"
+            data-demo-prev
+            disabled
+            aria-label="이전 이미지">
+            <Icon
+              name="lucide:chevron-left"
+              class="size-4"
+              aria-hidden="true"
+            />
+
+            <span class="hidden sm:inline">Previous</span>
+          </button>
+
+          <span
+            class="min-w-14 text-center text-xs tabular-nums
+                     text-base-content/50">
+            <span class="font-semibold text-base-content" data-demo-current>
+              1
+            </span>
+
+            <span class="mx-1 text-base-content/30">/</span>
+
+            {images.length}
+          </span>
+
+          <button
+            type="button"
+            class="btn btn-ghost btn-sm gap-1.5"
+            data-demo-next
+            aria-label="다음 이미지">
+            <span class="hidden sm:inline">Next</span>
+
+            <Icon
+              name="lucide:chevron-right"
+              class="size-4"
+              aria-hidden="true"
+            />
+          </button>
+        </div>
+      </footer>
+    )
   }
 </DemoModalLayout>
+
+<script>
+  const modals = document.querySelectorAll<HTMLDialogElement>(
+    'dialog[id^="demo-modal-"]',
+  );
+
+  for (const modal of modals) {
+    if (modal.dataset.paginationBound === 'true') {
+      continue;
+    }
+
+    modal.dataset.paginationBound = 'true';
+
+    const pages = Array.from(
+      modal.querySelectorAll<HTMLElement>('[data-demo-page]'),
+    );
+
+    const prevButton =
+      modal.querySelector<HTMLButtonElement>('[data-demo-prev]');
+
+    const nextButton =
+      modal.querySelector<HTMLButtonElement>('[data-demo-next]');
+
+    const current = modal.querySelector<HTMLElement>('[data-demo-current]');
+
+    if (pages.length <= 1 || !prevButton || !nextButton || !current) {
+      continue;
+    }
+
+    let index = 0;
+
+    const render = () => {
+      pages.forEach((page, pageIndex) => {
+        const active = pageIndex === index;
+
+        page.classList.toggle('hidden', !active);
+        page.classList.toggle('flex', active);
+      });
+
+      current.textContent = String(index + 1);
+
+      prevButton.disabled = index === 0;
+      nextButton.disabled = index === pages.length - 1;
+    };
+
+    prevButton.addEventListener('click', () => {
+      if (index === 0) {
+        return;
+      }
+
+      index -= 1;
+      render();
+    });
+
+    nextButton.addEventListener('click', () => {
+      if (index === pages.length - 1) {
+        return;
+      }
+
+      index += 1;
+      render();
+    });
+  }
+</script>

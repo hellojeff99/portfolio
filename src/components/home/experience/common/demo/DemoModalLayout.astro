@@ -1,38 +1,39 @@
 ---
+import { Icon } from 'astro-icon/components';
 const { id } = Astro.props;
 ---
 
 <dialog
   id={`demo-modal-${id}`}
-  class="modal modal-bottom bg-slate-950/60 sm:modal-middle"
-  aria-label="DEMO 내용">
+  class="modal modal-bottom bg-slate-950/70 sm:modal-middle"
+  aria-labelledby={`${id}-title`}>
   <div
-    class="modal-box relative flex max-h-[98dvh] w-full max-w-none flex-col overflow-hidden rounded-t-2xl border border-base-300 bg-base-100 p-0 shadow-2xl sm:max-h-[98dvh] sm:max-w-5xl sm:rounded-2xl">
-    <div
-      class="flex shrink-0 items-center justify-between border-b border-base-300 bg-base-100/95 px-5 py-2 sm:px-7">
-      <div>
+    class="modal-box flex h-[78dvh] w-full max-w-none flex-col overflow-hidden
+           rounded-t-2xl border border-base-300 bg-base-100 p-0 shadow-2xl
+           sm:h-[70dvh] sm:max-w-3xl sm:rounded-2xl">
+    <!-- Header -->
+    <header
+      class="flex shrink-0 items-center justify-between
+             border-b border-base-300 px-5 py-3">
+      <div class="min-w-0">
         <p
-          class="text-xs font-semibold uppercase tracking-wider text-base-content/50">
-          Documentation
+          class="text-[11px] font-semibold uppercase tracking-[0.16em]
+                 text-base-content/40">
+          Demo
         </p>
-        <h2 class="mt-0.5 text-lg font-bold text-base-content">DEMO</h2>
       </div>
 
       <form method="dialog">
         <button
           type="submit"
-          class="btn btn-circle btn-ghost btn-sm text-base-content/60 transition-colors hover:bg-base-200 hover:text-base-content"
+          class="btn btn-circle btn-ghost btn-sm text-base-content/60"
           aria-label="모달 닫기">
-          X
+          <Icon name="lucide:x" class="size-5" aria-hidden="true" />
         </button>
       </form>
-    </div>
-
-    <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-      <slot />
-    </div>
+    </header>
+    <slot />
   </div>
-
   <form method="dialog" class="modal-backdrop">
     <button type="submit" aria-label="모달 닫기">close</button>
   </form>

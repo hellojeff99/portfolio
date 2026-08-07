@@ -45,6 +45,9 @@ export default defineConfig({
           'github',
           'package-2',
           'folder',
+          'x',
+          'chevron-left',
+          'chevron-right',
         ],
         'material-symbols': [
           'person-rounded',
@@ -55,9 +58,7 @@ export default defineConfig({
           'mail-rounded',
           'code-rounded',
         ],
-        mdi: [
-          'file-document-outline',
-          'image-multiple-outline'],
+        mdi: ['file-document-outline', 'image-multiple-outline'],
       },
     }),
   ],
