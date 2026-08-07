@@ -8,9 +8,6 @@ const demoImages = import.meta.glob<{ default: ImageMetadata }>(
 );
 
 function getDemoPrefix(entry: ExperienceEntry) {
-  if (entry.collection === 'projects' && entry.data.category === 'featured') {
-    return `/src/content/experience/${entry.collection}/${entry.data.category}/${entry.id}/demo/`;
-  }
   return `/src/content/experience/${entry.collection}/${entry.id}/demo/`;
 }
 
