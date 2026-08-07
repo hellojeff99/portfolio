@@ -12,10 +12,10 @@ const { entry, isCompact = false } = Astro.props;
 ---
 
 <button
-        type="button"
-        data-modal-open={`readme-modal-${entry.id}`}
-        class:list={[
-          `ml-auto inline-flex shrink-0 items-center justify-center
+  type="button"
+  data-modal-open={`readme-modal-${entry.id}`}
+  class:list={[
+    `ml-auto inline-flex shrink-0 items-center justify-center
     rounded-lg border border-blue-600/20 bg-blue-600
     font-semibold text-white
     shadow-sm
@@ -27,21 +27,15 @@ const { entry, isCompact = false } = Astro.props;
     focus-visible:ring-2 focus-visible:ring-blue-500
     focus-visible:ring-offset-2
     motion-reduce:transform-none motion-reduce:transition-none`,
-          isCompact
-            ? 'gap-1 px-1.5 py-0.5 text-xs'
-            : 'gap-1.5 px-2 py-1 text-sm',
-        ]}
-        aria-label={`${entry.data.title} README 보기`}
->
-    <Icon
-            name="mdi:file-document-outline"
-            class:list={[
-              'shrink-0',
-              isCompact ? 'size-3.5' : 'size-4',
-            ]}
-            aria-hidden="true"
-    />
-    <span>README</span>
+    isCompact ? 'gap-1 px-1.5 py-0.5 text-xs' : 'gap-1.5 px-2 py-1 text-sm',
+  ]}
+  aria-label={`${entry.data.title} README 보기`}>
+  <Icon
+    name="mdi:file-document-outline"
+    class:list={['shrink-0', isCompact ? 'size-3.5' : 'size-4']}
+    aria-hidden="true"
+  />
+  <span>README</span>
 </button>
 
 <ReadmeModal entry={entry} />
