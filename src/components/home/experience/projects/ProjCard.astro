@@ -63,7 +63,7 @@ const hasDemo = hasDemoImages(entry);
         </ul>
       )
     }
-    {hasDemo && <DemoBtn entry={entry} />}
-    {hasDoc && <ReadmeBtn entry={entry} />}
+    {hasDemo && <DemoBtn entry={entry} isCompact={true} />}
+    {hasDoc && <ReadmeBtn entry={entry} isCompact={true} />}
   </footer>
 </article>
