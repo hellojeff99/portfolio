@@ -55,7 +55,9 @@ export default defineConfig({
           'mail-rounded',
           'code-rounded',
         ],
-        mdi: ['file-document-outline'],
+        mdi: [
+          'file-document-outline',
+          'image-multiple-outline'],
       },
     }),
   ],

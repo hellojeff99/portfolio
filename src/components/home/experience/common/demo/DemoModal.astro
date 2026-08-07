@@ -1,0 +1,21 @@
+---
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content';
+import DemoModalLayout from './DemoModalLayout.astro';
+import {getDemoImages} from "../../../../../content/collections/experience.ts";
+
+interface Props {
+  entry: CollectionEntry<'career' | 'projects'>;
+}
+const {entry} = Astro.props;
+
+const images = await getDemoImages(entry);
+---
+
+<DemoModalLayout id={entry.id}>
+  {
+    images.map((image) => (
+            <Image src={image} alt="" />
+    ))
+  }
+</DemoModalLayout>

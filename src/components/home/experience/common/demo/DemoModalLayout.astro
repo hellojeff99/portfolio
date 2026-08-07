@@ -1,0 +1,66 @@
+---
+const { id } = Astro.props;
+---
+
+<dialog
+  id={`demo-modal-${id}`}
+  class="modal modal-bottom bg-slate-950/60 sm:modal-middle"
+  aria-label="DEMO 내용">
+  <div
+    class="modal-box relative flex max-h-[98dvh] w-full max-w-none flex-col overflow-hidden rounded-t-2xl border border-base-300 bg-base-100 p-0 shadow-2xl sm:max-h-[98dvh] sm:max-w-5xl sm:rounded-2xl">
+    <div
+      class="flex shrink-0 items-center justify-between border-b border-base-300 bg-base-100/95 px-5 py-2 sm:px-7">
+      <div>
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-base-content/50">
+          Documentation
+        </p>
+        <h2 class="mt-0.5 text-lg font-bold text-base-content">DEMO</h2>
+      </div>
+
+      <form method="dialog">
+        <button
+          type="submit"
+          class="btn btn-circle btn-ghost btn-sm text-base-content/60 transition-colors hover:bg-base-200 hover:text-base-content"
+          aria-label="모달 닫기">
+          X
+        </button>
+      </form>
+    </div>
+
+    <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+      <slot />
+    </div>
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button type="submit" aria-label="모달 닫기">close</button>
+  </form>
+</dialog>
+
+<script>
+  const openButtons =
+    document.querySelectorAll<HTMLButtonElement>('[data-modal-open]');
+
+  for (const button of openButtons) {
+    if (button.dataset.modalBound === 'true') {
+      continue;
+    }
+
+    button.dataset.modalBound = 'true';
+
+    button.addEventListener('click', () => {
+      const modalId = button.dataset.modalOpen;
+
+      if (!modalId) {
+        return;
+      }
+
+      const modal = document.getElementById(modalId);
+
+      if (modal instanceof HTMLDialogElement) {
+        modal.showModal();
+      }
+    });
+  }
+</script>

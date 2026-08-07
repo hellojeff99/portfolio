@@ -3,6 +3,8 @@ import type { CollectionEntry } from 'astro:content';
 import SkillItem from '../../../SkillItem.astro';
 import HL from '../HL.astro';
 import ReadmeBtn from '../common/readme/ReadmeBtn.astro';
+import DemoBtn from '../common/demo/DemoBtn.astro';
+import {hasDemoImages} from "../../../../content/collections/experience.ts";
 interface Props {
   entry: CollectionEntry<'projects'>;
 }
@@ -11,6 +13,7 @@ const { entry } = Astro.props;
 const visibleSkills = entry.data.stack?.slice(0, 3) ?? [];
 const hasHiddenSkills = (entry.data.stack?.length ?? 0) > visibleSkills.length;
 const hasDoc = Boolean(entry.body);
+const hasDemo = hasDemoImages(entry);
 ---
 
 <article
@@ -60,6 +63,7 @@ const hasDoc = Boolean(entry.body);
         </ul>
       )
     }
+    {hasDemo && <DemoBtn entry={entry} />}
     {hasDoc && <ReadmeBtn entry={entry} />}
   </footer>
 </article>
