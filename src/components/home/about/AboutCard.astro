@@ -7,11 +7,9 @@ const { label } = Astro.props;
 ---
 
 <li
-    class="min-w-0 overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-sm"
->
+  class="min-w-0 overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-sm">
   <div
-      class="flex items-center justify-between gap-4 border-b border-base-300 bg-base-200/70 px-4 py-2"
-  >
+    class="flex items-center justify-between gap-4 border-b border-base-300 bg-base-200/70 px-4 py-2">
     <div class="flex shrink-0 items-center gap-1.5" aria-hidden="true">
       <span class="size-3 rounded-full bg-error"></span>
       <span class="size-3 rounded-full bg-warning"></span>
@@ -24,18 +22,15 @@ const { label } = Astro.props;
   </div>
 
   <div
-      class="flex min-h-24 min-w-0 items-center justify-between gap-4 px-6 sm:px-8"
-  >
+    class="flex min-h-16 min-w-0 items-center justify-between gap-4 px-6 sm:px-8">
     <span
-        class="grid size-14 shrink-0 place-items-center text-base-content"
-        aria-hidden="true"
-    >
+      class="grid shrink-0 place-items-center text-base-content"
+      aria-hidden="true">
       <slot name="icon" />
     </span>
 
     <div
-        class="min-w-0 flex-1 break-words text-right text-base font-semibold leading-snug text-base-content sm:text-lg"
-    >
+      class="min-w-0 flex-1 break-words text-right text-base font-semibold leading-snug text-base-content sm:text-lg">
       <slot />
     </div>
   </div>
