@@ -1,7 +1,7 @@
 ---
 title: 퍼스널TEA(SW공동해커톤)
 subtitle: 날씨 기반 반려식물 케어와 커뮤니티, 허브 취향 추천을 연결한 웹 서비스
-role: 'Front: React 초기 구성, 화면 라우팅·공통 UI, 허브 취향 테스트 구현'
+role: '개발 리드, 프론트 개발'
 type: '팀프로젝트(5명: Design 1, Front 2, Back 2)'
 period: '2023.06.27 ~ 2023.06.30'
 github: https://github.com/sw-hackathon-team-41/client

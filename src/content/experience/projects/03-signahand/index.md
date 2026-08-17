@@ -1,7 +1,7 @@
 ---
 title: SignaHand
 subtitle: 손동작으로 만든 서명을 PDF 페이지에 적용하고 다중 페이지 PDF로 내려받는 브라우저 기반 서명 프로토타입
-role: 'Front: PDF 업로드·렌더링, 페이지 상태 관리, Canvas 출력·서명 데이터 연동, 다중 페이지 PDF 내보내기'
+role: '프론트 개발 - PDF 렌더링, 서명 데이터 연동, ...'
 type: '팀프로젝트(4명: Design 1, Front 3)'
 period: '2023.07.21 ~ 2023.11.03'
 github: https://github.com/SignaHand/SignaHand
