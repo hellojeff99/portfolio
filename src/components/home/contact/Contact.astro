@@ -1,14 +1,14 @@
 ---
-import { ArrowUpRight } from "@lucide/astro";
-import { Icon } from "astro-icon/components";
-import { getEntry } from "astro:content";
-import SectionHead from "../SectionHead.astro";
-import SectionLayout from "../SectionLayout.astro";
+import { ArrowUpRight } from '@lucide/astro';
+import { Icon } from 'astro-icon/components';
+import { getEntry } from 'astro:content';
+import SectionHead from '../SectionHead.astro';
+import SectionLayout from '../SectionLayout.astro';
 
-const infoEntry = await getEntry("info", "info");
+const infoEntry = await getEntry('info', 'info');
 
 if (!infoEntry) {
-  throw new Error("v2 Contact에 필요한 이력서 데이터를 찾을 수 없습니다.");
+  throw new Error('v2 Contact에 필요한 이력서 데이터를 찾을 수 없습니다.');
 }
 
 const { email } = infoEntry.data.info;
@@ -18,35 +18,30 @@ const { email } = infoEntry.data.info;
   <SectionHead title="Contact" icon="contact" />
 
   <a
-    class="group mx-auto mt-5 flex max-w-3xl items-center gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-4 text-slate-950 shadow-sm transition-colors duration-200 hover:border-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2 motion-reduce:transition-none"
-    href={`mailto:${email}`}
-  >
+    class="group mx-auto mt-6 flex max-w-3xl items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4 text-slate-950 shadow-sm transition-colors duration-200 hover:border-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2 motion-reduce:transition-none sm:mt-8 sm:gap-4 sm:px-5"
+    href={`mailto:${email}`}>
     <span
-      class="grid size-14 shrink-0 place-items-center rounded-2xl bg-sky-400 text-slate-950 sm:size-16"
-    >
+      class="grid size-11 shrink-0 place-items-center rounded-xl bg-sky-400 text-slate-950 sm:size-16 sm:rounded-2xl">
       <Icon
         name="ph:envelope-simple-fill"
-        class="size-7 sm:size-8"
+        class="size-6 sm:size-8"
         aria-hidden="true"
       />
     </span>
 
     <span class="min-w-0 flex-1 py-2 text-left">
       <span
-        class="block text-xs font-bold uppercase tracking-[0.16em] text-slate-500"
-      >
+        class="block text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
         Email
       </span>
       <span
-        class="mt-1 block break-all text-lg font-bold tracking-tight text-slate-950 sm:text-2xl"
-      >
+        class="mt-1 block break-all text-sm font-bold tracking-tight text-slate-950 sm:text-2xl">
         {email}
       </span>
     </span>
 
     <span
-      class="inline-flex shrink-0 items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-xs font-black tracking-[0.1em] text-slate-600 transition-colors duration-200 group-hover:border-slate-950 group-hover:bg-slate-950 group-hover:text-white motion-reduce:transition-none"
-    >
+      class="hidden shrink-0 items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-xs font-black tracking-[0.1em] text-slate-600 transition-colors duration-200 group-hover:border-slate-950 group-hover:bg-slate-950 group-hover:text-white motion-reduce:transition-none sm:inline-flex">
       <span class="hidden sm:inline">Send</span>
       <ArrowUpRight class="size-4" aria-hidden="true" />
     </span>

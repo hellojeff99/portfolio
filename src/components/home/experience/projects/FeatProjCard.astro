@@ -21,7 +21,7 @@ const hasDemo = hasDemoImages(entry);
 ---
 
 <article
-  class="grid h-80 min-h-0 grid-rows-[auto_auto_auto_minmax(0,1fr)_auto] overflow-hidden rounded-2xl bg-white px-4 py-4 sm:px-5 shadow-sm shadow-slate-900/5 ring-1 ring-slate-900/5">
+  class="grid min-h-0 grid-rows-[auto_auto_auto_minmax(0,1fr)_auto] overflow-hidden rounded-2xl bg-white px-4 py-4 shadow-sm shadow-slate-900/5 ring-1 ring-slate-900/5 sm:px-5 md:h-80">
   <!-- Header -->
   <header class="min-w-0">
     <div class="flex min-w-0 items-start justify-between gap-3">
@@ -85,7 +85,7 @@ const hasDemo = hasDemoImages(entry);
 
   <!-- Content -->
   <div
-    class="min-h-0 overflow-y-auto overscroll-contain pr-2"
+    class="min-h-0 pr-1 md:overflow-y-auto md:overscroll-contain md:pr-2"
     data-project-card-scroll>
     <ul class="space-y-3" aria-label="주요 성과">
       {entry.data.highlights.map((highlight) => <HL highlight={highlight} />)}

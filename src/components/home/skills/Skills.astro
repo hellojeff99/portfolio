@@ -1,32 +1,32 @@
 ---
-import { Icon } from "astro-icon/components";
-import { getEntry } from "astro:content";
-import SectionHead from "../../home/SectionHead.astro";
-import SectionLayout from "../../home/SectionLayout.astro";
-import SkillItem from "../../SkillItem.astro";
+import { Icon } from 'astro-icon/components';
+import { getEntry } from 'astro:content';
+import SectionHead from '../../home/SectionHead.astro';
+import SectionLayout from '../../home/SectionLayout.astro';
+import SkillItem from '../../SkillItem.astro';
 
-const resumeEntry = await getEntry("info", "info");
+const resumeEntry = await getEntry('info', 'info');
 
 if (!resumeEntry) {
-  throw new Error("v2 Skills에 필요한 기술 데이터를 찾을 수 없습니다.");
+  throw new Error('v2 Skills에 필요한 기술 데이터를 찾을 수 없습니다.');
 }
 
 const { skills } = resumeEntry.data;
 
 const categoryIcons = {
-  "languages": "ph:brackets-curly-bold",
-  "frameworks&libraries": "ph:stack-bold",
-  "DB&cache": "ph:database-bold",
-  "test&performance": "ph:gauge-bold",
-  "infra&tools": "ph:toolbox-bold",
+  languages: 'ph:brackets-curly-bold',
+  'frameworks&libraries': 'ph:stack-bold',
+  'DB&cache': 'ph:database-bold',
+  'test&performance': 'ph:gauge-bold',
+  'infra&tools': 'ph:toolbox-bold',
 };
 
 const categoryAccents = {
-  "languages": "from-amber-400 to-orange-500",
-  "frameworks&libraries": "from-violet-500 to-fuchsia-500",
-  "DB&cache": "from-cyan-400 to-blue-500",
-  "test&performance": "from-emerald-400 to-teal-500",
-  "infra&tools": "from-slate-500 to-indigo-500",
+  languages: 'from-amber-400 to-orange-500',
+  'frameworks&libraries': 'from-violet-500 to-fuchsia-500',
+  'DB&cache': 'from-cyan-400 to-blue-500',
+  'test&performance': 'from-emerald-400 to-teal-500',
+  'infra&tools': 'from-slate-500 to-indigo-500',
 };
 
 const skillGroups = Object.entries(skills).map(([category, items]) => ({
@@ -34,34 +34,33 @@ const skillGroups = Object.entries(skills).map(([category, items]) => ({
   items,
   icon:
     categoryIcons[category as keyof typeof categoryIcons] ??
-    "ph:brackets-curly-bold",
+    'ph:brackets-curly-bold',
   accent:
     categoryAccents[category as keyof typeof categoryAccents] ??
-    "from-primary to-secondary",
+    'from-primary to-secondary',
 }));
 ---
 
 <SectionLayout id="skills" class="bg-blue-400">
   <SectionHead title="Skills" icon="skills" />
 
-  <div class="mt-4 rounded-2xl bg-white/90 px-3 py-2 shadow-sm">
+  <div class="mt-6 rounded-2xl bg-white/90 px-2 py-2 shadow-sm sm:mt-8 sm:px-3">
     {
       skillGroups.map(({ category, items, icon, accent }) => (
-        <section class="grid gap-4 px-5 py-2 sm:grid-cols-4 sm:items-center sm:gap-4 sm:px-8">
+        <section class="grid gap-3 px-3 py-3 sm:grid-cols-4 sm:items-center sm:gap-4 sm:px-8">
           <h3 class="inline-flex w-fit items-center gap-3 whitespace-nowrap sm:col-span-1">
             <span
               class:list={[
-                "grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-white shadow-md",
+                'grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-white shadow-md',
                 accent,
-              ]}
-            >
+              ]}>
               <Icon name={icon} class="size-4" aria-hidden="true" />
             </span>
             <span class="text-sm leading-tight font-black uppercase tracking-[0.08em] text-base-content">
-              {category.includes("&") ? (
+              {category.includes('&') ? (
                 <>
-                  {category.split("&")[0]}
-                  <span class="block">&amp; {category.split("&")[1]}</span>
+                  {category.split('&')[0]}
+                  <span class="block">&amp; {category.split('&')[1]}</span>
                 </>
               ) : (
                 category
@@ -70,8 +69,7 @@ const skillGroups = Object.entries(skills).map(([category, items]) => ({
           </h3>
           <ul
             class="flex flex-wrap gap-2 sm:col-span-3"
-            aria-label={`${category} skills`}
-          >
+            aria-label={`${category} skills`}>
             {items.map((item) => (
               <SkillItem name={item} />
             ))}

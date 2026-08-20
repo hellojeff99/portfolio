@@ -1,38 +1,36 @@
 ---
-import { getEntry } from "astro:content";
-import { siGithub } from "simple-icons";
-import SectionHead from "../SectionHead.astro";
-import SectionLayout from "../SectionLayout.astro";
-import LinkCard from "./LinkCard.astro";
+import { getEntry } from 'astro:content';
+import { siGithub } from 'simple-icons';
+import SectionHead from '../SectionHead.astro';
+import SectionLayout from '../SectionLayout.astro';
+import LinkCard from './LinkCard.astro';
 
-const infoEntry = await getEntry("info", "info");
+const infoEntry = await getEntry('info', 'info');
 
 if (!infoEntry) {
-  throw new Error("v2 Links에 필요한 이력서 데이터를 찾을 수 없습니다.");
+  throw new Error('v2 Links에 필요한 이력서 데이터를 찾을 수 없습니다.');
 }
 
 const { github } = infoEntry.data.info.links;
-const githubLabel = github.replace(/^https?:\/\//, "").replace(/\/$/, "");
+const githubLabel = github.replace(/^https?:\/\//, '').replace(/\/$/, '');
 ---
 
 <SectionLayout id="links" class="bg-sky-100/70">
   <SectionHead title="Links" icon="links" />
 
-  <ul class="mx-auto mt-4 max-w-2xl">
+  <ul class="mx-auto mt-6 max-w-2xl sm:mt-8">
     <LinkCard
       eyebrow="Developer Profile"
       title="GitHub"
       description="프로젝트와 코드 기록"
       label={githubLabel}
       href={github}
-      external
-    >
+      external>
       <svg
         slot="icon"
         class="size-7 fill-current"
         viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <path d={siGithub.path}></path>
       </svg>
     </LinkCard>

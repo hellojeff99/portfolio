@@ -5,14 +5,14 @@ import {
   Link2,
   Mail,
   UserRound,
-} from "@lucide/astro";
+} from '@lucide/astro';
 
 interface Props {
   eyebrow?: string;
   title: string;
   description?: string;
   id?: string;
-  icon?: "about" | "skills" | "experience" | "links" | "contact";
+  icon?: 'about' | 'skills' | 'experience' | 'links' | 'contact';
 }
 
 const { eyebrow, title, description, id, icon } = Astro.props;
@@ -39,13 +39,12 @@ const Icon = icon && icons[icon];
     )
   }
   <div
-    class:list={["flex items-center justify-center gap-3", eyebrow && "mt-5"]}
-  >
+    class:list={['flex items-center justify-center gap-3', eyebrow && 'mt-5']}>
     {
       Icon && (
-        <span class="inline-grid size-11 shrink-0 place-items-center rounded-2xl text-slate-800 sm:size-12">
+        <span class="inline-grid size-9 shrink-0 place-items-center rounded-xl text-slate-800 sm:size-12 sm:rounded-2xl">
           <Icon
-            class="size-12 sm:size-12"
+            class="size-9 sm:size-12"
             stroke-width={2.6}
             aria-hidden="true"
           />
@@ -53,20 +52,21 @@ const Icon = icon && icons[icon];
       )
     }
     <h2
-      class="text-4xl uppercase tracking-[-0.04em] text-base-content sm:text-5xl"
-      id={id}
-    >
+      class="text-3xl uppercase tracking-[-0.04em] text-base-content sm:text-5xl"
+      id={id}>
       {title}
     </h2>
   </div>
-  <div class="mt-6 flex items-center justify-center gap-2" aria-hidden="true">
+  <div
+    class="mt-4 flex items-center justify-center gap-2 sm:mt-6"
+    aria-hidden="true">
     <span class="h-1.5 w-1.5 rounded-full bg-slate-800"></span>
     <span class="h-px w-12 bg-slate-800/45"></span>
     <span class="h-1.5 w-1.5 rounded-full bg-slate-800"></span>
   </div>
   {
     description && (
-      <p class="mx-auto mt-5 max-w-xl text-base leading-7 text-base-content/65 sm:text-lg">
+      <p class="mx-auto mt-4 max-w-xl text-sm leading-6 text-base-content/65 sm:mt-5 sm:text-lg sm:leading-7">
         {description}
       </p>
     )

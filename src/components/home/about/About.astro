@@ -1,78 +1,82 @@
 ---
-import { Icon } from "astro-icon/components";
-import { getEntry } from "astro:content";
-import SectionHead from "../../home/SectionHead.astro";
-import SectionLayout from "../../home/SectionLayout.astro";
-import AboutCard from "./AboutCard.astro";
+import { Icon } from 'astro-icon/components';
+import { getEntry } from 'astro:content';
+import SectionHead from '../../home/SectionHead.astro';
+import SectionLayout from '../../home/SectionLayout.astro';
+import AboutCard from './AboutCard.astro';
 
-const infoEntry = await getEntry("info", "info");
+const infoEntry = await getEntry('info', 'info');
 
 if (!infoEntry) {
-  throw new Error("v2 About Me에 필요한 이력서 데이터를 찾을 수 없습니다.");
+  throw new Error('v2 About Me에 필요한 이력서 데이터를 찾을 수 없습니다.');
 }
 
-const { name, birthDate, location, email, education, role } = infoEntry.data.info;
+const { name, birthDate, location, email, education, role } =
+  infoEntry.data.info;
 
-const iconSize = "size-12";
+const iconSize = 'size-10 sm:size-12';
 ---
 
 <SectionLayout id="about" class="flex min-h-[50svh] items-center">
   <SectionHead title="About Me" icon="about" />
 
-  <ul class="mt-4 grid gap-3 sm:grid-cols-3">
+  <ul class="mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3">
     <AboutCard label="이름">
-      <Icon slot="icon" name="material-symbols:person-rounded" class={iconSize} aria-hidden="true" />
+      <Icon
+        slot="icon"
+        name="material-symbols:person-rounded"
+        class={iconSize}
+        aria-hidden="true"
+      />
       {name}
     </AboutCard>
     <AboutCard label="생년월일">
       <Icon
-          slot="icon"
-          name="material-symbols:calendar-month-rounded"
-          class={iconSize}
-          aria-hidden="true"
+        slot="icon"
+        name="material-symbols:calendar-month-rounded"
+        class={iconSize}
+        aria-hidden="true"
       />
       {birthDate}
     </AboutCard>
     <AboutCard label="학력">
       <Icon
-          slot="icon"
-          name="material-symbols:school-rounded"
-          class={iconSize}
-          aria-hidden="true"
+        slot="icon"
+        name="material-symbols:school-rounded"
+        class={iconSize}
+        aria-hidden="true"
       />
       <span class="block">{education.school} {education.major}</span>
-      <span
-          class="block text-sm font-medium text-base-content/65 sm:text-base"
-      >
+      <span class="block text-sm font-medium text-base-content/65 sm:text-base">
         {education.sub}
       </span>
     </AboutCard>
     <AboutCard label="위치">
       <Icon
-          slot="icon"
-          name="material-symbols:location-on-rounded"
-          class={iconSize}
-          aria-hidden="true"
+        slot="icon"
+        name="material-symbols:location-on-rounded"
+        class={iconSize}
+        aria-hidden="true"
       />
       {location}
     </AboutCard>
 
     <AboutCard label="직무">
       <Icon
-          slot="icon"
-          name= "material-symbols:code-rounded"
-          class={iconSize}
-          aria-hidden="true"
+        slot="icon"
+        name="material-symbols:code-rounded"
+        class={iconSize}
+        aria-hidden="true"
       />
       {role}
     </AboutCard>
 
     <AboutCard label="이메일">
       <Icon
-          slot="icon"
-          name="material-symbols:mail-rounded"
-          class={iconSize}
-          aria-hidden="true"
+        slot="icon"
+        name="material-symbols:mail-rounded"
+        class={iconSize}
+        aria-hidden="true"
       />
       {email}
     </AboutCard>

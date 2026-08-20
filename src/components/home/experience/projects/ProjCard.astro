@@ -23,7 +23,7 @@ const hasFooter = hasDemo || hasDoc;
 
 <article
   class:list={[
-    'grid h-[280px] min-h-0 overflow-hidden rounded-2xl',
+    'grid min-h-0 overflow-hidden rounded-2xl md:h-[280px]',
     'shadow-sm shadow-slate-900/5 ring-1 ring-slate-900/5 bg-white px-4 py-4 sm:px-4',
     hasFooter
       ? 'grid-rows-[auto_auto_minmax(0,1fr)_auto]'
@@ -67,8 +67,8 @@ const hasFooter = hasDemo || hasDoc;
 
   <!-- Highlights -->
   <div
-    class="relative min-h-0 overflow-y-auto overscroll-contain pr-2 pt-2
-      mask-[linear-gradient(to_bottom,black_calc(100%-16px),transparent)]"
+    class="relative min-h-0 pr-1 pt-2 md:overflow-y-auto md:overscroll-contain md:pr-2
+      md:mask-[linear-gradient(to_bottom,black_calc(100%-16px),transparent)]"
     data-project-card-scroll>
     {
       entry.data.highlights.length > 0 && (
