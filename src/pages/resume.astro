@@ -1,15 +1,110 @@
 ---
+import { Download } from '@lucide/astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-  <iframe src="/resume-public.pdf" title="Resume PDF"></iframe>
+  <section
+    class="min-h-screen bg-slate-100 pt-16"
+    aria-labelledby="resume-title">
+    <h1 id="resume-title" class="sr-only">이력서</h1>
+
+    <div
+      class="mx-auto flex max-w-[900px] justify-end px-3 pb-1 pt-4 sm:px-8 sm:pt-5">
+      <a
+        class="btn btn-sm shrink-0 border-slate-950 bg-slate-950 text-white shadow-none hover:border-slate-800 hover:bg-slate-800 sm:btn-md"
+        href="/resume-public.pdf"
+        download>
+        <Download class="size-4" stroke-width={2} aria-hidden="true" />
+        <span class="hidden sm:inline">PDF 다운로드</span>
+        <span class="sm:hidden">다운로드</span>
+      </a>
+    </div>
+
+    <div class="px-3 py-2 sm:px-8 sm:py-3">
+      <div
+        id="resume-pages"
+        class="mx-auto flex max-w-[900px] flex-col items-center gap-4 sm:gap-6"
+        aria-busy="true"
+        aria-live="polite">
+        <span
+          class="loading loading-spinner loading-lg my-32 text-slate-500"
+          aria-label="이력서 불러오는 중"></span>
+      </div>
+
+      <noscript>
+        <p class="alert alert-info mx-auto max-w-xl">
+          이력서를 표시하려면 JavaScript가 필요합니다.
+          <a class="link" href="/resume-public.pdf" download>PDF 다운로드</a>
+        </p>
+      </noscript>
+    </div>
+  </section>
 </Layout>
 
-<style>
-  iframe {
-    width: 100%;
-    height: 100vh;
-    border: 0;
+<script>
+  import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
+  import workerSrc from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+
+  GlobalWorkerOptions.workerSrc = workerSrc;
+
+  const container = document.querySelector<HTMLDivElement>('#resume-pages');
+
+  if (container) {
+    const loadingTask = getDocument({ url: '/resume-public.pdf' });
+
+    try {
+      const pdf = await loadingTask.promise;
+      container.replaceChildren();
+
+      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+        const page = await pdf.getPage(pageNumber);
+        const baseViewport = page.getViewport({ scale: 1 });
+        const availableWidth = Math.min(container.clientWidth, 900);
+        const scale = availableWidth / baseViewport.width;
+        const viewport = page.getViewport({ scale });
+        const outputScale = window.devicePixelRatio || 1;
+        const pageFrame = document.createElement('figure');
+        const pageLabel = document.createElement('figcaption');
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        if (!context) continue;
+
+        canvas.width = Math.floor(viewport.width * outputScale);
+        canvas.height = Math.floor(viewport.height * outputScale);
+        pageFrame.className = 'relative w-full max-w-[900px]';
+        pageLabel.className =
+          'absolute left-3 top-3 z-10 rounded-full bg-slate-950/70 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-white backdrop-blur-sm sm:left-4 sm:top-4';
+        pageLabel.textContent = `${pageNumber}/${pdf.numPages}`;
+        canvas.className =
+          'block h-auto w-full bg-white shadow-xl shadow-slate-950/10 ring-1 ring-slate-950/10';
+        canvas.setAttribute('role', 'img');
+        canvas.setAttribute('aria-label', `이력서 ${pageNumber}페이지`);
+        pageFrame.append(pageLabel, canvas);
+        container.append(pageFrame);
+
+        await page.render({
+          canvas,
+          canvasContext: context,
+          viewport,
+          transform:
+            outputScale === 1
+              ? undefined
+              : [outputScale, 0, 0, outputScale, 0, 0],
+        }).promise;
+      }
+
+      container.setAttribute('aria-busy', 'false');
+    } catch (error) {
+      console.error('이력서를 불러오지 못했습니다.', error);
+      container.setAttribute('aria-busy', 'false');
+      container.innerHTML = `
+        <div class="alert alert-error mx-auto max-w-xl">
+          <span>이력서를 불러오지 못했습니다.</span>
+          <a class="btn btn-sm" href="/resume-public.pdf" download>PDF 다운로드</a>
+        </div>
+      `;
+    }
   }
-</style>
+</script>
