@@ -66,10 +66,7 @@ const hasFooter = hasDemo || hasDoc;
   </div>
 
   <!-- Highlights -->
-  <div
-    class="relative min-h-0 pr-1 pt-2 md:overflow-y-auto md:overscroll-contain md:pr-2
-      md:mask-[linear-gradient(to_bottom,black_calc(100%-16px),transparent)]"
-    data-project-card-scroll>
+  <div class="relative min-h-0 overflow-hidden pr-1 pt-2">
     {
       entry.data.highlights.length > 0 && (
         <ul class="space-y-2" aria-label="주요 성과">

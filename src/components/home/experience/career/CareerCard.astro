@@ -55,7 +55,7 @@ const hasDoc = Boolean(entry.body);
   <hr class="my-4 h-px shrink-0 border-0 bg-base-300" />
 
   <!-- Contents -->
-  <ul class="flex-1 space-y-5" aria-label="주요 성과">
+  <ul class="min-h-0 flex-1 space-y-5 overflow-hidden" aria-label="주요 성과">
     {entry.data.highlights.map((highlight) => <HL highlight={highlight} />)}
   </ul>
 

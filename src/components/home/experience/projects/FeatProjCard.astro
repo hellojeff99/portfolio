@@ -84,9 +84,7 @@ const hasDemo = hasDemoImages(entry);
   </div>
 
   <!-- Content -->
-  <div
-    class="min-h-0 pr-1 md:overflow-y-auto md:overscroll-contain md:pr-2"
-    data-project-card-scroll>
+  <div class="min-h-0 overflow-hidden pr-1">
     <ul class="space-y-3" aria-label="주요 성과">
       {entry.data.highlights.map((highlight) => <HL highlight={highlight} />)}
     </ul>
