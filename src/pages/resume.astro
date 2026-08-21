@@ -44,7 +44,7 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
-  import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
+  import { getDocument, GlobalWorkerOptions, TextLayer } from 'pdfjs-dist';
   import workerSrc from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
   GlobalWorkerOptions.workerSrc = workerSrc;
@@ -63,12 +63,17 @@ import Layout from '../layouts/Layout.astro';
         const baseViewport = page.getViewport({ scale: 1 });
         const availableWidth = Math.min(container.clientWidth, 900);
         const renderWidth = window.innerWidth < 640 ? 680 : availableWidth;
-        const scale = renderWidth / baseViewport.width;
-        const viewport = page.getViewport({ scale });
+        const viewport = page.getViewport({
+          scale: renderWidth / baseViewport.width,
+        });
+        const textViewport = page.getViewport({
+          scale: availableWidth / baseViewport.width,
+        });
         const outputScale = window.devicePixelRatio || 1;
         const pageFrame = document.createElement('figure');
         const pageLabel = document.createElement('figcaption');
         const canvas = document.createElement('canvas');
+        const textLayerElement = document.createElement('div');
         const context = canvas.getContext('2d');
 
         if (!context) continue;
@@ -83,18 +88,55 @@ import Layout from '../layouts/Layout.astro';
           'block h-auto w-full bg-white shadow-xl shadow-slate-950/10 ring-1 ring-slate-950/10';
         canvas.setAttribute('role', 'img');
         canvas.setAttribute('aria-label', `이력서 ${pageNumber}페이지`);
-        pageFrame.append(pageLabel, canvas);
+        textLayerElement.className =
+          'textLayer absolute inset-0 z-[1] overflow-hidden text-left leading-none [--min-font-size:1] [--min-font-size-inv:calc(1/var(--min-font-size))] [--text-scale-factor:calc(var(--total-scale-factor)*var(--min-font-size))] [forced-color-adjust:none] [text-size-adjust:none] origin-top-left';
+        textLayerElement.setAttribute('aria-hidden', 'true');
+        pageFrame.append(pageLabel, canvas, textLayerElement);
         container.append(pageFrame);
 
-        await page.render({
-          canvas,
-          canvasContext: context,
-          viewport,
-          transform:
-            outputScale === 1
-              ? undefined
-              : [outputScale, 0, 0, outputScale, 0, 0],
-        }).promise;
+        const textLayer = new TextLayer({
+          textContentSource: page.streamTextContent(),
+          container: textLayerElement,
+          viewport: textViewport,
+        });
+
+        await Promise.all([
+          page.render({
+            canvas,
+            canvasContext: context,
+            viewport,
+            transform:
+              outputScale === 1
+                ? undefined
+                : [outputScale, 0, 0, outputScale, 0, 0],
+          }).promise,
+          textLayer.render().then(() => {
+            for (const textElement of textLayer.textDivs) {
+              textElement.classList.add(
+                'absolute',
+                'z-[1]',
+                'cursor-text',
+                'select-text',
+                'whitespace-pre',
+                'text-transparent',
+                'selection:bg-blue-600/30',
+                'selection:text-transparent',
+                '[--font-height:0]',
+                '[--rotate:0deg]',
+                '[--scale-x:1]',
+                '[font-size:calc(var(--text-scale-factor)*var(--font-height))]',
+                '[transform:rotate(var(--rotate))_scaleX(var(--scale-x))_scale(var(--min-font-size-inv))]',
+                'origin-top-left',
+              );
+            }
+
+            for (const markedContent of textLayerElement.querySelectorAll(
+              '.markedContent',
+            )) {
+              markedContent.classList.add('contents');
+            }
+          }),
+        ]);
       }
 
       container.setAttribute('aria-busy', 'false');
